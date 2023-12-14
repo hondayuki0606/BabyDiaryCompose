@@ -3,6 +3,8 @@ package com.example.babydiarycompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 
@@ -23,31 +26,31 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    MessageCard(Message("Android", "JetPack Compose"))
                 }
             }
         }
     }
 }
 
+data class Message(val author: String, val body: String)
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun MessageCard(msg: Message) {
     Row {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
+        Image(
+            painter = painterResource(R.drawable.profile_icon),
+            contentDescription = "Contact profile picture"
         )
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-        )
+        Column {
+            Text(text = msg.author)
+            Text(text = msg.body)
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    BabyDiaryComposeTheme {
-        Greeting("Android")
-    }
+fun PreviewMessageCard() {
+    MessageCard(Message("Android", "JetPack Compose"))
 }
