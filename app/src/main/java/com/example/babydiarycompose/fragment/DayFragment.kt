@@ -25,7 +25,7 @@ class DayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewLifecycleOwner.lifecycleScope.launch {
-            stateViewModel.getState()
+            val state = stateViewModel.getState()
         }
         return ComposeView(requireContext()).apply {
             // Dispose of the Composition when the view's LifecycleOwner
