@@ -59,6 +59,10 @@ dependencies {
     // When using Java.
     annotationProcessor("androidx.hilt:hilt-compiler:1.1.0")
     // Hiltを使用 ここまで
+
+    // foundationを使用
+    implementation("androidx.compose.foundation:foundation:1.5.4")
+    // foundationを使用 ここまで
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
