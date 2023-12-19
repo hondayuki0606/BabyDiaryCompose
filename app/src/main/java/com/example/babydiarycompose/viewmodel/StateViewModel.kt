@@ -28,6 +28,18 @@ class StateViewModel @Inject constructor() : ViewModel() {
     fun getEvents(): List<Event> {
         return arrayListOf(
             Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
             Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
         )
     }
