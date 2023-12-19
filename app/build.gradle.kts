@@ -60,6 +60,10 @@ dependencies {
     annotationProcessor("androidx.hilt:hilt-compiler:1.1.0")
     // Hiltを使用 ここまで
 
+    // navigationを使用
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+    // navigationを使用 ここまで
+
     // foundationを使用
     implementation("androidx.compose.foundation:foundation:1.5.4")
     // foundationを使用 ここまで
