@@ -1,8 +1,9 @@
 package com.example.babydiarycompose.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.ActionItem
-import com.example.babydiarycompose.data.Message
+import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.SessionDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +25,10 @@ class StateViewModel @Inject constructor() : ViewModel() {
         )
     )
     val uiState = _uiState.asStateFlow()
-    fun getState(): List<Message> {
-        return arrayListOf(Message("author", "body"), Message("author", "body"))
+    fun getEvents(): List<Event> {
+        return arrayListOf(
+            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
+        )
     }
 }
