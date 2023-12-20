@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BabyDiaryCompose</string>
+    <string name="home">home</string>
+    <string name="components">components</string>
+    <string name="articles">articles</string>
+    <string name="settings">settings</string>
 </resources>

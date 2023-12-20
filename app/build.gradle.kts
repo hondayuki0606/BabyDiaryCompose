@@ -61,6 +61,7 @@ dependencies {
     // Hiltを使用 ここまで
 
     // navigationを使用
+    implementation("androidx.compose.material:material:1.5.4")
     implementation("androidx.navigation:navigation-compose:2.7.6")
     // navigationを使用 ここまで
 

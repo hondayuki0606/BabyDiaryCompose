@@ -25,7 +25,7 @@ class StateViewModel @Inject constructor() : ViewModel() {
         )
     )
     val uiState = _uiState.asStateFlow()
-    fun getEvents(): List<Event> {
+    fun getHomeEvents(): List<Event> {
         return arrayListOf(
             Event("14:00", R.drawable.profile_icon, "ミルク", ""),
             Event("14:00", R.drawable.profile_icon, "ミルク", ""),
@@ -40,6 +40,42 @@ class StateViewModel @Inject constructor() : ViewModel() {
             Event("14:00", R.drawable.profile_icon, "ミルク", ""),
             Event("14:00", R.drawable.profile_icon, "ミルク", ""),
             Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+            Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
+        )
+    }
+    fun getProfileEvents(): List<Event> {
+        return arrayListOf(
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:00", R.drawable.profile_icon, "プロフィール", ""),
+            Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
+        )
+    }
+    fun getFriendslistEvents(): List<Event> {
+        return arrayListOf(
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
+            Event("14:00", R.drawable.profile_icon, "フレンド", ""),
             Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
         )
     }
