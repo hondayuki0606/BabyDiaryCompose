@@ -2,6 +2,7 @@ package com.example.babydiarycompose.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,9 +14,10 @@ import com.example.babydiarycompose.activity.EventCard
 import com.example.babydiarycompose.data.Event
 
 @Composable
-fun EventList(events: List<Event>) {
+fun RecordingScreen(events: List<Event>) {
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .background(Color.LightGray)
             .size(100.dp)
             .verticalScroll(rememberScrollState())
