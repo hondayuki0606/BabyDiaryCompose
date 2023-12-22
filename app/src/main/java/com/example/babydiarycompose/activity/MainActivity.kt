@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,7 +58,7 @@ class MainActivity : ComponentActivity() {
             BabyDiaryComposeTheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
-                val items = arrayListOf("1", "2", "3")
+                val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
                 var selectedItemIndex by rememberSaveable {
                     mutableIntStateOf(0)
                 }
@@ -67,7 +71,7 @@ class MainActivity : ComponentActivity() {
                                     onClick = {
                                         selectedItemIndex = index
                                     },
-                                    label = { item },
+                                    label = { item.toString() },
                                     icon = {
                                         BadgedBox(
                                             badge = {
@@ -77,15 +81,16 @@ class MainActivity : ComponentActivity() {
                                             Icon(
                                                 imageVector = when (index) {
                                                     0 -> {
-                                                        Icons.Default.Add
+                                                        Icons.Default.Edit
                                                     }
-
                                                     1 -> {
-                                                        Icons.Default.Favorite
+                                                        Icons.Default.Build
                                                     }
-
+                                                    2 -> {
+                                                        Icons.Default.Info
+                                                    }
                                                     else -> {
-                                                        Icons.Default.Create
+                                                        Icons.Default.Menu
                                                     }
                                                 },
                                                 contentDescription = items[selectedItemIndex]
