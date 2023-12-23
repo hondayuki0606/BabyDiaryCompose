@@ -10,27 +10,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.babydiarycompose.R
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -41,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.babydiarycompose.compose.MenuScreen
 import com.example.babydiarycompose.compose.RecordingScreen
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.MenuOptions
@@ -70,8 +64,33 @@ class MainActivity : ComponentActivity() {
                                     selected = selectedItemIndex == index,
                                     onClick = {
                                         selectedItemIndex = index
+                                        when (selectedItemIndex) {
+                                            0 -> {
+                                                navController.navigate(
+                                                    MenuOptions.HOME.route
+                                                )
+                                            }
+
+                                            1 -> {
+                                                navController.navigate(
+                                                    MenuOptions.COMPONENTS.route
+                                                )
+                                            }
+
+                                            2 -> {
+                                                navController.navigate(
+                                                    MenuOptions.ARTICLES.route
+                                                )
+                                            }
+
+                                            else -> {
+                                                navController.navigate(
+                                                    MenuOptions.SETTINGS.route
+                                                )
+                                            }
+                                        }
                                     },
-                                    label = { item.toString() },
+                                    label = { item },
                                     icon = {
                                         BadgedBox(
                                             badge = {
@@ -83,12 +102,15 @@ class MainActivity : ComponentActivity() {
                                                     0 -> {
                                                         Icons.Default.Edit
                                                     }
+
                                                     1 -> {
                                                         Icons.Default.Build
                                                     }
+
                                                     2 -> {
                                                         Icons.Default.Info
                                                     }
+
                                                     else -> {
                                                         Icons.Default.Menu
                                                     }
@@ -121,7 +143,7 @@ class MainActivity : ComponentActivity() {
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize(),
                             ) {
-                                val eventList = stateViewModel.getProfileEvents()
+                                val eventList = stateViewModel.getFriendslistEvents()
                                 RecordingScreen(eventList)
                             }
                         }
@@ -139,8 +161,7 @@ class MainActivity : ComponentActivity() {
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize(),
                             ) {
-                                val eventList = stateViewModel.getFriendslistEvents()
-                                RecordingScreen(eventList)
+                                MenuScreen()
                             }
                         }
                     }
@@ -164,13 +185,14 @@ fun EventCard(event: Event) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewMessageCard() {
-    RecordingScreen(
-        arrayListOf(
-            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
-            Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
-        )
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewMessageCard() {
+//    RecordingScreen(
+//
+//        arrayListOf(
+//            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
+//            Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
+//        )
+//    )
+//}
