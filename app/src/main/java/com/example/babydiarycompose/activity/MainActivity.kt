@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     },
-                                    label = { item },
+                                    label = { Text(text = item) },
                                     icon = {
                                         BadgedBox(
                                             badge = {

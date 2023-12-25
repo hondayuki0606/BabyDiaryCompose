@@ -52,14 +52,23 @@ fun RecordingScreen(events: List<Event>) {
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.Start
         ) {
-            repeat(50) {
+            val icons =
+                arrayListOf(
+                    R.drawable.breast_milk,
+                    R.drawable.milk_icon,
+                    R.drawable.sleep_icon,
+                    R.drawable.wake_up_icon,
+                    R.drawable.pee_icon,
+                    R.drawable.poop_icon
+                )
+            icons.forEach {
                 Image(
                     modifier = Modifier
                         .width(60.dp)
                         .height(60.dp)
                         .padding(5.dp),
                     contentScale = ContentScale.Fit,
-                    painter = painterResource(R.drawable.profile_icon),
+                    painter = painterResource(it),
                     contentDescription = "i" +
                             "mage"
                 )
