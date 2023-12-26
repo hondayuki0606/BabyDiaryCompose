@@ -27,20 +27,22 @@ class StateViewModel @Inject constructor() : ViewModel() {
     val uiState = _uiState.asStateFlow()
     fun getHomeEvents(): List<Event> {
         return arrayListOf(
+            Event("11:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("12:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("13:00", R.drawable.milk_icon, "ミルク", ""),
             Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:05", R.drawable.milk_icon, "ミルク", "50ml")
+            Event("15:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("16:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("17:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("18:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("19:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("20:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("21:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("22:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("23:00", R.drawable.milk_icon, "ミルク", ""),
+            Event("23:45", R.drawable.milk_icon, "ミルク", ""),
+            Event("23:50", R.drawable.milk_icon, "ミルク", ""),
+            Event("23:55", R.drawable.milk_icon, "ミルク", "50ml")
         )
     }
 

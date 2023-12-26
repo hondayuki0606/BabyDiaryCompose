@@ -6,24 +6,30 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.activity.EventCard
 import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.Icon
 
 @Composable
 fun RecordingScreen(events: List<Event>) {
@@ -34,8 +40,8 @@ fun RecordingScreen(events: List<Event>) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(600.dp)
-                .background(Color.LightGray)
+                .fillMaxHeight(0.8f)
+                .background(Color(0xFF272727))
                 .size(100.dp)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -45,33 +51,50 @@ fun RecordingScreen(events: List<Event>) {
         }
         Row(
             modifier = Modifier
-                .background(Color.Black)
+                .background(Color(0xFF272727))
                 .fillMaxWidth()
-                .height(50.dp)
+                .height(100.dp)
                 .horizontalScroll(rememberScrollState()),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.Start
         ) {
             val icons =
                 arrayListOf(
-                    R.drawable.breast_milk,
-                    R.drawable.milk_icon,
-                    R.drawable.sleep_icon,
-                    R.drawable.wake_up_icon,
-                    R.drawable.pee_icon,
-                    R.drawable.poop_icon
+                    Icon("母乳", R.drawable.breast_milk),
+                    Icon("ミルク", R.drawable.milk_icon),
+                    Icon("寝る", R.drawable.sleep_icon),
+                    Icon("起きる", R.drawable.wake_up_icon),
+                    Icon("おしっこ", R.drawable.pee_icon),
+                    Icon("うんち", R.drawable.poop_icon),
+                    Icon("母乳", R.drawable.breast_milk),
+                    Icon("ミルク", R.drawable.milk_icon),
+                    Icon("寝る", R.drawable.sleep_icon),
+                    Icon("起きる", R.drawable.wake_up_icon),
+                    Icon("おしっこ", R.drawable.pee_icon),
+                    Icon("うんち", R.drawable.poop_icon),
                 )
             icons.forEach {
-                Image(
-                    modifier = Modifier
-                        .width(60.dp)
-                        .height(60.dp)
-                        .padding(5.dp),
-                    contentScale = ContentScale.Fit,
-                    painter = painterResource(it),
-                    contentDescription = "i" +
-                            "mage"
-                )
+                Column {
+                    Image(
+                        modifier = Modifier
+                            .padding(
+                                start = 10.dp,
+                                end = 10.dp,
+                            ),
+                        contentScale = ContentScale.Fit,
+                        painter = painterResource(it.icon),
+                        contentDescription = "i" + "mage"
+                    )
+                    Text(
+                        textAlign = TextAlign.Center,
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(10.dp),
+                        color = Color.White,
+                        text = it.title
+                    )
+                }
             }
         }
     }
