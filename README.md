@@ -1,2 +1,2 @@
 # BabyDiaryCompose  
-![アプリキャプチャ](https://github.com/hondayuki0606/BabyDiaryCompose/assets/55884500/30b67c5e-07e8-4786-bad7-f224ce9c7f04)
+![Screenshot_20231228_222035](https://github.com/hondayuki0606/BabyDiaryCompose/assets/55884500/670fd5d2-4cf3-4a93-9639-0997d0d6bd04)
