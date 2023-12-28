@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,75 +26,122 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.babydiarycompose.R
-import com.example.babydiarycompose.activity.EventCard
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
 
 @Composable
 fun RecordingScreen(events: List<Event>) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Row {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f)
-                .background(Color(0xFF272727))
-                .size(100.dp)
-                .verticalScroll(rememberScrollState())
+                .width(40.dp)
+                .background(Color(0xFF3c3c3c))
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceAround
         ) {
-            events.forEach {
-                EventCard(event = it)
+            repeat(24) {
+                Text(
+                    modifier = Modifier
+                        .wrapContentSize(Alignment.Center),
+                    text = it.toString(),
+                    color = Color.White
+                )
             }
         }
-        Row(
-            modifier = Modifier
-                .background(Color(0xFF272727))
-                .fillMaxWidth()
-                .height(100.dp)
-                .horizontalScroll(rememberScrollState()),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.Start
+        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
         ) {
-            val icons =
-                arrayListOf(
-                    Icon("母乳", R.drawable.breast_milk),
-                    Icon("ミルク", R.drawable.milk_icon),
-                    Icon("寝る", R.drawable.sleep_icon),
-                    Icon("起きる", R.drawable.wake_up_icon),
-                    Icon("おしっこ", R.drawable.pee_icon),
-                    Icon("うんち", R.drawable.poop_icon),
-                    Icon("母乳", R.drawable.breast_milk),
-                    Icon("ミルク", R.drawable.milk_icon),
-                    Icon("寝る", R.drawable.sleep_icon),
-                    Icon("起きる", R.drawable.wake_up_icon),
-                    Icon("おしっこ", R.drawable.pee_icon),
-                    Icon("うんち", R.drawable.poop_icon),
-                )
-            icons.forEach {
-                Column {
-                    Image(
-                        modifier = Modifier
-                            .padding(
-                                start = 10.dp,
-                                end = 10.dp,
-                            ),
-                        contentScale = ContentScale.Fit,
-                        painter = painterResource(it.icon),
-                        contentDescription = "i" + "mage"
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.8f)
+                    .background(Color(0xFF272727))
+                    .size(100.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                events.forEach {
+                    EventCard(event = it)
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .background(Color(0xFF272727))
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .horizontalScroll(rememberScrollState()),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                val icons =
+                    arrayListOf(
+                        Icon("母乳", R.drawable.breast_milk),
+                        Icon("ミルク", R.drawable.milk_icon),
+                        Icon("寝る", R.drawable.sleep_icon),
+                        Icon("起きる", R.drawable.wake_up_icon),
+                        Icon("おしっこ", R.drawable.pee_icon),
+                        Icon("うんち", R.drawable.poop_icon),
+                        Icon("母乳", R.drawable.breast_milk),
+                        Icon("ミルク", R.drawable.milk_icon),
+                        Icon("寝る", R.drawable.sleep_icon),
+                        Icon("起きる", R.drawable.wake_up_icon),
+                        Icon("おしっこ", R.drawable.pee_icon),
+                        Icon("うんち", R.drawable.poop_icon),
                     )
-                    Text(
-                        textAlign = TextAlign.Center,
-                        fontSize = 12.sp,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(10.dp),
-                        color = Color.White,
-                        text = it.title
-                    )
+                icons.forEach {
+                    Column {
+                        Image(
+                            modifier = Modifier
+                                .padding(
+                                    start = 10.dp,
+                                    end = 10.dp,
+                                ),
+                            contentScale = ContentScale.Fit,
+                            painter = painterResource(it.icon),
+                            contentDescription = "i" + "mage"
+                        )
+                        Text(
+                            textAlign = TextAlign.Center,
+                            fontSize = 12.sp,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(10.dp),
+                            color = Color.White,
+                            text = it.title
+                        )
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun EventCard(event: Event) {
+    Row {
+        Column {
+            Text(
+                color = Color.White,
+                text = event.time,
+                textAlign = TextAlign.End
+            )
+            Text(
+                color = Color(0xFFEC7786),
+                text = "10時間45分前",
+                fontSize = 8.sp
+            )
+        }
+        Image(
+            painter = painterResource(event.imageUrl),
+            contentDescription = "Contact profile picture",
+        )
+        Text(
+            color = Color.White,
+            text = event.eventName
+        )
+        Text(
+            color = Color.White,
+            text = event.ml
+        )
     }
 }
