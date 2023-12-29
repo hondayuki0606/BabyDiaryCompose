@@ -6,13 +6,11 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -25,91 +23,97 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
 
 @Composable
 fun RecordingScreen(events: List<Event>) {
-    Row {
+    ConstraintLayout(
+        modifier = Modifier
+            .background(Color(0xFF3c3c3c))
+            .fillMaxSize()
+    ) {
+        val (time, verticalScroll, event) = createRefs()
         Column(
             modifier = Modifier
-                .width(40.dp)
-                .background(Color(0xFF3c3c3c))
-                .fillMaxHeight(),
+                .constrainAs(time) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    bottom.linkTo(parent.bottom)
+                }
+                .width(24.dp),
             verticalArrangement = Arrangement.SpaceAround
         ) {
             repeat(24) {
                 Text(
-                    modifier = Modifier
-                        .wrapContentSize(Alignment.Center),
                     text = it.toString(),
                     color = Color.White
                 )
             }
         }
         Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.8f)
-                    .background(Color(0xFF272727))
-                    .size(100.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                events.forEach {
-                    EventCard(event = it)
+            modifier = Modifier
+                .constrainAs(verticalScroll) {
+                    top.linkTo(parent.top)
+                    start.linkTo(time.end)
+                    bottom.linkTo(event.top)
                 }
+                .background(Color(0xFF272727))
+                .verticalScroll(rememberScrollState())
+        ) {
+            events.forEach {
+                EventCard(event = it)
             }
-            Row(
-                modifier = Modifier
-                    .background(Color(0xFF272727))
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .horizontalScroll(rememberScrollState()),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                val icons =
-                    arrayListOf(
-                        Icon("母乳", R.drawable.breast_milk),
-                        Icon("ミルク", R.drawable.milk_icon),
-                        Icon("寝る", R.drawable.sleep_icon),
-                        Icon("起きる", R.drawable.wake_up_icon),
-                        Icon("おしっこ", R.drawable.pee_icon),
-                        Icon("うんち", R.drawable.poop_icon),
-                        Icon("母乳", R.drawable.breast_milk),
-                        Icon("ミルク", R.drawable.milk_icon),
-                        Icon("寝る", R.drawable.sleep_icon),
-                        Icon("起きる", R.drawable.wake_up_icon),
-                        Icon("おしっこ", R.drawable.pee_icon),
-                        Icon("うんち", R.drawable.poop_icon),
+        }
+        Row(
+            modifier = Modifier
+                .constrainAs(event) {
+                    top.linkTo(verticalScroll.bottom)
+                    start.linkTo(time.end)
+                    bottom.linkTo(parent.bottom)
+                }
+                .horizontalScroll(rememberScrollState())
+                .background(Color(0xFF272727))
+                .height(150.dp)
+        ) {
+            val icons =
+                arrayListOf(
+                    Icon("母乳", R.drawable.breast_milk),
+                    Icon("ミルク", R.drawable.milk_icon),
+                    Icon("寝る", R.drawable.sleep_icon),
+                    Icon("起きる", R.drawable.wake_up_icon),
+                    Icon("おしっこ", R.drawable.pee_icon),
+                    Icon("うんち", R.drawable.poop_icon),
+                    Icon("母乳", R.drawable.breast_milk),
+                    Icon("ミルク", R.drawable.milk_icon),
+                    Icon("寝る", R.drawable.sleep_icon),
+                    Icon("起きる", R.drawable.wake_up_icon),
+                    Icon("おしっこ", R.drawable.pee_icon),
+                    Icon("うんち", R.drawable.poop_icon),
+                )
+            icons.forEach {
+                Column {
+                    Image(
+                        modifier = Modifier
+                            .padding(
+                                start = 10.dp,
+                                end = 10.dp,
+                            ),
+                        contentScale = ContentScale.Fit,
+                        painter = painterResource(it.icon),
+                        contentDescription = "image"
                     )
-                icons.forEach {
-                    Column {
-                        Image(
-                            modifier = Modifier
-                                .padding(
-                                    start = 10.dp,
-                                    end = 10.dp,
-                                ),
-                            contentScale = ContentScale.Fit,
-                            painter = painterResource(it.icon),
-                            contentDescription = "i" + "mage"
-                        )
-                        Text(
-                            textAlign = TextAlign.Center,
-                            fontSize = 12.sp,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(10.dp),
-                            color = Color.White,
-                            text = it.title
-                        )
-                    }
+                    Text(
+                        textAlign = TextAlign.Center,
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(10.dp),
+                        color = Color.White,
+                        text = it.title
+                    )
                 }
             }
         }
