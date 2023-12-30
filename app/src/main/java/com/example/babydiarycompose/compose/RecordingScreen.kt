@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -36,7 +38,8 @@ fun RecordingScreen(events: List<Event>) {
             .fillMaxSize()
     ) {
         val (time, verticalScroll, event) = createRefs()
-        Column(
+        val list = (0..23).toList()
+        LazyColumn(
             modifier = Modifier
                 .constrainAs(time) {
                     top.linkTo(parent.top)
@@ -46,7 +49,7 @@ fun RecordingScreen(events: List<Event>) {
                 .width(24.dp),
             verticalArrangement = Arrangement.SpaceAround
         ) {
-            repeat(24) {
+            items(list) {
                 Text(
                     text = it.toString(),
                     color = Color.White
