@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -38,13 +37,13 @@ fun RecordingScreen(events: List<Event>) {
             .fillMaxSize()
     ) {
         val (time, verticalScroll, event) = createRefs()
-        val list = (0..23).toList()
+        val list = (0..99).toList()
         LazyColumn(
             modifier = Modifier
                 .constrainAs(time) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
-                    bottom.linkTo(parent.bottom)
+
                 }
                 .width(24.dp),
             verticalArrangement = Arrangement.SpaceAround
@@ -56,7 +55,7 @@ fun RecordingScreen(events: List<Event>) {
                 )
             }
         }
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .constrainAs(verticalScroll) {
                     top.linkTo(parent.top)
@@ -64,9 +63,8 @@ fun RecordingScreen(events: List<Event>) {
                     bottom.linkTo(event.top)
                 }
                 .background(Color(0xFF272727))
-                .verticalScroll(rememberScrollState())
         ) {
-            events.forEach {
+            items(events){
                 EventCard(event = it)
             }
         }
