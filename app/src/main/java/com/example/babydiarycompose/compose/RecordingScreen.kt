@@ -2,18 +2,15 @@ package com.example.babydiarycompose.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
@@ -37,7 +35,7 @@ fun RecordingScreen(events: List<Event>) {
             .fillMaxSize()
     ) {
         val (time, verticalScroll, event) = createRefs()
-        val list = (0..99).toList()
+        val list = (0..23).toList()
         LazyColumn(
             modifier = Modifier
                 .constrainAs(time) {
@@ -59,8 +57,11 @@ fun RecordingScreen(events: List<Event>) {
             modifier = Modifier
                 .constrainAs(verticalScroll) {
                     top.linkTo(parent.top)
-                    start.linkTo(time.end)
                     bottom.linkTo(event.top)
+                    start.linkTo(time.end)
+                    end.linkTo(parent.end)
+                    height = Dimension.fillToConstraints
+                    width = Dimension.fillToConstraints
                 }
                 .background(Color(0xFF272727))
         ) {
@@ -68,16 +69,16 @@ fun RecordingScreen(events: List<Event>) {
                 EventCard(event = it)
             }
         }
-        Row(
+        LazyRow(
             modifier = Modifier
                 .constrainAs(event) {
-                    top.linkTo(verticalScroll.bottom)
                     start.linkTo(time.end)
+                    end.linkTo(parent.end)
+                    top.linkTo(verticalScroll.bottom)
                     bottom.linkTo(parent.bottom)
+                    width = Dimension.fillToConstraints
                 }
-                .horizontalScroll(rememberScrollState())
                 .background(Color(0xFF272727))
-                .height(150.dp)
         ) {
             val icons =
                 arrayListOf(
@@ -94,7 +95,7 @@ fun RecordingScreen(events: List<Event>) {
                     Icon("おしっこ", R.drawable.pee_icon),
                     Icon("うんち", R.drawable.poop_icon),
                 )
-            icons.forEach {
+            items(icons){
                 Column {
                     Image(
                         modifier = Modifier
