@@ -34,14 +34,16 @@ fun RecordingScreen(events: List<Event>) {
             .background(Color(0xFF3c3c3c))
             .fillMaxSize()
     ) {
-        val (time, verticalScroll, event) = createRefs()
+        val (timeSchedule, verticalScroll, event) = createRefs()
         val list = (0..23).toList()
         LazyColumn(
             modifier = Modifier
-                .constrainAs(time) {
+                .constrainAs(timeSchedule) {
                     top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
-
+                    end.linkTo(verticalScroll.start)
+                    height = Dimension.fillToConstraints
                 }
                 .width(24.dp),
             verticalArrangement = Arrangement.SpaceAround
@@ -58,7 +60,7 @@ fun RecordingScreen(events: List<Event>) {
                 .constrainAs(verticalScroll) {
                     top.linkTo(parent.top)
                     bottom.linkTo(event.top)
-                    start.linkTo(time.end)
+                    start.linkTo(timeSchedule.end)
                     end.linkTo(parent.end)
                     height = Dimension.fillToConstraints
                     width = Dimension.fillToConstraints
@@ -72,7 +74,7 @@ fun RecordingScreen(events: List<Event>) {
         LazyRow(
             modifier = Modifier
                 .constrainAs(event) {
-                    start.linkTo(time.end)
+                    start.linkTo(timeSchedule.end)
                     end.linkTo(parent.end)
                     top.linkTo(verticalScroll.bottom)
                     bottom.linkTo(parent.bottom)
