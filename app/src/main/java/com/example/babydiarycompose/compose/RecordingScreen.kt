@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -34,7 +37,7 @@ fun RecordingScreen(events: List<Event>) {
             .background(Color(0xFF3c3c3c))
             .fillMaxSize()
     ) {
-        val (timeSchedule, verticalScroll, event) = createRefs()
+        val (timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
         val list = (0..23).toList()
         LazyColumn(
             modifier = Modifier
@@ -71,12 +74,22 @@ fun RecordingScreen(events: List<Event>) {
                 EventCard(event = it)
             }
         }
+        HorizontalDivider(modifier = Modifier
+            .constrainAs(horizontalDivider) {
+                start.linkTo(timeSchedule.end)
+                end.linkTo(parent.end)
+                top.linkTo(verticalScroll.bottom)
+                bottom.linkTo(event.top)
+                width = Dimension.fillToConstraints
+            }
+            .background(Color(0xFF272727)),
+            thickness = 3.dp, color = Color(0xFFEC7786))
         LazyRow(
             modifier = Modifier
                 .constrainAs(event) {
                     start.linkTo(timeSchedule.end)
                     end.linkTo(parent.end)
-                    top.linkTo(verticalScroll.bottom)
+                    top.linkTo(horizontalDivider.bottom)
                     bottom.linkTo(parent.bottom)
                     width = Dimension.fillToConstraints
                 }
@@ -122,6 +135,15 @@ fun RecordingScreen(events: List<Event>) {
             }
         }
     }
+}
+
+@Composable
+fun HorizontalDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = DividerDefaults.Thickness,
+    color: Color = DividerDefaults.color,
+) {
+    Divider(modifier, thickness, color)
 }
 
 @Composable
