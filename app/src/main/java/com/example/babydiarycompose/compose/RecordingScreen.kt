@@ -1,5 +1,6 @@
 package com.example.babydiarycompose.compose
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
@@ -30,107 +33,116 @@ import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(events: List<Event>) {
-    ConstraintLayout(
-        modifier = Modifier
-            .background(Color(0xFF3c3c3c))
-            .fillMaxSize()
-    ) {
-        val (timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
-        val list = (0..23).toList()
-        LazyColumn(
+    val list = listOf<String>("aaa", "bbb", "ccc", "ddd", "eee", "fff")
+
+    // Display 10 items
+    val pagerState = rememberPagerState(pageCount = {
+        10
+    })
+    HorizontalPager(state = pagerState) { page ->
+        ConstraintLayout(
             modifier = Modifier
-                .constrainAs(timeSchedule) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(verticalScroll.start)
-                    height = Dimension.fillToConstraints
-                }
-                .width(24.dp),
-            verticalArrangement = Arrangement.SpaceAround
+                .background(Color(0xFF3c3c3c))
+                .fillMaxSize()
         ) {
-            items(list) {
-                Text(
-                    text = it.toString(),
-                    color = Color.White
-                )
-            }
-        }
-        LazyColumn(
-            modifier = Modifier
-                .constrainAs(verticalScroll) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(event.top)
-                    start.linkTo(timeSchedule.end)
-                    end.linkTo(parent.end)
-                    height = Dimension.fillToConstraints
-                    width = Dimension.fillToConstraints
-                }
-                .background(Color(0xFF272727))
-        ) {
-            items(events){
-                EventCard(event = it)
-            }
-        }
-        HorizontalDivider(modifier = Modifier
-            .constrainAs(horizontalDivider) {
-                start.linkTo(timeSchedule.end)
-                end.linkTo(parent.end)
-                top.linkTo(verticalScroll.bottom)
-                bottom.linkTo(event.top)
-                width = Dimension.fillToConstraints
-            }
-            .background(Color(0xFF272727)),
-            thickness = 5.dp, color = Color(0xFFEC7786))
-        LazyRow(
-            modifier = Modifier
-                .constrainAs(event) {
-                    start.linkTo(timeSchedule.end)
-                    end.linkTo(parent.end)
-                    top.linkTo(horizontalDivider.bottom)
-                    bottom.linkTo(parent.bottom)
-                    width = Dimension.fillToConstraints
-                }
-                .background(Color(0xFF272727))
-        ) {
-            val icons =
-                arrayListOf(
-                    Icon("母乳", R.drawable.breast_milk),
-                    Icon("ミルク", R.drawable.milk_icon),
-                    Icon("寝る", R.drawable.sleep_icon),
-                    Icon("起きる", R.drawable.wake_up_icon),
-                    Icon("おしっこ", R.drawable.pee_icon),
-                    Icon("うんち", R.drawable.poop_icon),
-                    Icon("母乳", R.drawable.breast_milk),
-                    Icon("ミルク", R.drawable.milk_icon),
-                    Icon("寝る", R.drawable.sleep_icon),
-                    Icon("起きる", R.drawable.wake_up_icon),
-                    Icon("おしっこ", R.drawable.pee_icon),
-                    Icon("うんち", R.drawable.poop_icon),
-                )
-            items(icons){
-                Column {
-                    Image(
-                        modifier = Modifier
-                            .padding(
-                                start = 10.dp,
-                                end = 10.dp,
-                            ),
-                        contentScale = ContentScale.Fit,
-                        painter = painterResource(it.icon),
-                        contentDescription = "image"
-                    )
+            val (timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
+            val times = (0..23).toList()
+            LazyColumn(
+                modifier = Modifier
+                    .constrainAs(timeSchedule) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(verticalScroll.start)
+                        height = Dimension.fillToConstraints
+                    }
+                    .width(24.dp),
+                verticalArrangement = Arrangement.SpaceAround
+            ) {
+                items(times) {
                     Text(
-                        textAlign = TextAlign.Center,
-                        fontSize = 12.sp,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(10.dp),
-                        color = Color.White,
-                        text = it.title
+                        text = it.toString(),
+                        color = Color.White
                     )
+                }
+            }
+            LazyColumn(
+                modifier = Modifier
+                    .constrainAs(verticalScroll) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(event.top)
+                        start.linkTo(timeSchedule.end)
+                        end.linkTo(parent.end)
+                        height = Dimension.fillToConstraints
+                        width = Dimension.fillToConstraints
+                    }
+                    .background(Color(0xFF272727))
+            ) {
+                items(events) {
+                    EventCard(event = it)
+                }
+            }
+            HorizontalDivider(modifier = Modifier
+                .constrainAs(horizontalDivider) {
+                    start.linkTo(timeSchedule.end)
+                    end.linkTo(parent.end)
+                    top.linkTo(verticalScroll.bottom)
+                    bottom.linkTo(event.top)
+                    width = Dimension.fillToConstraints
+                }
+                .background(Color(0xFF272727)),
+                thickness = 5.dp, color = Color(0xFFEC7786))
+            LazyRow(
+                modifier = Modifier
+                    .constrainAs(event) {
+                        start.linkTo(timeSchedule.end)
+                        end.linkTo(parent.end)
+                        top.linkTo(horizontalDivider.bottom)
+                        bottom.linkTo(parent.bottom)
+                        width = Dimension.fillToConstraints
+                    }
+                    .background(Color(0xFF272727))
+            ) {
+                val icons =
+                    arrayListOf(
+                        Icon("母乳", R.drawable.breast_milk),
+                        Icon("ミルク", R.drawable.milk_icon),
+                        Icon("寝る", R.drawable.sleep_icon),
+                        Icon("起きる", R.drawable.wake_up_icon),
+                        Icon("おしっこ", R.drawable.pee_icon),
+                        Icon("うんち", R.drawable.poop_icon),
+                        Icon("母乳", R.drawable.breast_milk),
+                        Icon("ミルク", R.drawable.milk_icon),
+                        Icon("寝る", R.drawable.sleep_icon),
+                        Icon("起きる", R.drawable.wake_up_icon),
+                        Icon("おしっこ", R.drawable.pee_icon),
+                        Icon("うんち", R.drawable.poop_icon),
+                    )
+                items(icons) {
+                    Column {
+                        Image(
+                            modifier = Modifier
+                                .padding(
+                                    start = 10.dp,
+                                    end = 10.dp,
+                                ),
+                            contentScale = ContentScale.Fit,
+                            painter = painterResource(it.icon),
+                            contentDescription = "image"
+                        )
+                        Text(
+                            textAlign = TextAlign.Center,
+                            fontSize = 12.sp,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(10.dp),
+                            color = Color.White,
+                            text = it.title
+                        )
+                    }
                 }
             }
         }
