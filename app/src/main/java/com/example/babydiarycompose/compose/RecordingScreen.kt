@@ -83,7 +83,7 @@ fun RecordingScreen(events: List<Event>) {
                 width = Dimension.fillToConstraints
             }
             .background(Color(0xFF272727)),
-            thickness = 3.dp, color = Color(0xFFEC7786))
+            thickness = 5.dp, color = Color(0xFFEC7786))
         LazyRow(
             modifier = Modifier
                 .constrainAs(event) {
