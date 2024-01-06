@@ -58,7 +58,8 @@ fun RecordingScreen(events: List<Event>) {
             items(times) {
                 Text(
                     text = it.toString(),
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 12.sp
                 )
             }
         }
