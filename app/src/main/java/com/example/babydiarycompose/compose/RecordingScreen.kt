@@ -1,8 +1,11 @@
 package com.example.babydiarycompose.compose
 
+import android.content.Intent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,10 +21,12 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -30,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.babydiarycompose.R
+import com.example.babydiarycompose.activity.EventDialogActivity
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
 
@@ -158,7 +164,13 @@ fun HorizontalDivider(
 
 @Composable
 fun EventCard(event: Event) {
-    Row {
+    val context = LocalContext.current
+    Row(modifier = Modifier.clickable(
+        indication = null,
+        interactionSource = remember { MutableInteractionSource() }
+    ) {
+        context.startActivity(Intent(context, EventDialogActivity::class.java))
+    }) {
         Column {
             Text(
                 color = Color.White,
