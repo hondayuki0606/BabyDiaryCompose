@@ -165,11 +165,16 @@ fun HorizontalDivider(
 @Composable
 fun EventCard(event: Event) {
     val context = LocalContext.current
+    val intent = Intent(context, EventDialogActivity::class.java)
+    intent.putExtra("TIME","1月7日 20時 40分")
+    intent.putExtra("RIGHT","5分")
+    intent.putExtra("LEFT","5分")
+    intent.putExtra("SORT","左から")
     Row(modifier = Modifier.clickable(
         indication = null,
         interactionSource = remember { MutableInteractionSource() }
     ) {
-        context.startActivity(Intent(context, EventDialogActivity::class.java))
+        context.startActivity(intent)
     }) {
         Column {
             Text(
