@@ -1,6 +1,6 @@
 package com.example.babydiarycompose.compose
 
-import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,12 +21,12 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -35,13 +35,14 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.babydiarycompose.R
-import com.example.babydiarycompose.activity.EventDialogActivity
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(events: List<Event>) {
+
+
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF3c3c3c))
@@ -164,17 +165,18 @@ fun HorizontalDivider(
 
 @Composable
 fun EventCard(event: Event) {
-    val context = LocalContext.current
-    val intent = Intent(context, EventDialogActivity::class.java)
-    intent.putExtra("TIME","1月7日 20時 40分")
-    intent.putExtra("RIGHT","5分")
-    intent.putExtra("LEFT","5分")
-    intent.putExtra("SORT","左から")
+    val showDialog =  remember { mutableStateOf(false) }
+    if(showDialog.value)
+        CustomDialog(value = "", setShowDialog = {
+            showDialog.value = it
+        }) {
+            Log.i("showDialog","showDialog : $it")
+        }
     Row(modifier = Modifier.clickable(
         indication = null,
         interactionSource = remember { MutableInteractionSource() }
     ) {
-        context.startActivity(intent)
+        showDialog.value = true
     }) {
         Column {
             Text(
