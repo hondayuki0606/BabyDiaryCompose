@@ -1,7 +1,6 @@
 package com.example.babydiarycompose.compose
 
 import android.R
-import android.graphics.fonts.FontFamily
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -40,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (String) -> Unit) {
+fun BreastfeedingDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (String) -> Unit) {
 
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf(value) }
@@ -61,12 +60,14 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Set value",
+                            text = "母乳",
                             style = TextStyle(
                                 fontSize = 24.sp,
-//                                fontFamily = FontFamily.Default,
                                 fontWeight = FontWeight.Bold
-                            )
+                            ),
+                            modifier = Modifier.clickable {
+
+                            }
                         )
                         Icon(
                             imageVector = Icons.Filled.Call,

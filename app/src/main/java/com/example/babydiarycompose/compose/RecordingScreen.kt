@@ -165,12 +165,12 @@ fun HorizontalDivider(
 
 @Composable
 fun EventCard(event: Event) {
-    val showDialog =  remember { mutableStateOf(false) }
-    if(showDialog.value)
-        CustomDialog(value = "", setShowDialog = {
+    val showDialog = remember { mutableStateOf(false) }
+    if (showDialog.value)
+        EventDialog(value = "", setShowDialog = {
             showDialog.value = it
         }) {
-            Log.i("showDialog","showDialog : $it")
+            Log.i("showDialog", "showDialog : $it")
         }
     Row(modifier = Modifier.clickable(
         indication = null,
