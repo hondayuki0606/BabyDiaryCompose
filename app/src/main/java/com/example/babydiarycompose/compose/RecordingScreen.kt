@@ -42,7 +42,6 @@ import com.example.babydiarycompose.data.Icon
 @Composable
 fun RecordingScreen(events: List<Event>) {
 
-
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF3c3c3c))
