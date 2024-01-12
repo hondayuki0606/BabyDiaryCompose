@@ -9,12 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -86,18 +83,26 @@ fun QuantityDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (S
                     )
                 items(quantity) {
                     Column {
-                        Text(
-                            textAlign = TextAlign.Center,
-                            fontSize = 12.sp,
+                        TextButton(
+                            onClick = {
+                                setShowDialog(false)
+                            },
                             modifier = Modifier
-                                .padding(10.dp),
-                            color = Color.White,
-                            text = it
-                        )
+                                .background(Color(0xFF272727))
+                        ) {
+                            Text(
+                                textAlign = TextAlign.Center,
+                                fontSize = 12.sp,
+                                modifier = Modifier
+                                    .padding(10.dp),
+                                color = Color.White,
+                                text = it
+                            )
+                        }
                     }
                 }
             }
-            Button(
+            TextButton(
                 onClick = {
                     setShowDialog(false)
                 },
@@ -111,7 +116,9 @@ fun QuantityDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (S
                     }
             ) {
                 Text(
-                    text = "閉じる",
+                    textAlign = TextAlign.Center,
+                    color = Color(0xFFEC7786),
+                    text = "キャンセル",
                     modifier = Modifier
                         .fillMaxWidth(0.7f)
                         .background(Color(0xFF272727))
