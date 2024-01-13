@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,7 +23,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 
 @Composable
-fun QuantityDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (String) -> Unit) {
+fun QuantityDialog(
+    value: (String) -> Unit,
+    setShowDialog: (Boolean) -> Unit
+) {
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         ConstraintLayout(
             modifier = Modifier
@@ -84,9 +88,7 @@ fun QuantityDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (S
                 items(quantity) {
                     Column {
                         TextButton(
-                            onClick = {
-                                setShowDialog(false)
-                            },
+                            onClick = { },
                             modifier = Modifier
                                 .background(Color(0xFF272727))
                         ) {
@@ -94,6 +96,10 @@ fun QuantityDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (S
                                 textAlign = TextAlign.Center,
                                 fontSize = 12.sp,
                                 modifier = Modifier
+                                    .clickable {
+                                        setShowDialog(false)
+                                        value(it)
+                                    }
                                     .padding(10.dp),
                                 color = Color.White,
                                 text = it

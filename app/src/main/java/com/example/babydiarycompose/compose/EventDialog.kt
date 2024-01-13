@@ -29,10 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun EventDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (String) -> Unit) {
+fun EventDialog(
+    state: ProfileScreenState = rememberProfileScreenState(),
+    volumeValue: (String) -> Unit,
+    setShowDialog: (Boolean) -> Unit,
+    setValue: (String) -> Unit
+) {
 
-    val txtFieldError = remember { mutableStateOf("") }
-    val txtField = remember { mutableStateOf(value) }
     val datePickerDialog = remember { mutableStateOf(false) }
     // 日時ダイアログ
     if (datePickerDialog.value)
@@ -51,12 +54,14 @@ fun EventDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Stri
         }
     // 量ダイアログ
     val quantityDialog = remember { mutableStateOf(false) }
+    val quantityDialogValue = remember { mutableStateOf(volumeValue) }
     if (quantityDialog.value)
-        QuantityDialog(value = "", setShowDialog = {
-            quantityDialog.value = it
-        }) {
-            Log.i("breastfeedingDialog", "showDialog : $it")
-        }
+        QuantityDialog(
+            value = { quantityDialogValue.value = it },
+            setShowDialog = {
+                quantityDialog.value = it
+            }
+        )
     // メモダイアログ
     val memoDialog = remember { mutableStateOf(false) }
     if (memoDialog.value)
@@ -151,9 +156,8 @@ fun EventDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Stri
                         }
                     )
 
-                    val volume = ""
                     Text(
-                        text = "(量)  $volume",
+                        text = "(量)  ${quantityDialogValue.value}",
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 24.sp,
@@ -199,11 +203,6 @@ fun EventDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Stri
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                if (txtField.value.isEmpty()) {
-                                    txtFieldError.value = "Field can not be empty"
-                                    return@Button
-                                }
-                                setValue(txtField.value)
                                 setShowDialog(false)
                             },
                             modifier = Modifier
