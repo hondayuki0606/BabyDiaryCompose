@@ -27,10 +27,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.babydiarycompose.data.rememberProfileScreenState
+import com.example.babydiarycompose.state.EventDialogState
 
 @Composable
 fun EventDialog(
-    state: ProfileScreenState = rememberProfileScreenState(),
+    state: EventDialogState = rememberProfileScreenState(),
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
@@ -57,7 +59,7 @@ fun EventDialog(
     val quantityDialogValue = remember { mutableStateOf(volumeValue) }
     if (quantityDialog.value)
         QuantityDialog(
-            value = { quantityDialogValue.value = it },
+            value = { state.enterVolume(it) },
             setShowDialog = {
                 quantityDialog.value = it
             }
@@ -157,7 +159,7 @@ fun EventDialog(
                     )
 
                     Text(
-                        text = "(量)  ${quantityDialogValue.value}",
+                        text = "(量)  ${state.uiState.volume}",
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 24.sp,

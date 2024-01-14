@@ -1,5 +1,6 @@
 package com.example.babydiarycompose.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -15,8 +16,8 @@ class ProfileViewModel @Inject internal constructor() : ViewModel() {
 //    class ProfileViewModel @Inject internal constructor(private val useCase: ProfileUseCase) : ViewModel() {
 
     data class UiState(
-        val firstName: String = "",
-        val lastName: String = "",
+        var volume: String = "",
+        var lastName: String = "",
 //        val loadingState: LoadingState = LoadingState.LOADED
     ) {
         companion object {
@@ -51,11 +52,13 @@ class ProfileViewModel @Inject internal constructor() : ViewModel() {
 //            }
     }
 
-    fun enterFirstName(firstName: String) {
-//        _uiState.upddate { it.copy(firstName = firstName) }
+    fun enterVolume(volume: String) {
+        _uiState.value.volume = volume
+//        _uiState.upddate { it.copy(firstName = volume) }
     }
 
     fun enterLastName(lastName: String) {
+        _uiState.value.lastName = lastName
 //        _uiState.upddate { it.copy(lastName = lastName) }
     }
 

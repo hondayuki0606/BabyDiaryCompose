@@ -4,14 +4,14 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import com.example.babydiarycompose.viewmodel.ProfileViewModel
 
-interface ProfileScreenState {
+interface EventDialogState {
     val uiState: ProfileViewModel.UiState
         @Composable get
 
     val scaffoldState: ScaffoldState
 
     fun onBackPressed() {}
-    fun enterFirstName(firstName: String) {}
+    fun enterVolume(volume: String) {}
     fun enterLastName(lastName: String) {}
     fun onSaveClick() {}
 }
