@@ -2,6 +2,7 @@ package com.example.babydiarycompose.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.example.babydiarycompose.data.UnsplashRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject internal constructor() : ViewModel() {
+class ProfileViewModel @Inject internal constructor(
+    savedStateHandle: SavedStateHandle,
+    private val repository: UnsplashRepository
+) : ViewModel() {
 //    class ProfileViewModel @Inject internal constructor(private val useCase: ProfileUseCase) : ViewModel() {
 
     data class UiState(
@@ -38,6 +42,7 @@ class ProfileViewModel @Inject internal constructor() : ViewModel() {
     val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     fun fetch() {
+        repository.getSearchResultStream("")
 //        useCase.fetch()
 //            .onSuccess { user ->
 //                _uiState.update { state ->
