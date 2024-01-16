@@ -21,6 +21,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,14 +35,45 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
+import com.example.babydiarycompose.data.UnsplashPhoto
+import com.example.babydiarycompose.viewmodel.ProfileViewModel
+import kotlinx.coroutines.flow.Flow
+
+@Composable
+fun RecordingScreen(
+    viewModel: ProfileViewModel = hiltViewModel(),
+    events: List<Event>
+) {
+    RecordingScreen(
+        plantPictures = viewModel.plantPictures,
+        events = events
+    )
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun RecordingScreen(events: List<Event>) {
-
+fun RecordingScreen(
+    plantPictures: Flow<PagingData<UnsplashPhoto>>,
+    events: List<Event>
+) {
+    val pagingItems: LazyPagingItems<UnsplashPhoto> =
+        plantPictures.collectAsLazyPagingItems()
+    LaunchedEffect(pagingItems.loadState) {
+        when (pagingItems.loadState.refresh) {
+            is LoadState.Loading -> Unit
+            is LoadState.Error, is LoadState.NotLoading -> {
+//                pullToRefreshState.endRefresh()
+            }
+        }
+    }
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF3c3c3c))

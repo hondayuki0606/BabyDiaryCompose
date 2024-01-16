@@ -4,10 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -203,7 +201,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize(),
                             ) {
                                 val eventList = stateViewModel.getHomeEvents()
-                                RecordingScreen(eventList)
+                                RecordingScreen(events = eventList)
                             }
                         }
                         composable("components") {
@@ -212,7 +210,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize(),
                             ) {
                                 val eventList = stateViewModel.getFriendslistEvents()
-                                RecordingScreen(eventList)
+                                RecordingScreen(events = eventList)
                             }
                         }
                         composable("articles") {
@@ -221,7 +219,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize(),
                             ) {
                                 val eventList = stateViewModel.getFriendslistEvents()
-                                RecordingScreen(eventList)
+                                RecordingScreen(events = eventList)
                             }
                         }
                         composable("settings") {
