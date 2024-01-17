@@ -19,6 +19,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,38 +46,31 @@ import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.data.UnsplashPhoto
 import com.example.babydiarycompose.viewmodel.ProfileViewModel
+import com.example.babydiarycompose.viewmodel.StateViewModel
 import kotlinx.coroutines.flow.Flow
 
-@Composable
-fun RecordingScreen(
-    viewModel: ProfileViewModel = hiltViewModel(),
-    events: List<Event>
-) {
-    RecordingScreen(
-        plantPictures = viewModel.plantPictures,
-        events = events
-    )
-}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
-    plantPictures: Flow<PagingData<UnsplashPhoto>>,
+//    plantPictures: Flow<PagingData<UnsplashPhoto>>,
     events: List<Event>
 ) {
-    val pagingItems: LazyPagingItems<UnsplashPhoto> =
-        plantPictures.collectAsLazyPagingItems()
-    LaunchedEffect(pagingItems.loadState) {
-        when (pagingItems.loadState.refresh) {
-            is LoadState.Loading -> Unit
-            is LoadState.Error, is LoadState.NotLoading -> {
-//                pullToRefreshState.endRefresh()
-            }
-        }
-    }
+//       val stateViewModel: StateViewModel = hiltViewModel()
+//    val viewModel: ProfileViewModel = hiltViewModel()
+//    val pagingItems: LazyPagingItems<UnsplashPhoto> =
+//        plantPictures.collectAsLazyPagingItems()
+//    LaunchedEffect(pagingItems.loadState) {
+//        when (pagingItems.loadState.refresh) {
+//            is LoadState.Loading -> Unit
+//            is LoadState.Error, is LoadState.NotLoading -> {
+////                pullToRefreshState.endRefresh()
+//            }
+//        }
+//    }
     ConstraintLayout(
         modifier = Modifier
-            .background(Color(0xFF3c3c3c))
+            .background(Color(0xFF9C4A4A))
             .fillMaxSize()
     ) {
         val (timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()

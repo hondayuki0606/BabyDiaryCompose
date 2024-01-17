@@ -42,18 +42,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.babydiarycompose.R
 import com.example.babydiarycompose.compose.MenuScreen
 import com.example.babydiarycompose.compose.RecordingScreen
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.MenuOptions
+import com.example.babydiarycompose.viewmodel.ProfileViewModel
 import com.example.babydiarycompose.viewmodel.StateViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val stateViewModel: StateViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +69,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             BabyDiaryComposeTheme {
                 // A surface container using the 'background' color from the theme
+//                val resutl1 = viewModel.plantPictures
+//                val s = viewModel.fetch()
+//                val resutl2 = viewModel.plantPictures
                 val navController = rememberNavController()
                 val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
                 var selectedItemIndex by rememberSaveable {
@@ -200,7 +210,8 @@ class MainActivity : ComponentActivity() {
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize(),
                             ) {
-                                val eventList = stateViewModel.getHomeEvents()
+                                val eventList = getHomeEvents()
+//                                stateViewModel.getHomeEvents()
                                 RecordingScreen(events = eventList)
                             }
                         }
@@ -209,7 +220,8 @@ class MainActivity : ComponentActivity() {
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize(),
                             ) {
-                                val eventList = stateViewModel.getFriendslistEvents()
+                                val eventList = getHomeEvents()
+//                                stateViewModel.getHomeEvents()
                                 RecordingScreen(events = eventList)
                             }
                         }
@@ -218,7 +230,8 @@ class MainActivity : ComponentActivity() {
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize(),
                             ) {
-                                val eventList = stateViewModel.getFriendslistEvents()
+                                val eventList = getHomeEvents()
+//                                stateViewModel.getHomeEvents()
                                 RecordingScreen(events = eventList)
                             }
                         }
@@ -236,6 +249,27 @@ class MainActivity : ComponentActivity() {
             application
         }
     }
+}
+
+fun getHomeEvents(): List<Event> {
+    return arrayListOf(
+        Event("11:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("12:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("13:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("14:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("15:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("16:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("17:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("18:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("19:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("20:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("21:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("22:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("23:00", R.drawable.milk_icon, "ミルク", ""),
+        Event("23:45", R.drawable.milk_icon, "ミルク", ""),
+        Event("23:50", R.drawable.milk_icon, "ミルク", ""),
+        Event("23:55", R.drawable.milk_icon, "ミルク", "50ml")
+    )
 }
 
 //@Preview(showBackground = true)

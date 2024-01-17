@@ -59,7 +59,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-fragment:1.1.0")
 
     // 仮でgradle追加
-    implementation("com.google.dagger:hilt-android:2.48")
+    implementation("com.google.dagger:hilt-android:2.27")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
@@ -68,6 +68,7 @@ dependencies {
 
     implementation("androidx.paging:paging-compose:3.3.0-alpha02")
 
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0-alpha01")
     // Dagger Core
 //    implementation("com.google.dagger:dagger:2.48")
 
