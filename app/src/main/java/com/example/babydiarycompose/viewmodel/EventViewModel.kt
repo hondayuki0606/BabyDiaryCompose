@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class StateViewModel @Inject constructor() : ViewModel() {
+class EventViewModel @Inject constructor() : ViewModel() {
     val _uiState = MutableStateFlow(
         SessionDetailState(
             ActionItem(LocalDateTime.now(), null, "name", "detail")

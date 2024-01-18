@@ -19,10 +19,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,38 +34,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
-import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
-import com.example.babydiarycompose.data.UnsplashPhoto
-import com.example.babydiarycompose.viewmodel.ProfileViewModel
-import com.example.babydiarycompose.viewmodel.StateViewModel
-import kotlinx.coroutines.flow.Flow
+import com.example.babydiarycompose.viewmodel.EventViewModel
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
-//    plantPictures: Flow<PagingData<UnsplashPhoto>>,
-    events: List<Event>
+    eventViewModel: EventViewModel = viewModel(),
 ) {
-//       val stateViewModel: StateViewModel = hiltViewModel()
-//    val viewModel: ProfileViewModel = hiltViewModel()
-//    val pagingItems: LazyPagingItems<UnsplashPhoto> =
-//        plantPictures.collectAsLazyPagingItems()
-//    LaunchedEffect(pagingItems.loadState) {
-//        when (pagingItems.loadState.refresh) {
-//            is LoadState.Loading -> Unit
-//            is LoadState.Error, is LoadState.NotLoading -> {
-////                pullToRefreshState.endRefresh()
-//            }
-//        }
-//    }
+    val events = eventViewModel.getHomeEvents()
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF9C4A4A))
