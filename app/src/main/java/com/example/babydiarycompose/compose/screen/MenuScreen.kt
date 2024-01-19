@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose
+package com.example.babydiarycompose.compose.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

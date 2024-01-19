@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose
+package com.example.babydiarycompose.compose.screen
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -35,9 +35,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.babydiarycompose.R
+import com.example.babydiarycompose.compose.dialog.EventDialog
 import com.example.babydiarycompose.data.Event
-import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.viewmodel.EventViewModel
 
 
@@ -47,13 +46,14 @@ fun RecordingScreen(
     eventViewModel: EventViewModel = viewModel(),
 ) {
     val events = eventViewModel.getHomeEvents()
+    val icons = eventViewModel.getIconList()
+    val times = (0..23).toList()
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF9C4A4A))
             .fillMaxSize()
     ) {
         val (timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
-        val times = (0..23).toList()
         LazyColumn(
             modifier = Modifier
                 .constrainAs(timeSchedule) {
@@ -116,23 +116,22 @@ fun RecordingScreen(
                 }
                 .background(Color(0xFF272727))
         ) {
-            val icons =
-                arrayListOf(
-                    Icon("母乳", R.drawable.breast_milk),
-                    Icon("ミルク", R.drawable.milk_icon),
-                    Icon("寝る", R.drawable.sleep_icon),
-                    Icon("起きる", R.drawable.wake_up_icon),
-                    Icon("おしっこ", R.drawable.pee_icon),
-                    Icon("うんち", R.drawable.poop_icon),
-                    Icon("母乳", R.drawable.breast_milk),
-                    Icon("ミルク", R.drawable.milk_icon),
-                    Icon("寝る", R.drawable.sleep_icon),
-                    Icon("起きる", R.drawable.wake_up_icon),
-                    Icon("おしっこ", R.drawable.pee_icon),
-                    Icon("うんち", R.drawable.poop_icon),
-                )
             items(icons) {
-                Column {
+                val showDialog = remember { mutableStateOf(false) }
+                val volumeValue = remember { mutableStateOf("10ml") }
+                if (showDialog.value)
+                    EventDialog(
+                        volumeValue = { volumeValue.value = it },
+                        setShowDialog = {
+                            showDialog.value = it
+                        },
+                        setValue = { Log.i("showDialog", "showDialog : $it") }
+                    )
+                Column(
+                    modifier = Modifier.clickable {
+                        showDialog.value = true
+                    },
+                ) {
                     Image(
                         modifier = Modifier
                             .padding(

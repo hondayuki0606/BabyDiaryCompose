@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose
+package com.example.babydiarycompose.compose.dialog
 
 import android.R
 import androidx.compose.foundation.BorderStroke
@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun BreastfeedingDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (String) -> Unit) {
+fun MemoDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (String) -> Unit) {
 
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf(value) }
@@ -60,7 +60,7 @@ fun BreastfeedingDialog(value: String, setShowDialog: (Boolean) -> Unit, setValu
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "母乳",
+                            text = "Set value",
                             style = TextStyle(
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold

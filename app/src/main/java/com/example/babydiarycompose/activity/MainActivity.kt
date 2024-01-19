@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,14 +39,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.babydiarycompose.R
-import com.example.babydiarycompose.compose.MenuScreen
-import com.example.babydiarycompose.compose.RecordingScreen
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.compose.screen.MenuScreen
+import com.example.babydiarycompose.compose.screen.RecordingScreen
 import com.example.babydiarycompose.data.MenuOptions
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -123,27 +123,19 @@ class MainActivity : ComponentActivity() {
                                         selectedItemIndex = index
                                         when (selectedItemIndex) {
                                             0 -> {
-                                                navController.navigate(
-                                                    MenuOptions.HOME.route
-                                                )
+                                                navController.navigate(MenuOptions.HOME.route)
                                             }
 
                                             1 -> {
-                                                navController.navigate(
-                                                    MenuOptions.COMPONENTS.route
-                                                )
+                                                navController.navigate(MenuOptions.COMPONENTS.route)
                                             }
 
                                             2 -> {
-                                                navController.navigate(
-                                                    MenuOptions.ARTICLES.route
-                                                )
+                                                navController.navigate(MenuOptions.ARTICLES.route)
                                             }
 
                                             else -> {
-                                                navController.navigate(
-                                                    MenuOptions.SETTINGS.route
-                                                )
+                                                navController.navigate(MenuOptions.SETTINGS.route)
                                             }
                                         }
                                     },
@@ -159,26 +151,24 @@ class MainActivity : ComponentActivity() {
                                                 Badge()
                                             }
                                         ) {
-                                            Icon(
-                                                imageVector = when (index) {
-                                                    0 -> {
-                                                        Icons.Default.Edit
-                                                    }
+                                            IconButton(onClick = {}) {
+                                                Icon(
+                                                    imageVector = when (index) {
+                                                        0 ->
+                                                            Icons.Default.Edit
 
-                                                    1 -> {
-                                                        Icons.Default.Build
-                                                    }
+                                                        1 ->
+                                                            Icons.Default.Build
 
-                                                    2 -> {
-                                                        Icons.Default.Info
-                                                    }
+                                                        2 ->
+                                                            Icons.Default.Info
 
-                                                    else -> {
-                                                        Icons.Default.Menu
-                                                    }
-                                                },
-                                                contentDescription = items[selectedItemIndex]
-                                            )
+                                                        else ->
+                                                            Icons.Default.Menu
+                                                    },
+                                                    contentDescription = items[selectedItemIndex]
+                                                )
+                                            }
                                         }
                                     }
                                 )
@@ -231,35 +221,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun getHomeEvents(): List<Event> {
-    return arrayListOf(
-        Event("11:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("12:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("13:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("15:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("16:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("17:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("18:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("19:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("20:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("21:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("22:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("23:00", R.drawable.milk_icon, "ミルク", ""),
-        Event("23:45", R.drawable.milk_icon, "ミルク", ""),
-        Event("23:50", R.drawable.milk_icon, "ミルク", ""),
-        Event("23:55", R.drawable.milk_icon, "ミルク", "50ml")
-    )
+@Preview(showBackground = true)
+@Composable
+fun PreviewMessageCard() {
+    BabyDiaryComposeTheme {
+        RecordingScreen()
+    }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewMessageCard() {
-//    RecordingScreen(
-//
-//        arrayListOf(
-//            Event("14:00", R.drawable.profile_icon, "ミルク", ""),
-//            Event("14:05", R.drawable.profile_icon, "母乳", "50ml")
-//        )
-//    )
-//}

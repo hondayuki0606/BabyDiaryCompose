@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose
+package com.example.babydiarycompose.compose.dialog
 
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -32,7 +32,7 @@ import com.example.babydiarycompose.state.EventDialogState
 
 @Composable
 fun EventDialog(
-    state: EventDialogState = rememberProfileScreenState(),
+//    state: EventDialogState = rememberProfileScreenState(),
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
@@ -59,7 +59,7 @@ fun EventDialog(
     val quantityDialogValue = remember { mutableStateOf(volumeValue) }
     if (quantityDialog.value)
         QuantityDialog(
-            value = { state.enterVolume(it) },
+            value = { },
             setShowDialog = {
                 quantityDialog.value = it
             }
@@ -159,7 +159,7 @@ fun EventDialog(
                     )
 
                     Text(
-                        text = "(量)  ${state.uiState.volume}",
+                        text = "(量)  {state.uiState.volume}",
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 24.sp,

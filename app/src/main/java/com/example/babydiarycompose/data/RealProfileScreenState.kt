@@ -14,7 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavHostController
 import com.example.babydiarycompose.viewmodel.ProfileViewModel
 import kotlinx.coroutines.CoroutineScope
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.babydiarycompose.state.EventDialogState
 
 class RealProfileScreenState(
@@ -60,7 +60,7 @@ class RealProfileScreenState(
 
 @Composable
 fun rememberProfileScreenState(
-    viewModel: ProfileViewModel = hiltViewModel(),
+    viewModel: ProfileViewModel =  viewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = LocalNavController.current,

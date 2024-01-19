@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.ActionItem
 import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.data.SessionDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -45,7 +46,25 @@ class EventViewModel @Inject constructor() : ViewModel() {
             Event("23:55", R.drawable.milk_icon, "ミルク", "50ml")
         )
     }
+    fun getIconList(): ArrayList<Icon> {
+        val icons =
+            arrayListOf(
+                Icon("母乳", R.drawable.breast_milk),
+                Icon("ミルク", R.drawable.milk_icon),
+                Icon("寝る", R.drawable.sleep_icon),
+                Icon("起きる", R.drawable.wake_up_icon),
+                Icon("おしっこ", R.drawable.pee_icon),
+                Icon("うんち", R.drawable.poop_icon),
+                Icon("母乳", R.drawable.breast_milk),
+                Icon("ミルク", R.drawable.milk_icon),
+                Icon("寝る", R.drawable.sleep_icon),
+                Icon("起きる", R.drawable.wake_up_icon),
+                Icon("おしっこ", R.drawable.pee_icon),
+                Icon("うんち", R.drawable.poop_icon),
+            )
 
+        return icons
+    }
     fun getFriendslistEvents(): List<Event> {
         return arrayListOf(
             Event("14:00", R.drawable.breast_milk, "フレンド", ""),

@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose
+package com.example.babydiarycompose.compose.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
