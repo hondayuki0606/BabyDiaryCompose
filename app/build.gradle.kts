@@ -59,7 +59,7 @@ android {
 dependencies {
 
     // room
-    val room_version = "2.6.0"
+    val room_version = "2.5.2"
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 //    kapt("androidx.hilt:hilt-compiler:2.2.0")
