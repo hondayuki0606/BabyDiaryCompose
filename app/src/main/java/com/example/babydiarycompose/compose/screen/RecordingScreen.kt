@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -45,7 +46,7 @@ import com.example.babydiarycompose.viewmodel.EventViewModel
 fun RecordingScreen(
     eventViewModel: EventViewModel = viewModel(),
 ) {
-    val events = eventViewModel.getHomeEvents()
+    val events = eventViewModel.getHomeEvents(LocalContext.current)
     val icons = eventViewModel.getIconList()
     val times = (0..23).toList()
     ConstraintLayout(

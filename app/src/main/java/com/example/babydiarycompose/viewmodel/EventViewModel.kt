@@ -1,12 +1,16 @@
 package com.example.babydiarycompose.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.room.Room
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.ActionItem
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.data.SessionDetailState
+import com.example.babydiarycompose.database.AppDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +30,32 @@ class EventViewModel @Inject constructor() : ViewModel() {
         )
     )
     val uiState = _uiState.asStateFlow()
-    fun getHomeEvents(): List<Event> {
+    fun getHomeEvents(applicationContext: Context): List<Event> {
+        val db = AppDatabase.getDatabase(applicationContext)
+        val eventDao = db.eventDao()
+        eventDao.insertAll(
+            com.example.babydiarycompose.model.Event(
+                0,
+                "15:00",
+                R.drawable.milk_icon,
+                "ミルク"
+            )
+        )
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                { Log.d("User", "INSERT 成功")},
+//                { e -> Log.e("User", "INSERT 失敗", e) }
+//            )
+//        compositeDisposable.add(disposable)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                { Log.d("User", "INSERT 成功")},
+//                { e -> Log.e("User", "INSERT 失敗", e) }
+//            )
+        val eventList = eventDao.getAll()
+
         return arrayListOf(
             Event("11:00", R.drawable.milk_icon, "ミルク", ""),
             Event("12:00", R.drawable.milk_icon, "ミルク", ""),
@@ -46,6 +75,7 @@ class EventViewModel @Inject constructor() : ViewModel() {
             Event("23:55", R.drawable.milk_icon, "ミルク", "50ml")
         )
     }
+
     fun getIconList(): ArrayList<Icon> {
         val icons =
             arrayListOf(
@@ -65,6 +95,7 @@ class EventViewModel @Inject constructor() : ViewModel() {
 
         return icons
     }
+
     fun getFriendslistEvents(): List<Event> {
         return arrayListOf(
             Event("14:00", R.drawable.breast_milk, "フレンド", ""),
