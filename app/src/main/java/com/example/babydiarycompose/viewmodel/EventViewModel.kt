@@ -1,7 +1,9 @@
 package com.example.babydiarycompose.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.ActionItem
@@ -11,9 +13,12 @@ import com.example.babydiarycompose.data.SessionDetailState
 import com.example.babydiarycompose.database.AppDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -33,47 +38,25 @@ class EventViewModel @Inject constructor() : ViewModel() {
     fun getHomeEvents(applicationContext: Context): List<Event> {
         val db = AppDatabase.getDatabase(applicationContext)
         val eventDao = db.eventDao()
-        eventDao.insertAll(
-            com.example.babydiarycompose.model.Event(
-                0,
-                "15:00",
-                R.drawable.milk_icon,
-                "ミルク"
+        CoroutineScope(Dispatchers.IO).launch {
+            eventDao.insertAll(
+                com.example.babydiarycompose.model.Event(
+                    0,
+                    "15:00",
+                    R.drawable.milk_icon,
+                    "ミルク"
+                )
             )
-        )
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                { Log.d("User", "INSERT 成功")},
-//                { e -> Log.e("User", "INSERT 失敗", e) }
-//            )
-//        compositeDisposable.add(disposable)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                { Log.d("User", "INSERT 成功")},
-//                { e -> Log.e("User", "INSERT 失敗", e) }
-//            )
-        val eventList = eventDao.getAll()
-
-        return arrayListOf(
-            Event("11:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("12:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("13:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("14:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("15:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("16:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("17:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("18:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("19:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("20:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("21:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("22:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("23:00", R.drawable.milk_icon, "ミルク", ""),
-            Event("23:45", R.drawable.milk_icon, "ミルク", ""),
-            Event("23:50", R.drawable.milk_icon, "ミルク", ""),
-            Event("23:55", R.drawable.milk_icon, "ミルク", "50ml")
-        )
+        }
+        val list = mutableListOf<Event>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val eventList = eventDao.getAll()
+            Log.d("", "")
+            eventList.forEach {
+                list.add(Event(it.time ?: "", it.icon ?: 0, it.eventName ?: "", ""))
+            }
+        }
+        return list.toList()
     }
 
     fun getIconList(): ArrayList<Icon> {
