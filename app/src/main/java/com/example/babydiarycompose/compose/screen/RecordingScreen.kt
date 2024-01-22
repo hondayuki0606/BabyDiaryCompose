@@ -40,13 +40,12 @@ import com.example.babydiarycompose.compose.dialog.EventDialog
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.viewmodel.EventViewModel
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
     eventViewModel: EventViewModel = viewModel(),
 ) {
-    val events = eventViewModel.getHomeEvents(LocalContext.current)
+    eventViewModel.getHomeEvents(LocalContext.current)
     val icons = eventViewModel.getIconList()
     val times = (0..23).toList()
     ConstraintLayout(
@@ -91,7 +90,7 @@ fun RecordingScreen(
                 }
                 .background(Color(0xFF272727))) { page ->
             LazyColumn {
-                items(events) {
+                items(eventViewModel.uiState.value) {
                     EventCard(event = it)
                 }
             }
