@@ -5,47 +5,21 @@ import androidx.lifecycle.ViewModel
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.Icon
-import com.example.babydiarycompose.database.AppDatabase
+import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EventViewModel @Inject constructor() : ViewModel() {
+class EventViewModel @Inject constructor(
+    private val eventRepository: EventRepository
+) : ViewModel() {
     private var _uiState = MutableStateFlow(mutableListOf<Event>())
-
     var uiState = _uiState.asStateFlow()
-    fun getHomeEvents(applicationContext: Context) {
-        val db = AppDatabase.getDatabase(applicationContext)
-        val eventDao = db.eventDao()
-        val list = mutableListOf<Event>()
-        CoroutineScope(Dispatchers.IO).launch {
-//            // データ生成
-//            for (i in 1..10) {
-//                eventDao.insertAll(
-//                    com.example.babydiarycompose.model.Event(
-//                        i,
-//                        "${i}:00",
-//                        R.drawable.milk_icon,
-//                        "ミルク"
-//                    ),
-//                )
-//            }
-
-            val eventList = eventDao.getAll()
-            eventList.forEach {
-                list.add(Event(it.time ?: "", it.icon ?: 0, it.eventName ?: "", ""))
-            }
-            _uiState.update {
-                list
-            }
-        }
-    }
 
     fun getIconList(): ArrayList<Icon> {
         val icons =
@@ -65,5 +39,13 @@ class EventViewModel @Inject constructor() : ViewModel() {
             )
 
         return icons
+    }
+
+    suspend fun getHomeEvents(applicationContext: Context) {
+        eventRepository.getHomeEvents(applicationContext).collect {
+            _uiState.update {
+                it
+            }
+        }
     }
 }
