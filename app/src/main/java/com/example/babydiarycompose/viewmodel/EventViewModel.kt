@@ -2,23 +2,27 @@ package com.example.babydiarycompose.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.R
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventUiState
 import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
-    private var _uiState = MutableStateFlow(mutableListOf<Event>())
+    private var _uiState = MutableStateFlow(
+        EventUiState(
+            arrayListOf()
+        )
+    )
     var uiState = _uiState.asStateFlow()
 
     fun getIconList(): ArrayList<Icon> {
@@ -41,10 +45,14 @@ class EventViewModel @Inject constructor(
         return icons
     }
 
-    suspend fun getHomeEvents(applicationContext: Context) {
-        eventRepository.getHomeEvents(applicationContext).collect {
-            _uiState.update {
-                it
+    fun getHomeEvents(applicationContext: Context) {
+        viewModelScope.launch {
+            eventRepository.getHomeEvents(applicationContext).collect { list ->
+                _uiState.update {
+                    it.copy(
+                        eventList = list
+                    )
+                }
             }
         }
     }

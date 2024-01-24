@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class EventRepositoryImpl() : EventRepository {
+class EventRepositoryImpl : EventRepository {
+
     override suspend fun getHomeEvents(applicationContext: Context): Flow<MutableList<Event>> {
         return flow {
             CoroutineScope(Dispatchers.IO).launch {
