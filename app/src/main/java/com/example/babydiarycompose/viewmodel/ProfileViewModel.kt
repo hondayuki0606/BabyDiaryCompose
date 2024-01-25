@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.babydiarycompose.data.UnsplashPhoto
-import com.example.babydiarycompose.data.UnsplashRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject internal constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: UnsplashRepository
+//    private val repository: UnsplashRepository
 ) : ViewModel() {
     private var queryString: String? = savedStateHandle["plantName"]
 
@@ -55,13 +54,13 @@ class ProfileViewModel @Inject internal constructor(
 
     fun fetch() {
         viewModelScope.launch {
-            try {
-                _plantPictures.value =
-                    repository.getSearchResultStream(queryString ?: "").cachedIn(viewModelScope)
-                        .first()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+//            try {
+//                _plantPictures.value =
+//                    repository.getSearchResultStream(queryString ?: "").cachedIn(viewModelScope)
+//                        .first()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
         }
 //        useCase.fetch()
 //            .onSuccess { user ->
