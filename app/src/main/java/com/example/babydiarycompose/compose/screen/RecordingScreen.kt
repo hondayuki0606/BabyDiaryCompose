@@ -1,6 +1,5 @@
 package com.example.babydiarycompose.compose.screen
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -42,11 +41,10 @@ import com.example.babydiarycompose.compose.dialog.EventDialog
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.viewmodel.EventViewModel
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
-    eventViewModel: EventViewModel = viewModel(),
+    eventViewModel: EventViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     eventViewModel.getHomeEvents(context)
