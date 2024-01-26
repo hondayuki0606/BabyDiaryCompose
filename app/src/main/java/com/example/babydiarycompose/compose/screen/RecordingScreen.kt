@@ -21,7 +21,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,7 +36,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.babydiarycompose.compose.dialog.EventDialog
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.viewmodel.EventViewModel
@@ -48,7 +46,7 @@ fun RecordingScreen(
     eventViewModel: EventViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    eventViewModel.getHomeEvents(context)
+    eventViewModel.getEventList(context)
 
     val times = (0..23).toList()
     ConstraintLayout(

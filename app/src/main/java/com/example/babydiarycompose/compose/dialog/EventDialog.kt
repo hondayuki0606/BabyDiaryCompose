@@ -27,12 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.babydiarycompose.data.rememberProfileScreenState
-import com.example.babydiarycompose.state.EventDialogState
 
 @Composable
 fun EventDialog(
-//    state: EventDialogState = rememberProfileScreenState(),
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit

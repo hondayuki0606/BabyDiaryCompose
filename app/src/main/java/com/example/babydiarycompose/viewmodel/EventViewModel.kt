@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,8 +23,8 @@ class EventViewModel @Inject constructor(
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(
         EventUiState(
-            arrayListOf(),
-            arrayListOf(
+            eventList = arrayListOf(),
+            iconList = arrayListOf(
                 Icon("母乳", R.drawable.breast_milk),
                 Icon("ミルク", R.drawable.milk_icon),
                 Icon("寝る", R.drawable.sleep_icon),
@@ -51,12 +50,12 @@ class EventViewModel @Inject constructor(
     fun addEventList(applicationContext: Context, eventList: List<Event>) {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             eventRepository.addEventList(applicationContext, eventList).let {
-                // 結果が返却
+                // 返却結果
             }
         }
     }
 
-    fun getHomeEvents(applicationContext: Context) {
+    fun getEventList(applicationContext: Context) {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             eventRepository.getEventList(applicationContext).let { eventList ->
                 _uiState.update {
