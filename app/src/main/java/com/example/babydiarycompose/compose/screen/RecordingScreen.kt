@@ -21,6 +21,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,7 +50,6 @@ fun RecordingScreen(
     val context = LocalContext.current
     eventViewModel.getHomeEvents(context)
 
-    val icons = eventViewModel.getIconList()
     val times = (0..23).toList()
     ConstraintLayout(
         modifier = Modifier
@@ -119,7 +119,7 @@ fun RecordingScreen(
                 }
                 .background(Color(0xFF272727))
         ) {
-            items(icons) {
+            items(eventViewModel.uiState.value.iconList) {
                 val showDialog = remember { mutableStateOf(false) }
                 val volumeValue = remember { mutableStateOf("10ml") }
                 if (showDialog.value)
