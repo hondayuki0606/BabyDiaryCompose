@@ -217,11 +217,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewMessageCard() {
-    BabyDiaryComposeTheme {
-        RecordingScreen()
-    }
-}

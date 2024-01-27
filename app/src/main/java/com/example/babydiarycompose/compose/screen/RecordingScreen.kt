@@ -30,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,16 +39,16 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.dialog.EventDialog
 import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.EventViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
-    eventViewModel: EventViewModel = hiltViewModel(),
+    viewModel: EventViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-    eventViewModel.getEventList(context)
-
+    val uiState = viewModel.uiState
+    viewModel.getEventList(LocalContext.current)
     val times = (0..23).toList()
     ConstraintLayout(
         modifier = Modifier
@@ -80,6 +81,7 @@ fun RecordingScreen(
             list.size
         })
         HorizontalPager(state = pagerState,
+            verticalAlignment = Alignment.Top,
             modifier = Modifier
                 .constrainAs(verticalScroll) {
                     top.linkTo(parent.top)
@@ -89,9 +91,10 @@ fun RecordingScreen(
                     height = Dimension.fillToConstraints
                     width = Dimension.fillToConstraints
                 }
+
                 .background(Color(0xFF272727))) { page ->
             LazyColumn {
-                items(eventViewModel.uiState.value.eventList) {
+                items(viewModel.uiState.value.eventList) {
                     EventCard(event = it)
                 }
             }
@@ -117,7 +120,7 @@ fun RecordingScreen(
                 }
                 .background(Color(0xFF272727))
         ) {
-            items(eventViewModel.uiState.value.iconList) {
+            items(uiState.value.iconList) {
                 val showDialog = remember { mutableStateOf(false) }
                 val volumeValue = remember { mutableStateOf("10ml") }
                 if (showDialog.value)
@@ -156,15 +159,6 @@ fun RecordingScreen(
             }
         }
     }
-}
-
-@Composable
-fun HorizontalDivider(
-    modifier: Modifier = Modifier,
-    thickness: Dp = DividerDefaults.Thickness,
-    color: Color = DividerDefaults.color,
-) {
-    Divider(modifier, thickness, color)
 }
 
 @Composable
@@ -210,5 +204,29 @@ fun EventCard(event: Event) {
             color = Color.White,
             text = event.ml
         )
+    }
+}
+@Composable
+fun HorizontalDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = DividerDefaults.Thickness,
+    color: Color = DividerDefaults.color,
+) {
+    Divider(modifier, thickness, color)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewRecordingScreen() {
+    BabyDiaryComposeTheme {
+        RecordingScreen()
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun PreviewEventCard() {
+    BabyDiaryComposeTheme {
+        val event = Event("22",1,"1111","111")
+        EventCard(event)
     }
 }
