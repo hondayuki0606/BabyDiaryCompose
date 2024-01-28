@@ -49,8 +49,10 @@ class EventViewModel @Inject constructor(
 
     fun addEventList(applicationContext: Context, eventList: List<Event>) {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            eventRepository.addEventList(applicationContext, eventList).let {
-                // 返却結果
+            eventRepository.addEventList(applicationContext, eventList).let { result ->
+                if (result) {
+                    getEventList(applicationContext)
+                }
             }
         }
     }

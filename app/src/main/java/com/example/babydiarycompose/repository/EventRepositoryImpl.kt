@@ -18,17 +18,20 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(applicationContext)
             val eventDao = db.eventDao()
+            val searchList = eventDao.getAll()
             // データ生成
-            for (i in 0..20) {
+            eventList.forEach{
                 eventDao.insertAll(
                     com.example.babydiarycompose.model.Event(
-                        i,
-                        "${i}:00",
-                        R.drawable.milk_icon,
-                        "ミルク"
-                    ),
+                        searchList.size,
+                        it.time,
+                        it.imageUrl,
+                        it.eventName,
+                        ""
+                        ),
                 )
             }
+
             result = true
 
         }.join()
@@ -47,7 +50,8 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
 //                        i,
 //                        "${i}:00",
 //                        R.drawable.milk_icon,
-//                        "ミルク"
+//                        "ミルク",
+//                        "10ml"
 //                    ),
 //                )
 //            }
