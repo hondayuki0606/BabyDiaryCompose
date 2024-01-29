@@ -42,24 +42,23 @@ class EventViewModel @Inject constructor(
     )
     var uiState = _uiState.asStateFlow()
 
-
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
     }
 
-    fun addEventList(applicationContext: Context, eventList: List<Event>) {
+    fun addEventList(appContext: Context, eventList: List<Event>) {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            eventRepository.addEventList(applicationContext, eventList).let { result ->
+            eventRepository.addEventList(appContext, eventList).let { result ->
                 if (result) {
-                    getEventList(applicationContext)
+                    getEventList(appContext)
                 }
             }
         }
     }
 
-    fun getEventList(applicationContext: Context) {
+    fun getEventList(appContext: Context) {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            eventRepository.getEventList(applicationContext).let { eventList ->
+            eventRepository.getEventList(appContext).let { eventList ->
                 _uiState.update {
                     it.copy(
                         eventList = eventList

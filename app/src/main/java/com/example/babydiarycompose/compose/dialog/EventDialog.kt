@@ -46,9 +46,12 @@ fun EventDialog(
     // 母乳ダイアログ
     val breastfeedingDialog = remember { mutableStateOf(false) }
     if (breastfeedingDialog.value)
-        BreastfeedingDialog(value = "", setShowDialog = {
-            breastfeedingDialog.value = it
-        }) {
+        BreastfeedingDialog(
+            eventName = "",
+            resIcon = 0,
+            setShowDialog = {
+                breastfeedingDialog.value = it
+            }) {
             Log.i("breastfeedingDialog", "showDialog : $it")
         }
     // 量ダイアログ

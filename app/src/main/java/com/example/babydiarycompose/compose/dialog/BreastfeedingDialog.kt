@@ -39,16 +39,25 @@ import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.EventViewModel
+import java.time.LocalDateTime
 
 @Composable
 fun BreastfeedingDialog(
-    value: String,
+    eventName: String,
+    resIcon: Int,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
 ) {
     val viewModel: EventViewModel = hiltViewModel()
-    val hourState = remember { mutableStateOf(12) }
-    val minutesState = remember { mutableStateOf(45) }
+    val currentDateTime = LocalDateTime.now()
+    val year = currentDateTime.year
+    val month = currentDateTime.monthValue
+    val day = currentDateTime.dayOfMonth
+    val hour = currentDateTime.hour
+    val minute = currentDateTime.minute
+
+    val hourState = remember { mutableStateOf(hour) }
+    val minutesState = remember { mutableStateOf(minute) }
     val applicationContext = LocalContext.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
@@ -72,11 +81,11 @@ fun BreastfeedingDialog(
                                     end = 10.dp,
                                 ),
                             contentScale = ContentScale.Fit,
-                            painter = painterResource(R.drawable.breast_milk),
+                            painter = painterResource(resIcon),
                             contentDescription = "image"
                         )
                         Text(
-                            text = "母乳",
+                            text = eventName,
                             style = TextStyle(
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold
@@ -92,7 +101,7 @@ fun BreastfeedingDialog(
                                     end = 10.dp,
                                 ),
                             contentScale = ContentScale.Fit,
-                            painter = painterResource(R.drawable.breast_milk),
+                            painter = painterResource(resIcon),
                             contentDescription = "image"
                         )
                     }
@@ -124,8 +133,8 @@ fun BreastfeedingDialog(
                                     val eventList = arrayListOf(
                                         Event(
                                             "${hourState.value}:${minutesState.value}",
-                                            R.drawable.breast_milk,
-                                            "母乳",
+                                            resIcon,
+                                            eventName,
                                             ""
                                         )
                                     )
@@ -165,9 +174,11 @@ fun BreastfeedingDialog(
 fun PreviewBreastfeedingDialog() {
     BabyDiaryComposeTheme {
         val showDialog = remember { mutableStateOf(false) }
-        BreastfeedingDialog(value = "", setShowDialog = {
-            showDialog.value = it
-        }) {
+        BreastfeedingDialog(eventName = "",
+            resIcon = 0,
+            setShowDialog = {
+                showDialog.value = it
+            }) {
             Log.i("breastfeedingDialog", "showDialog : $it")
         }
     }

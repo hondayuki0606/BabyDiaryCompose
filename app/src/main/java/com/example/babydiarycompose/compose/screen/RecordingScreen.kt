@@ -77,9 +77,9 @@ fun RecordingScreen(
                 )
             }
         }
-        val list = listOf("aaa", "bbb", "ccc", "ddd", "eee", "fff")
+        val pageList = listOf("aaa", "bbb", "ccc", "ddd", "eee", "fff")
         val pagerState = rememberPagerState(pageCount = {
-            list.size
+            pageList.size
         })
         HorizontalPager(state = pagerState,
             verticalAlignment = Alignment.Top,
@@ -123,15 +123,21 @@ fun RecordingScreen(
         ) {
             items(uiState.value.iconList) {
                 val showDialog = remember { mutableStateOf(false) }
+                val eventName = remember { mutableStateOf("") }
+                val icon = remember { mutableStateOf(0) }
                 if (showDialog.value)
-                    BreastfeedingDialog(value = "", setShowDialog = {
-                        showDialog.value = it
-                    }) {
+                    BreastfeedingDialog(eventName = eventName.value,
+                        resIcon = icon.value,
+                        setShowDialog = {
+                            showDialog.value = it
+                        }) {
                         Log.i("breastfeedingDialog", "showDialog : $it")
                     }
                 Column(
                     modifier = Modifier.clickable {
                         showDialog.value = true
+                        eventName.value = it.title
+                        icon.value = it.icon
                     },
                 ) {
                     Image(
@@ -204,6 +210,7 @@ fun EventCard(event: Event) {
         )
     }
 }
+
 @Composable
 fun HorizontalDivider(
     modifier: Modifier = Modifier,
@@ -220,11 +227,12 @@ fun PreviewRecordingScreen() {
         RecordingScreen()
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
-        val event = Event("22",1,"1111","111")
+        val event = Event("22", 1, "1111", "111")
         EventCard(event)
     }
 }
