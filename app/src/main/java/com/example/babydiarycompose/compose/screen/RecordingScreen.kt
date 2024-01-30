@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.babydiarycompose.compose.dialog.BreastfeedingDialog
+import com.example.babydiarycompose.compose.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.compose.dialog.EventDialog
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
@@ -126,7 +126,7 @@ fun RecordingScreen(
                 val eventName = remember { mutableStateOf("") }
                 val icon = remember { mutableStateOf(0) }
                 if (showDialog.value)
-                    BreastfeedingDialog(eventName = eventName.value,
+                    EventTimeSettingDialog(eventName = eventName.value,
                         resIcon = icon.value,
                         setShowDialog = {
                             showDialog.value = it

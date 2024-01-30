@@ -1,6 +1,5 @@
 package com.example.babydiarycompose.compose.dialog
 
-import com.example.babydiarycompose.R
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
@@ -42,7 +39,7 @@ import com.example.babydiarycompose.viewmodel.EventViewModel
 import java.time.LocalDateTime
 
 @Composable
-fun BreastfeedingDialog(
+fun MilkDialog(
     eventName: String,
     resIcon: Int,
     setShowDialog: (Boolean) -> Unit,
@@ -50,9 +47,6 @@ fun BreastfeedingDialog(
 ) {
     val viewModel: EventViewModel = hiltViewModel()
     val currentDateTime = LocalDateTime.now()
-    val year = currentDateTime.year
-    val month = currentDateTime.monthValue
-    val day = currentDateTime.dayOfMonth
     val hour = currentDateTime.hour
     val minute = currentDateTime.minute
 
@@ -74,35 +68,13 @@ fun BreastfeedingDialog(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            modifier = Modifier
-                                .padding(
-                                    start = 10.dp,
-                                    end = 10.dp,
-                                ),
-                            contentScale = ContentScale.Fit,
-                            painter = painterResource(resIcon),
-                            contentDescription = "image"
-                        )
+
                         Text(
-                            text = eventName,
+                            text = "ミルク",
                             style = TextStyle(
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold
                             ),
-                            modifier = Modifier.clickable {
-
-                            }
-                        )
-                        Image(
-                            modifier = Modifier
-                                .padding(
-                                    start = 10.dp,
-                                    end = 10.dp,
-                                ),
-                            contentScale = ContentScale.Fit,
-                            painter = painterResource(resIcon),
-                            contentDescription = "image"
                         )
                     }
 
@@ -171,10 +143,10 @@ fun BreastfeedingDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewBreastfeedingDialog() {
+fun PreviewMilkDialog() {
     BabyDiaryComposeTheme {
         val showDialog = remember { mutableStateOf(false) }
-        BreastfeedingDialog(eventName = "",
+        EventTimeSettingDialog(eventName = "",
             resIcon = 0,
             setShowDialog = {
                 showDialog.value = it
