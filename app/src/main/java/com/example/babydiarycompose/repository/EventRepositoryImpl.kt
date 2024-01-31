@@ -1,7 +1,6 @@
 package com.example.babydiarycompose.repository
 
 import android.content.Context
-import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.database.AppDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +26,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                         it.time,
                         it.imageUrl,
                         it.eventName,
-                        ""
+                        it.ml
                         ),
                 )
             }
@@ -42,20 +41,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         val result = arrayListOf<Event>()
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(applicationContext)
-            val eventDao = db.eventDao()
-            // データ生成
-//            for (i in 0..3) {
-//                eventDao.insertAll(
-//                    com.example.babydiarycompose.model.Event(
-//                        i,
-//                        "${i}:00",
-//                        R.drawable.milk_icon,
-//                        "ミルク",
-//                        "10ml"
-//                    ),
-//                )
-//            }
-            val eventList = eventDao.getAll()
+            val eventList = db.eventDao().getAll()
             eventList.forEach {
                 result.add(Event(it.time ?: "", it.icon ?: 0, it.eventName ?: "", ""))
             }

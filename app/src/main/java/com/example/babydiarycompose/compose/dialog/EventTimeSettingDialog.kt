@@ -55,15 +55,17 @@ fun EventTimeSettingDialog(
     val applicationContext = LocalContext.current
 
     val showMilkDialog = remember { mutableStateOf(false) }
-    val eventNames = remember { mutableStateOf("") }
-    val icon = remember { mutableStateOf(0) }
     if (showMilkDialog.value)
-        MilkDialog(eventName = eventNames.value,
-            resIcon = icon.value,
+        MilkDialog(eventName = eventName,
+            resIcon = resIcon,
+            hour = hourState.value,
+            minutes = minutesState.value,
             setShowDialog = {
                 showMilkDialog.value = it
             }) {
-            Log.i("breastfeedingDialog", "showDialog : $it")
+            if (it) {
+                setShowDialog(false)
+            }
         }
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
@@ -163,7 +165,6 @@ fun EventTimeSettingDialog(
                             Spacer(modifier = Modifier.height(20.dp))
                             Button(
                                 onClick = {
-
                                     setShowDialog(false)
                                 },
                                 shape = RoundedCornerShape(50.dp),
