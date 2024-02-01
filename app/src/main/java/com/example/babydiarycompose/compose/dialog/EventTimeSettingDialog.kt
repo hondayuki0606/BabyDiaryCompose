@@ -2,7 +2,6 @@ package com.example.babydiarycompose.compose.dialog
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +36,8 @@ import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.EventViewModel
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 @Composable
 fun EventTimeSettingDialog(
@@ -47,6 +48,7 @@ fun EventTimeSettingDialog(
 ) {
     val viewModel: EventViewModel = hiltViewModel()
     val currentDateTime = LocalDateTime.now()
+    ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
     val hour = currentDateTime.hour
     val minute = currentDateTime.minute
 
@@ -71,7 +73,7 @@ fun EventTimeSettingDialog(
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color.White
+            color = Color.DarkGray
         ) {
             Box(
                 contentAlignment = Alignment.Center
@@ -98,10 +100,7 @@ fun EventTimeSettingDialog(
                             style = TextStyle(
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold
-                            ),
-                            modifier = Modifier.clickable {
-
-                            }
+                            )
                         )
                         Image(
                             modifier = Modifier

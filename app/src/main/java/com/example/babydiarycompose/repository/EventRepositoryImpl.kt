@@ -30,7 +30,6 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                         ),
                 )
             }
-
             result = true
 
         }.join()
@@ -45,7 +44,6 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
             eventList.forEach {
                 result.add(Event(it.time ?: "", it.icon ?: 0, it.eventName ?: "", ""))
             }
-
         }.join()
         return result
     }
