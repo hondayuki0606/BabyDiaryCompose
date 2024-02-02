@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,10 +38,12 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.babydiarycompose.R
 import com.example.babydiarycompose.compose.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.compose.dialog.EventDialog
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
+import com.example.babydiarycompose.utils.Pink
 import com.example.babydiarycompose.viewmodel.EventViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -178,21 +181,19 @@ fun EventCard(event: Event) {
             setValue = { Log.i("showDialog", "showDialog : $it") }
         )
 
-    Row(modifier = Modifier.clickable(
-        indication = null,
-        interactionSource = remember { MutableInteractionSource() }
-    ) {
-        showDialog.value = true
-    }) {
-        Column {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Column(
+            modifier = Modifier.clickable {
+                showDialog.value = true
+            }) {
             Text(
                 color = Color.White,
                 text = event.time,
                 textAlign = TextAlign.End
             )
             Text(
-                color = Color(0xFFEC7786),
-                text = "10時間45分前",
+                color = Pink,
+                text = "",
                 fontSize = 8.sp
             )
         }
@@ -205,8 +206,8 @@ fun EventCard(event: Event) {
             text = event.eventName
         )
         Text(
-            color = Color.White,
-            text = event.ml
+            color = Pink,
+            text = event.eventDetail
         )
     }
 }

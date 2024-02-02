@@ -19,15 +19,15 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
             val eventDao = db.eventDao()
             val searchList = eventDao.getAll()
             // データ生成
-            eventList.forEach{
+            eventList.forEach {
                 eventDao.insertAll(
                     com.example.babydiarycompose.model.Event(
                         searchList.size,
                         it.time,
                         it.imageUrl,
                         it.eventName,
-                        it.ml
-                        ),
+                        it.eventDetail
+                    ),
                 )
             }
             result = true
@@ -42,7 +42,14 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
             val db = AppDatabase.getDatabase(applicationContext)
             val eventList = db.eventDao().getAll()
             eventList.forEach {
-                result.add(Event(it.time ?: "", it.icon ?: 0, it.eventName ?: "", ""))
+                result.add(
+                    Event(
+                        it.time ?: "",
+                        it.icon ?: 0,
+                        it.eventName ?: "",
+                        it.eventDetail ?: ""
+                    )
+                )
             }
         }.join()
         return result

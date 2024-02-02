@@ -56,6 +56,19 @@ fun EventTimeSettingDialog(
     val minutesState = remember { mutableStateOf(minute) }
     val applicationContext = LocalContext.current
 
+    val showBreastMilkDialog = remember { mutableStateOf(false) }
+    if (showBreastMilkDialog.value)
+        BreastMilkDialog(eventName = eventName,
+            resIcon = resIcon,
+            hour = hourState.value,
+            minutes = minutesState.value,
+            setShowDialog = {
+                showBreastMilkDialog.value = it
+            }) {
+            if (it) {
+                setShowDialog(false)
+            }
+        }
     val showMilkDialog = remember { mutableStateOf(false) }
     if (showMilkDialog.value)
         MilkDialog(eventName = eventName,
@@ -138,19 +151,25 @@ fun EventTimeSettingDialog(
                         Column {
                             Button(
                                 onClick = {
-                                    if (eventName == "ミルク") {
-                                        showMilkDialog.value = true
-                                    } else {
-                                        val eventList = arrayListOf(
-                                            Event(
-                                                "${hourState.value}:${minutesState.value}",
-                                                resIcon,
-                                                eventName,
-                                                ""
+                                    when (eventName) {
+                                        "母乳" -> {
+                                            showBreastMilkDialog.value = true
+                                        }
+                                        "ミルク" -> {
+                                            showMilkDialog.value = true
+                                        }
+                                        else -> {
+                                            val eventList = arrayListOf(
+                                                Event(
+                                                    "${hourState.value}:${minutesState.value}",
+                                                    resIcon,
+                                                    eventName,
+                                                    ""
+                                                )
                                             )
-                                        )
-                                        viewModel.addEventList(applicationContext, eventList)
-                                        setShowDialog(false)
+                                            viewModel.addEventList(applicationContext, eventList)
+                                            setShowDialog(false)
+                                        }
                                     }
 
                                 },
