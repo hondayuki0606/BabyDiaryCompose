@@ -50,7 +50,7 @@ fun BreastMilkDialog(
             modifier = Modifier.height(200.dp)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "${eventName}:${hour}時${minutes}分")
+                Text(text = "${eventName}:${hour}時${minutes}分", color = Color.White)
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -59,15 +59,22 @@ fun BreastMilkDialog(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        NumberPicker(
-                            state = rightTime,
-                            range = 0..120,
-                        )
+                        Column {
+                            Text(text = "左", color = Color.White)
+                            NumberPicker(
+                                state = rightTime,
+                                range = 0..120,
+                            )
+                        }
                         Spacer(modifier = Modifier.width(20.dp))
-                        NumberPicker(
-                            state = leftTime,
-                            range = 0..120,
-                        )
+
+                        Column {
+                            Text(text = "右", color = Color.White)
+                            NumberPicker(
+                                state = leftTime,
+                                range = 0..120,
+                            )
+                        }
                     }
                 }
 
