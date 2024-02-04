@@ -61,10 +61,10 @@ class EventViewModel @Inject constructor(
                 Icon("カスタム4", R.drawable.poop_icon),
                 Icon("カスタム5", R.drawable.poop_icon),
                 Icon("カスタム6", R.drawable.poop_icon),
-                Icon("カスタム7", R.drawable.poop_icon),
-                Icon("カスタム8", R.drawable.poop_icon),
-                Icon("カスタム9", R.drawable.poop_icon),
-                Icon("カスタム10", R.drawable.poop_icon),
+                Icon("カスタム7", R.drawable.custom7),
+                Icon("カスタム8", R.drawable.custom8),
+                Icon("カスタム9", R.drawable.custom9),
+                Icon("カスタム10", R.drawable.custom10),
             )
         )
     )
