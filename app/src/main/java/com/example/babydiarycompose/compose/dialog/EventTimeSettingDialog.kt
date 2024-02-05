@@ -155,13 +155,20 @@ fun EventTimeSettingDialog(
                                         "母乳" -> {
                                             showBreastMilkDialog.value = true
                                         }
+
                                         "ミルク" -> {
                                             showMilkDialog.value = true
                                         }
+
                                         else -> {
                                             val eventList = arrayListOf(
                                                 Event(
-                                                    "${hourState.value}:${minutesState.value}",
+                                                    "${hourState.value}:${
+                                                        String.format(
+                                                            "%02d",
+                                                            minutesState.value
+                                                        )
+                                                    }",
                                                     resIcon,
                                                     eventName,
                                                     ""
