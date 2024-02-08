@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -47,6 +48,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.babydiarycompose.compose.screen.MenuScreen
 import com.example.babydiarycompose.compose.screen.RecordingScreen
 import com.example.babydiarycompose.data.MenuOptions
+import com.example.babydiarycompose.utils.Pink
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -112,10 +114,10 @@ class MainActivity : ComponentActivity() {
                             items.forEachIndexed { index, item ->
                                 NavigationBarItem(
                                     colors = NavigationBarItemDefaults.colors(
-                                        selectedIconColor = Color(0xFFEC7786),
-//                                        unselectedIconColor = Color.Gray,
-//                                        selectedTextColor = Color.White,
-//                                        indicatorColor = Color.White
+                                        selectedIconColor = Pink,
+                                        unselectedIconColor = Color.Gray,
+                                        selectedTextColor = Color.White,
+                                        indicatorColor = Color.White
                                     ),
                                     selected = selectedItemIndex == index,
                                     onClick = {
@@ -150,7 +152,26 @@ class MainActivity : ComponentActivity() {
                                                 Badge()
                                             }
                                         ) {
-                                            IconButton(onClick = {}) {
+                                            IconButton(onClick = {
+                                                selectedItemIndex = index
+                                                when (selectedItemIndex) {
+                                                    0 -> {
+                                                        navController.navigate(MenuOptions.HOME.route)
+                                                    }
+
+                                                    1 -> {
+                                                        navController.navigate(MenuOptions.COMPONENTS.route)
+                                                    }
+
+                                                    2 -> {
+                                                        navController.navigate(MenuOptions.ARTICLES.route)
+                                                    }
+
+                                                    else -> {
+                                                        navController.navigate(MenuOptions.SETTINGS.route)
+                                                    }
+                                                }
+                                            }) {
                                                 Icon(
                                                     imageVector = when (index) {
                                                         0 ->
