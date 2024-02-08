@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -122,20 +123,20 @@ fun RecordingScreen(
                 .background(Color(0xFF272727))
         ) {
             items(uiState.value.iconList) {
-                val showDialog = remember { mutableStateOf(false) }
+                val eventTimeSettingDialog = remember { mutableStateOf(false) }
                 val eventName = remember { mutableStateOf("") }
                 val icon = remember { mutableStateOf(0) }
-                if (showDialog.value)
+                if (eventTimeSettingDialog.value)
                     EventTimeSettingDialog(eventName = eventName.value,
                         resIcon = icon.value,
                         setShowDialog = {
-                            showDialog.value = it
+                            eventTimeSettingDialog.value = it
                         }) {
                         Log.i("breastfeedingDialog", "showDialog : $it")
                     }
                 Column(
                     modifier = Modifier.clickable {
-                        showDialog.value = true
+                        eventTimeSettingDialog.value = true
                         eventName.value = it.title
                         icon.value = it.icon
                     },
@@ -145,7 +146,9 @@ fun RecordingScreen(
                             .padding(
                                 start = 10.dp,
                                 end = 10.dp,
-                            ),
+                            )
+                            .width(50.dp)
+                            .height(50.dp),
                         contentScale = ContentScale.Fit,
                         painter = painterResource(it.icon),
                         contentDescription = "image"
