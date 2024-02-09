@@ -47,6 +47,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.babydiarycompose.compose.screen.MenuScreen
 import com.example.babydiarycompose.compose.screen.RecordingScreen
+import com.example.babydiarycompose.compose.screen.SummaryScreen
 import com.example.babydiarycompose.data.MenuOptions
 import com.example.babydiarycompose.utils.Pink
 import dagger.hilt.android.AndroidEntryPoint
@@ -214,6 +215,7 @@ class MainActivity : ComponentActivity() {
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize(),
                             ) {
+                                SummaryScreen()
                             }
                         }
                         composable("articles") {
