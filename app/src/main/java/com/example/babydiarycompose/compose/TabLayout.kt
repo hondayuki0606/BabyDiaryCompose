@@ -15,7 +15,7 @@ import com.example.babydiarycompose.utils.Pink
 
 @Composable
 fun TabLayout() {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableStateOf(5) }
 
     TabRow(
         selectedTabIndex = selectedTabIndex,
