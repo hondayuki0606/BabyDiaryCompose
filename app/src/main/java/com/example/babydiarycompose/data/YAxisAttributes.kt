@@ -9,15 +9,11 @@ fun <T> makeYAxisAttributes(
     attributes: BarChartAttributes<T> = BarChartAttributes(),
     gridCount: Float = 7f // 目標とするgrid線の数。実際にはこれより小さくなる
 ): YAxisAttributes where T : Number, T : Comparable<T> {
-    // チャートのy軸の範囲を決める
-    val yMinOrNull = attributes.yMin ?: run { data.minOfOrNull { it.value } }
-    val yMin = yMinOrNull?.toFloat() ?: 0f
-    val yMaxOrNull = attributes.yMax ?: run { data.maxOfOrNull { it.value } }
-    val yMax = yMaxOrNull?.toFloat() ?: 0f
+
 
     // 棒グラフのためy軸の範囲には必ず0を含むようにする
-    val minValue = min(0f, yMin)
-    val maxValue = max(0f, yMax)
+    val minValue = min(0f, 0f)
+    val maxValue = max(0f, 24f)
 
     val range = maxValue - minValue
     // 範囲が0だとグラフは書けないので(0,1)の範囲に変更する
@@ -35,18 +31,18 @@ fun <T> makeYAxisAttributes(
     // grid間隔を少しずつ大きくしてgrid線がgridCount個以下になるように調整する
     val factors = listOf(1f, 2f, 5f)
     val gridInterval: Float
-    loop@ while (true) {
-        for (factor in factors) {
-            val interval = factor * gridIntervalOrder
-            if (range / interval + 1 <= gridCount) {
-                gridInterval = interval
-                break@loop
-            }
-        }
-        // grid幅の桁を一つ上げる
-        gridIntervalOrder *= 10f
-    }
-
+//    loop@ while (true) {
+//        for (factor in factors) {
+//            val interval = factor * gridIntervalOrder
+//            if (range / interval + 1 <= gridCount) {
+//                gridInterval = interval
+//                break@loop
+//            }
+//        }
+//        // grid幅の桁を一つ上げる
+//        gridIntervalOrder *= 10f
+//    }
+    gridInterval = 3F
     // grid位置を求め配列に追加していく
     val gridList = mutableListOf<Float>()
     val start = (minValue / gridInterval).toInt()
