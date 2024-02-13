@@ -1,16 +1,21 @@
 package com.example.babydiarycompose.compose
 
+import android.graphics.RectF
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.*
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,11 +24,13 @@ import com.example.babydiarycompose.data.BarChartAttributes
 import com.example.babydiarycompose.data.Datum
 import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
+import com.example.babydiarycompose.utils.Pink
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+
 
 // grid値の文字列とy軸の間のpadding
 private val PADDING = 8.dp
@@ -93,7 +100,9 @@ fun <T> BarChart(
 
         // データラベルの描画エリアを設定する
         val dataLabelArea = Rect(
-            left = axisArea.left, top = axisArea.bottom, right = axisArea.right,
+            left = axisArea.left,
+            top = axisArea.bottom,
+            right = axisArea.right,
             bottom = axisArea.bottom + maxDataLabelHeight
         )
 
@@ -107,13 +116,17 @@ fun <T> BarChart(
 
         // グリッド線の描画エリアを設定する
         val gridLineArea = Rect(
-            left = plotArea.left, top = plotArea.top, right = plotArea.right,
+            left = plotArea.left,
+            top = plotArea.top,
+            right = plotArea.right,
             bottom = plotArea.bottom
         )
 
         // グリッド値の描画エリアを設定する
         val gridValueArea = Rect(
-            left = 0f, top = gridLineArea.top, right = gridLineArea.left - padding,
+            left = 0f,
+            top = gridLineArea.top,
+            right = gridLineArea.left - padding,
             bottom = gridLineArea.bottom
         )
 
@@ -146,7 +159,6 @@ fun <T> BarChart(
 }
 
 // データラベルを計測する
-@OptIn(ExperimentalTextApi::class)
 private fun <T> measureDataLabel(
     data: List<Datum<T>>,
     attributes: BarChartAttributes<T>,
@@ -280,11 +292,22 @@ private fun <T> DrawScope.drawData(
             val barTop = min(y, b)
             val barHeight = abs(t)
             val barLeft = xStart + barInterval * index
-            drawRect(
-                color = attributes.barColor,
-                topLeft = Offset(x = barLeft, y = barTop),
-                size = Size(width = barWidth, height = barHeight)
+//            drawRect(
+//                color = Pink,
+//                topLeft = Offset(x = barLeft, y = barTop),
+//                size = Size(width = barWidth, height = barHeight)
+//            )
+            drawCircle(
+                Pink, radius = 20.dp.toPx(),
+                center = Offset(x = barLeft, y = barTop),
             )
+//            drawRoundRect(
+//                color = Pink,
+//                topLeft = Offset.Zero,
+//                size = Size(width = barWidth, height = barHeight),
+//                cornerRadius = CornerRadius(10L),
+//                style = Fill
+//            )
 
             // ラベルの座標を計算
             val labelLayoutResult = dataLabelLayoutResults[index]
@@ -295,16 +318,16 @@ private fun <T> DrawScope.drawData(
                 textLayoutResult = labelLayoutResult,
                 topLeft = Offset(labelLeft, labelTop)
             )
-
-            // データ値の描画
-            val valueLayoutResult = dataValueLayoutResults[index]
-            val valueLeft = barLeft + (barWidth - valueLayoutResult.size.width) / 2
-            val valueTop = if (0f <= datum.value.toFloat()) barTop - valueLayoutResult.size.height
-            else barTop + barHeight
-            drawText(
-                textLayoutResult = valueLayoutResult,
-                topLeft = Offset(valueLeft, valueTop)
-            )
+//
+//            // データ値の描画
+//            val valueLayoutResult = dataValueLayoutResults[index]
+//            val valueLeft = barLeft + (barWidth - valueLayoutResult.size.width) / 2
+//            val valueTop = if (0f <= datum.value.toFloat()) barTop - valueLayoutResult.size.height
+//            else barTop + barHeight
+//            drawText(
+//                textLayoutResult = valueLayoutResult,
+//                topLeft = Offset(valueLeft, valueTop)
+//            )
         }
     }
 }
@@ -425,5 +448,5 @@ private fun BarChartPreview5() {
             .fillMaxSize()
             .padding(16.dp),
         attributes = BarChartAttributes(gridValueFormatPattern = ",##0円"),
-        )
+    )
 }
