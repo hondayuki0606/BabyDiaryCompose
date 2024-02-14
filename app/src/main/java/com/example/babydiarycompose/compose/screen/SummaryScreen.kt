@@ -16,13 +16,13 @@ fun SummaryScreen() {
         TabLayout()
         BarChart(
             data = listOf(
-                Datum(24, "2/11"),
-                Datum(11, "2/12"),
-                Datum(3, "2/13"),
-                Datum(12, "2/14"),
-                Datum(5, "2/15"),
-                Datum(10, "2/16"),
-                Datum(24, "2/17")
+                Datum(listOf(1,24), "2/11"),
+                Datum(listOf(11), "2/12"),
+                Datum(listOf(2,3), "2/13"),
+                Datum(listOf(12), "2/14"),
+                Datum(listOf(5), "2/15"),
+                Datum(listOf(10), "2/16"),
+                Datum(listOf(24), "2/17")
             ),
             modifier = Modifier
                 .fillMaxSize()

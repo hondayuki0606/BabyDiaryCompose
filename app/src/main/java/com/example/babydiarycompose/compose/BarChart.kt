@@ -88,9 +88,9 @@ fun <T> BarChart(
 
         // データの描画エリアを設定する
         val posDataValueSpace =
-            data.find { 0f <= it.value.toFloat() }?.run { maxDataValueHeight } ?: 0
+            data.find { 0f <= it.value[0].toFloat() }?.run { maxDataValueHeight } ?: 0
         val negDataValueSpace =
-            data.find { it.value.toFloat() < 0f }?.run { maxDataValueHeight } ?: 0
+            data.find { it.value[0].toFloat() < 0f }?.run { maxDataValueHeight } ?: 0
         val plotArea = Rect(
             left = axisArea.left,
             top = axisArea.top + posDataValueSpace,
@@ -216,7 +216,7 @@ private fun <T> measureDataValue(
         DecimalFormat(it)
     } ?: NumberFormat.getInstance()
     data.forEach {
-        val value = formatter.format(it.value)
+        val value = formatter.format(it.value[0])
         textLayoutResults.add(
             textMeasurer.measure(
                 text = AnnotatedString(value),
@@ -287,20 +287,22 @@ private fun <T> DrawScope.drawData(
     ) {
         data.forEachIndexed { index, datum ->
             // 描画するbarの座標を計算
-            val t = a * datum.value.toFloat()
-            val y = t + b
-            val barTop = min(y, b)
-            val barHeight = abs(t)
-            val barLeft = xStart + barInterval * index
+            datum.value.forEach {
+                val t = a * it.toFloat()
+                val y = t + b
+                val barTop = min(y, b)
+                val barHeight = abs(t)
+                val barLeft = xStart + barInterval * index
 //            drawRect(
 //                color = Pink,
 //                topLeft = Offset(x = barLeft, y = barTop),
 //                size = Size(width = barWidth, height = barHeight)
 //            )
-            drawCircle(
-                Pink, radius = 20.dp.toPx(),
-                center = Offset(x = barLeft, y = barTop),
-            )
+                drawCircle(
+                    color = Pink,
+                    radius = 5.dp.toPx(),
+                    center = Offset(x = barLeft, y = barTop),
+                )
 //            drawRoundRect(
 //                color = Pink,
 //                topLeft = Offset.Zero,
@@ -308,16 +310,18 @@ private fun <T> DrawScope.drawData(
 //                cornerRadius = CornerRadius(10L),
 //                style = Fill
 //            )
+                // ラベルの座標を計算
+                val labelLayoutResult = dataLabelLayoutResults[index]
+                val labelTop = dataLabelArea.top
+                val labelLeft = barLeft + barWidth / 2f - labelLayoutResult.size.width / 2f
+                // ラベルを描画
+                drawText(
+                    textLayoutResult = labelLayoutResult,
+                    topLeft = Offset(labelLeft, labelTop)
+                )
+            }
 
-            // ラベルの座標を計算
-            val labelLayoutResult = dataLabelLayoutResults[index]
-            val labelTop = dataLabelArea.top
-            val labelLeft = barLeft + barWidth / 2f - labelLayoutResult.size.width / 2f
-            // ラベルを描画
-            drawText(
-                textLayoutResult = labelLayoutResult,
-                topLeft = Offset(labelLeft, labelTop)
-            )
+
 //
 //            // データ値の描画
 //            val valueLayoutResult = dataValueLayoutResults[index]
@@ -371,78 +375,13 @@ private fun <T> DrawScope.drawGrid(
 @Composable
 private fun BarChartPreview1() {
     BarChart(
-        data = emptyList<Datum<Int>>(),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
-}
-
-@Preview(widthDp = 400, heightDp = 400)
-@Composable
-private fun BarChartPreview2() {
-    BarChart(
         data = listOf(
-            Datum(1, "d1"),
-            Datum(2, "d2"),
-            Datum(3, "d3"),
-            Datum(4, "d4"),
-            Datum(5, "d5"),
-            Datum(6, "d6")
-        ),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
-}
-
-@Preview(widthDp = 400, heightDp = 400)
-@Composable
-private fun BarChartPreview3() {
-    BarChart(
-        data = listOf(
-            Datum(1, "d1"),
-            Datum(-2, "d2"),
-            Datum(3, "d3"),
-            Datum(-4, "d4"),
-            Datum(5, "d5"),
-            Datum(-6, "d6")
-        ),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
-}
-
-@Preview(widthDp = 400, heightDp = 400)
-@Composable
-private fun BarChartPreview4() {
-    BarChart(
-        data = listOf(
-            Datum(1000000, "d1"),
-            Datum(-2000000, "d2"),
-            Datum(3000000, "d3"),
-            Datum(-4000000, "d4"),
-            Datum(5000000, "d5"),
-            Datum(-6000000, "d6")
-        ),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
-}
-
-@Preview(widthDp = 400, heightDp = 400)
-@Composable
-private fun BarChartPreview5() {
-    BarChart(
-        data = listOf(
-            Datum(1000000, "d1"),
-            Datum(2000000, "d2"),
-            Datum(3000000, "d3"),
-            Datum(4000000, "d4"),
-            Datum(5000000, "d5"),
-            Datum(6000000, "d6")
+            Datum(listOf(1,12), "d1"),
+            Datum(listOf(12,12),"d2"),
+            Datum(listOf(11,12), "d3"),
+            Datum(listOf(19,12), "d4"),
+            Datum(listOf(10,12), "d5"),
+            Datum(listOf(9,12), "d6")
         ),
         modifier = Modifier
             .fillMaxSize()
