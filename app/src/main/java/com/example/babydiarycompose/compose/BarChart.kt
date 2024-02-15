@@ -298,11 +298,17 @@ private fun <T> DrawScope.drawData(
 //                topLeft = Offset(x = barLeft, y = barTop),
 //                size = Size(width = barWidth, height = barHeight)
 //            )
-                drawCircle(
-                    color = Pink,
-                    radius = 5.dp.toPx(),
-                    center = Offset(x = barLeft, y = barTop),
-                )
+                val left = 21
+                // 最大７つまで配置可能
+                for (i in 0..6) {
+                    println("left = ${barLeft + (left * i)}")
+                    drawCircle(
+                        color = Pink,
+                        radius = 5.dp.toPx(),
+                        center = Offset(x = barLeft + (left * i), y = barTop),
+                    )
+                }
+
 //            drawRoundRect(
 //                color = Pink,
 //                topLeft = Offset.Zero,
@@ -376,12 +382,12 @@ private fun <T> DrawScope.drawGrid(
 private fun BarChartPreview1() {
     BarChart(
         data = listOf(
-            Datum(listOf(1,12), "d1"),
-            Datum(listOf(12,12),"d2"),
-            Datum(listOf(11,12), "d3"),
-            Datum(listOf(19,12), "d4"),
-            Datum(listOf(10,12), "d5"),
-            Datum(listOf(9,12), "d6")
+            Datum(listOf(1, 12), "d1"),
+            Datum(listOf(12, 12), "d2"),
+            Datum(listOf(11, 12), "d3"),
+            Datum(listOf(19, 12), "d4"),
+            Datum(listOf(10, 12), "d5"),
+            Datum(listOf(9, 12), "d6")
         ),
         modifier = Modifier
             .fillMaxSize()

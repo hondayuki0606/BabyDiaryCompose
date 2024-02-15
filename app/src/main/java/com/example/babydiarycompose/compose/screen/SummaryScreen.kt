@@ -16,9 +16,9 @@ fun SummaryScreen() {
         TabLayout()
         BarChart(
             data = listOf(
-                Datum(listOf(1,24), "2/11"),
-                Datum(listOf(11), "2/12"),
-                Datum(listOf(2,3), "2/13"),
+                Datum(listOf(1, 24), "2/11"),
+                Datum(listOf(1, 21, 23), "2/12"),
+                Datum(listOf(2, 3), "2/13"),
                 Datum(listOf(12), "2/14"),
                 Datum(listOf(5), "2/15"),
                 Datum(listOf(10), "2/16"),
