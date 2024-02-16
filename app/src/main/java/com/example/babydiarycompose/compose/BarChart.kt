@@ -86,11 +86,25 @@ fun <T> BarChart(
             bottom = height - maxDataLabelHeight // データラベル分、軸の位置をずらす
         )
 
-        // データの描画エリアを設定する
-        val posDataValueSpace =
-            data.find { 0f <= it.value[0].toFloat() }?.run { maxDataValueHeight } ?: 0
-        val negDataValueSpace =
-            data.find { it.value[0].toFloat() < 0f }?.run { maxDataValueHeight } ?: 0
+//        var posDataValueSpace = 0
+//        // データの描画エリアを設定する
+//        data.forEach {
+//            it.value.forEach { item ->
+//                if (0f <= item.value.toFloat())
+//                    posDataValueSpace = maxDataValueHeight
+//            }
+//        }
+//        var negDataValueSpace = 0
+//        data.forEach {
+//            it.value.forEach { item ->
+//                if (0f <= item.value.toFloat())
+//                    negDataValueSpace = maxDataValueHeight
+//            }
+//        }
+        val posDataValueSpace = maxDataValueHeight
+//            data.find { 0f <= it.value[0].value.toFloat() }?.run { maxDataValueHeight } ?: 0
+        val negDataValueSpace = maxDataValueHeight
+//            data.find { it.value[0].toFloat() < 0f }?.run { maxDataValueHeight } ?: 0
         val plotArea = Rect(
             left = axisArea.left,
             top = axisArea.top + posDataValueSpace,
@@ -216,7 +230,7 @@ private fun <T> measureDataValue(
         DecimalFormat(it)
     } ?: NumberFormat.getInstance()
     data.forEach {
-        val value = formatter.format(it.value[0])
+        val value = formatter.format(it.value[0].toFloat())
         textLayoutResults.add(
             textMeasurer.measure(
                 text = AnnotatedString(value),
@@ -380,18 +394,18 @@ private fun <T> DrawScope.drawGrid(
 @Preview(widthDp = 400, heightDp = 400)
 @Composable
 private fun BarChartPreview1() {
-    BarChart(
-        data = listOf(
-            Datum(listOf(1, 12), "d1"),
-            Datum(listOf(12, 12), "d2"),
-            Datum(listOf(11, 12), "d3"),
-            Datum(listOf(19, 12), "d4"),
-            Datum(listOf(10, 12), "d5"),
-            Datum(listOf(9, 12), "d6")
-        ),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        attributes = BarChartAttributes(gridValueFormatPattern = ",##0円"),
-    )
+//    BarChart(
+//        data = listOf(
+//            Datum(listOf(1, 12), "d1"),
+//            Datum(listOf(12, 12), "d2"),
+//            Datum(listOf(11, 12), "d3"),
+//            Datum(listOf(19, 12), "d4"),
+//            Datum(listOf(10, 12), "d5"),
+//            Datum(listOf(9, 12), "d6")
+//        ),
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp),
+//        attributes = BarChartAttributes(gridValueFormatPattern = ",##0円"),
+//    )
 }
