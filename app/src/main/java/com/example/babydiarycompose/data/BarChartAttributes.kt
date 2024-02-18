@@ -6,9 +6,9 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class BarChartAttributes<T>(
-    val yMin: T? = null,
-    val yMax: T? = null,
+data class BarChartAttributes(
+    val yMin: Int? = null,
+    val yMax: Int? = null,
     val barInterval: Dp = 64.dp, // distance between each bar
     val barWidth: Dp = 48.dp,
     val barColor: Color = Color(0xFF3F_51B5),
@@ -22,4 +22,4 @@ data class BarChartAttributes<T>(
     val dataValueTextColor: Color = Color(0xdd00_0000),
     val dataValueTextSize: TextUnit = 12.sp,
     val dataValueFormatPattern: String? = null
-) where T : Number, T : Comparable<T>
+)

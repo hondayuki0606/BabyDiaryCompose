@@ -4,11 +4,11 @@ import java.lang.Float.max
 import java.lang.Float.min
 
 data class YAxisAttributes(val minValue: Float, val maxValue: Float, val gridList: List<Float>)
-fun <T> makeYAxisAttributes(
-    data: List<Datum<T>> = emptyList(),
-    attributes: BarChartAttributes<T> = BarChartAttributes(),
+fun makeYAxisAttributes(
+    data: List<Datum> = emptyList(),
+    attributes: BarChartAttributes = BarChartAttributes(),
     gridCount: Float = 7f // 目標とするgrid線の数。実際にはこれより小さくなる
-): YAxisAttributes where T : Number, T : Comparable<T> {
+): YAxisAttributes {
 
 
     // 棒グラフのためy軸の範囲には必ず0を含むようにする

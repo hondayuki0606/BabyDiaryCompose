@@ -22,9 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.babydiarycompose.data.BarChartAttributes
 import com.example.babydiarycompose.data.Datum
+import com.example.babydiarycompose.data.Item
 import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
 import com.example.babydiarycompose.utils.Pink
+import com.example.babydiarycompose.utils.Teal200
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import kotlin.math.abs
@@ -36,15 +38,14 @@ import kotlin.math.min
 private val PADDING = 8.dp
 
 @Composable
-fun <T> BarChart(
-    data: List<Datum<T>>,
+fun BarChart(
+    data: List<Datum>,
     modifier: Modifier = Modifier,
-    attributes: BarChartAttributes<T> = BarChartAttributes()
-) where T : Number, T : Comparable<T> {
+    attributes: BarChartAttributes = BarChartAttributes()
+) {
     BoxWithConstraints(modifier = modifier) {
         // 文字列のサイズの計測器を準備する
         val textMeasurer = rememberTextMeasurer()
-
         // データラベルを計測する
         val dataLabelLayoutResults =
             measureDataLabel(data = data, attributes = attributes, textMeasurer = textMeasurer)
@@ -173,11 +174,11 @@ fun <T> BarChart(
 }
 
 // データラベルを計測する
-private fun <T> measureDataLabel(
-    data: List<Datum<T>>,
-    attributes: BarChartAttributes<T>,
+private fun measureDataLabel(
+    data: List<Datum>,
+    attributes: BarChartAttributes,
     textMeasurer: TextMeasurer
-): List<TextLayoutResult> where T : Number, T : Comparable<T> {
+): List<TextLayoutResult> {
     val textLayoutResults = mutableListOf<TextLayoutResult>()
     data.forEach {
         val label = it.label
@@ -195,11 +196,11 @@ private fun <T> measureDataLabel(
 }
 
 // grid値を表す文字列を計測する
-private fun <T> measureGridValue(
+private fun measureGridValue(
     yAxisAttributes: YAxisAttributes,
-    attributes: BarChartAttributes<T>,
+    attributes: BarChartAttributes,
     textMeasurer: TextMeasurer
-): List<TextLayoutResult> where T : Number, T : Comparable<T> {
+): List<TextLayoutResult> {
     val textLayoutResults = mutableListOf<TextLayoutResult>()
     val formatter = attributes.gridValueFormatPattern?.let {
         DecimalFormat(it)
@@ -220,17 +221,17 @@ private fun <T> measureGridValue(
 }
 
 // データ値を表す文字列を計測する
-private fun <T> measureDataValue(
-    data: List<Datum<T>>,
-    attributes: BarChartAttributes<T>,
+private fun measureDataValue(
+    data: List<Datum>,
+    attributes: BarChartAttributes,
     textMeasurer: TextMeasurer
-): List<TextLayoutResult> where T : Number, T : Comparable<T> {
+): List<TextLayoutResult> {
     val textLayoutResults = mutableListOf<TextLayoutResult>()
     val formatter = attributes.dataValueFormatPattern?.let {
         DecimalFormat(it)
     } ?: NumberFormat.getInstance()
     data.forEach {
-        val value = formatter.format(it.value[0].toFloat())
+        val value = formatter.format(it.value[0].value.toFloat())
         textLayoutResults.add(
             textMeasurer.measure(
                 text = AnnotatedString(value),
@@ -245,10 +246,10 @@ private fun <T> measureDataValue(
 }
 
 // x,y軸を描画する
-private fun <T> DrawScope.drawAxis(
+private fun DrawScope.drawAxis(
     area: Rect,
-    attributes: BarChartAttributes<T>
-) where T : Number, T : Comparable<T> {
+    attributes: BarChartAttributes
+) {
     drawLine(
         color = attributes.axisLineColor,
         start = Offset(area.left, area.top),
@@ -271,16 +272,16 @@ private fun Rect.union(other: Rect): Rect {
 }
 
 // データを描画する
-private fun <T> DrawScope.drawData(
-    data: List<Datum<T>>,
+private fun DrawScope.drawData(
+    data: List<Datum>,
     dataLabelLayoutResults: List<TextLayoutResult>,
     dataValueLayoutResults: List<TextLayoutResult>,
     yAxisAttributes: YAxisAttributes,
     plotArea: Rect,
     dataLabelArea: Rect,
     dataValueArea: Rect,
-    attributes: BarChartAttributes<T>
-) where T : Number, T : Comparable<T> {
+    attributes: BarChartAttributes
+) {
     val yMin = yAxisAttributes.minValue
     val yMax = yAxisAttributes.maxValue
 
@@ -302,7 +303,7 @@ private fun <T> DrawScope.drawData(
         data.forEachIndexed { index, datum ->
             // 描画するbarの座標を計算
             datum.value.forEach {
-                val t = a * it.toFloat()
+                val t = a * it.value.toFloat()
                 val y = t + b
                 val barTop = min(y, b)
                 val barHeight = abs(t)
@@ -314,14 +315,23 @@ private fun <T> DrawScope.drawData(
 //            )
                 val left = 21
                 // 最大７つまで配置可能
-                for (i in 0..6) {
-                    println("left = ${barLeft + (left * i)}")
+                if (it.event == "a") {
+                    println("left = ${barLeft}")
                     drawCircle(
                         color = Pink,
                         radius = 5.dp.toPx(),
-                        center = Offset(x = barLeft + (left * i), y = barTop),
+                        center = Offset(x = barLeft, y = barTop),
+                    )
+                } else if (it.event == "b") {
+                    println("left = ${barLeft + (left)}")
+                    drawCircle(
+                        color = Teal200,
+                        radius = 5.dp.toPx(),
+                        center = Offset(x = barLeft + left, y = barTop),
                     )
                 }
+
+//                }
 
 //            drawRoundRect(
 //                color = Pink,
@@ -357,13 +367,13 @@ private fun <T> DrawScope.drawData(
 }
 
 // grid値とgrid線を描画する
-private fun <T> DrawScope.drawGrid(
+private fun DrawScope.drawGrid(
     yAxisAttributes: YAxisAttributes,
     gridValueLayoutResults: List<TextLayoutResult>,
     gridLineArea: Rect,
     gridValueArea: Rect,
-    attributes: BarChartAttributes<T>
-) where T : Number, T : Comparable<T> {
+    attributes: BarChartAttributes
+) {
     val yMin = yAxisAttributes.minValue
     val yMax = yAxisAttributes.maxValue
 
@@ -394,18 +404,18 @@ private fun <T> DrawScope.drawGrid(
 @Preview(widthDp = 400, heightDp = 400)
 @Composable
 private fun BarChartPreview1() {
-//    BarChart(
-//        data = listOf(
-//            Datum(listOf(1, 12), "d1"),
-//            Datum(listOf(12, 12), "d2"),
-//            Datum(listOf(11, 12), "d3"),
-//            Datum(listOf(19, 12), "d4"),
-//            Datum(listOf(10, 12), "d5"),
-//            Datum(listOf(9, 12), "d6")
-//        ),
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(16.dp),
-//        attributes = BarChartAttributes(gridValueFormatPattern = ",##0円"),
-//    )
+    BarChart(
+        data = listOf(
+            Datum(listOf(Item("a", 1), Item("b", 24)), "2/11"),
+            Datum(listOf(Item("a", 1), Item("a", 21), Item("a", 23)), "2/12"),
+            Datum(listOf(Item("a", 2), Item("a", 3)), "2/13"),
+            Datum(listOf(Item("a", 12)), "2/14"),
+            Datum(listOf(Item("a", 12)), "2/15"),
+            Datum(listOf(Item("a", 10)), "2/16"),
+            Datum(listOf(Item("a", 24)), "2/17")
+        ),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    )
 }
