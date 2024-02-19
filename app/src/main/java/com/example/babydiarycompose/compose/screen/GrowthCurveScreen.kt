@@ -6,18 +6,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.BarChart
 import com.example.babydiarycompose.compose.TabLayout
 import com.example.babydiarycompose.data.Datum
 import com.example.babydiarycompose.data.Item
-import com.example.babydiarycompose.viewmodel.SummaryViewModel
 
 @Composable
-fun SummaryScreen(viewModel: SummaryViewModel = hiltViewModel()) {
+fun GrowthCurveScreen() {
     Column {
-        val uiState = viewModel.uiState
-        TabLayout(tabList = uiState.value.tabList, tabIndex = uiState.value.tabList.size - 1)
+        val item = arrayListOf("1歳まで", "2歳まで", "4歳まで", "12歳まで", "頭囲")
+        TabLayout(tabList = item, tabIndex = 0)
         BarChart(
             data = listOf(
                 Datum(listOf(Item("a", 1), Item("b", 1), Item("b", 24)), "2/11"),

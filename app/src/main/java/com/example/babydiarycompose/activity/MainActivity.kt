@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.babydiarycompose.compose.screen.GrowthCurveScreen
 import com.example.babydiarycompose.compose.screen.MenuScreen
 import com.example.babydiarycompose.compose.screen.RecordingScreen
 import com.example.babydiarycompose.compose.screen.SummaryScreen
@@ -223,6 +224,7 @@ class MainActivity : ComponentActivity() {
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize(),
                             ) {
+                                GrowthCurveScreen()
                             }
                         }
                         composable("settings") {
