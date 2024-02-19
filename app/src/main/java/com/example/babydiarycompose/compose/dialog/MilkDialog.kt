@@ -29,7 +29,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
-import com.example.babydiarycompose.viewmodel.EventViewModel
+import com.example.babydiarycompose.viewmodel.RecordingViewModel
 
 @Composable
 fun MilkDialog(
@@ -40,7 +40,7 @@ fun MilkDialog(
     setShowDialog: (Boolean) -> Unit,
     resultValue: (Boolean) -> Unit
 ) {
-    val viewModel: EventViewModel = hiltViewModel()
+    val viewModel: RecordingViewModel = hiltViewModel()
     val applicationContext = LocalContext.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(

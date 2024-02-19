@@ -42,12 +42,12 @@ import com.example.babydiarycompose.compose.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.utils.Pink
-import com.example.babydiarycompose.viewmodel.EventViewModel
+import com.example.babydiarycompose.viewmodel.RecordingViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
-    viewModel: EventViewModel = hiltViewModel(),
+    viewModel: RecordingViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState
     viewModel.getEventList(LocalContext.current)

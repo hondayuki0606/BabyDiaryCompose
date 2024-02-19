@@ -5,11 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
-import com.example.babydiarycompose.data.EventUiState
+import com.example.babydiarycompose.data.RecordingUiState
 import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,11 +17,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EventViewModel @Inject constructor(
+class RecordingViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(
-        EventUiState(
+        RecordingUiState(
             eventList = arrayListOf(),
             iconList = arrayListOf(
                 Icon("母乳", R.drawable.breast_milk),

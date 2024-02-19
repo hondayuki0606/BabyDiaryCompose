@@ -34,7 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
-import com.example.babydiarycompose.viewmodel.EventViewModel
+import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -46,7 +46,7 @@ fun EventTimeSettingDialog(
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
 ) {
-    val viewModel: EventViewModel = hiltViewModel()
+    val viewModel: RecordingViewModel = hiltViewModel()
     val currentDateTime = LocalDateTime.now()
     ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
     val hour = currentDateTime.hour

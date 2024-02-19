@@ -6,13 +6,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.BarChart
 import com.example.babydiarycompose.compose.TabLayout
 import com.example.babydiarycompose.data.Datum
 import com.example.babydiarycompose.data.Item
+import com.example.babydiarycompose.viewmodel.SummaryViewModel
 
 @Composable
-fun SummaryScreen() {
+fun SummaryScreen(viewModel: SummaryViewModel = hiltViewModel()) {
     Column {
         TabLayout()
         BarChart(

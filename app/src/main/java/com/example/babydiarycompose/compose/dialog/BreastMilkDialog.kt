@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
-import com.example.babydiarycompose.viewmodel.EventViewModel
+import com.example.babydiarycompose.viewmodel.RecordingViewModel
 
 @Composable
 fun BreastMilkDialog(
@@ -41,7 +41,7 @@ fun BreastMilkDialog(
 ) {
     val rightTime = remember { mutableStateOf(5) }
     val leftTime = remember { mutableStateOf(5) }
-    val viewModel: EventViewModel = hiltViewModel()
+    val viewModel: RecordingViewModel = hiltViewModel()
     val applicationContext = LocalContext.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
