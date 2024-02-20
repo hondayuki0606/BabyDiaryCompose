@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SummaryViewModel @Inject constructor(
+class GrowthCurveViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(
