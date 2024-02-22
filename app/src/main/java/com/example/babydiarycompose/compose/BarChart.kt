@@ -55,7 +55,8 @@ fun BarChart(
         } ?: 0
 
         // y軸の範囲とgridを求める
-        val yAxisAttributes = makeYAxisAttributes(data = data, attributes = attributes)
+        val yAxisAttributes =
+            makeYAxisAttributes(maxValue = 24F, gridInterval = 1F, attributes = attributes)
 
         // grid値を表す文字列を計測する
         val gridValueLayoutResults = measureGridValue(

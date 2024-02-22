@@ -25,7 +25,7 @@ class GrowthCurveViewModel @Inject constructor(
             cmList = arrayListOf("40", "45", "50", "55", "60", "65", "70", "75", "80"),
             growthWeight = listOf(),
             growthHeight = listOf(),
-            tabList = arrayListOf("食事", "睡眠", "排泄", "体温", "日記", "すべて")
+            tabList = arrayListOf("1歳まで", "2歳まで", "4歳まで", "12歳まで", "頭囲")
         )
     )
     var uiState = _uiState.asStateFlow()

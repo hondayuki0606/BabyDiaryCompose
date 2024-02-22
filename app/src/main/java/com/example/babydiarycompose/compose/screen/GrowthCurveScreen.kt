@@ -13,11 +13,20 @@ import com.example.babydiarycompose.viewmodel.GrowthCurveViewModel
 
 @Composable
 fun GrowthCurveScreen(viewModel: GrowthCurveViewModel = hiltViewModel()) {
+    val growthHeight = viewModel.uiState.value.growthHeight
+    val growthWeight = viewModel.uiState.value.growthWeight
+    val cmList = viewModel.uiState.value.cmList
+    val ageList = viewModel.uiState.value.ageList
+    val weightList = viewModel.uiState.value.weightList
+    val tabList = viewModel.uiState.value.tabList
     Column {
-        val item = arrayListOf("1歳まで", "2歳まで", "4歳まで", "12歳まで", "頭囲")
-        TabLayout(tabList = item, tabIndex = 0)
+        TabLayout(tabList = tabList, tabIndex = 0)
         GrowthCurveChart(
-            data = listOf(),
+            growthHeight = growthHeight,
+            growthWeight = growthWeight,
+            cmList = cmList,
+            ageList = ageList,
+            weightList = weightList,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)

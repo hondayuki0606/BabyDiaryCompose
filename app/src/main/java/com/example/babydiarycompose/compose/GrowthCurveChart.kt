@@ -16,6 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.babydiarycompose.data.BarChartAttributes
 import com.example.babydiarycompose.data.Datum
+import com.example.babydiarycompose.data.GrowthHeightData
+import com.example.babydiarycompose.data.GrowthWeightData
 import com.example.babydiarycompose.data.Item
 import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
@@ -33,23 +35,32 @@ private val PADDING = 8.dp
 
 @Composable
 fun GrowthCurveChart(
-    data: List<Datum>,
+    growthHeight: List<GrowthHeightData>,
+    growthWeight: List<GrowthWeightData>,
+    cmList: List<String>,
+    ageList: List<String>,
+    weightList: List<String>,
     modifier: Modifier = Modifier,
-    attributes: BarChartAttributes = BarChartAttributes()
+    attributes: BarChartAttributes = BarChartAttributes(),
 ) {
     BoxWithConstraints(modifier = modifier) {
         // 文字列のサイズの計測器を準備する
         val textMeasurer = rememberTextMeasurer()
         // データラベルを計測する
         val dataLabelLayoutResults =
-            measureDataLabel(data = data, attributes = attributes, textMeasurer = textMeasurer)
+            measureGrowthDataLabel(
+                ageList = ageList,
+                attributes = attributes,
+                textMeasurer = textMeasurer
+            )
         // データラベルの最大の高さを取得する
         val maxDataLabelHeight = dataLabelLayoutResults.maxOfOrNull {
             it.size.height
         } ?: 0
 
         // y軸の範囲とgridを求める
-        val yAxisAttributes = makeYAxisAttributes(data = data, attributes = attributes)
+        val yAxisAttributes =
+            makeYAxisAttributes(maxValue = 15F, gridInterval = 1F, attributes = attributes)
 
         // grid値を表す文字列を計測する
         val gridValueLayoutResults = measureGridValue(
@@ -62,6 +73,7 @@ fun GrowthCurveChart(
             it.size.width
         } ?: 0
 
+        val data = arrayListOf(Datum(listOf(Item("a", 1)), ""))
         // データ値を表す文字列を計測する
         val dataValueLayoutResults =
             measureDataValue(data = data, attributes = attributes, textMeasurer = textMeasurer)
@@ -168,14 +180,13 @@ fun GrowthCurveChart(
 }
 
 // データラベルを計測する
-private fun measureDataLabel(
-    data: List<Datum>,
+private fun measureGrowthDataLabel(
+    ageList: List<String>,
     attributes: BarChartAttributes,
     textMeasurer: TextMeasurer
 ): List<TextLayoutResult> {
     val textLayoutResults = mutableListOf<TextLayoutResult>()
-    data.forEach {
-        val label = it.label
+    ageList.forEach { label ->
         textLayoutResults.add(
             textMeasurer.measure(
                 text = AnnotatedString(label),
