@@ -22,7 +22,15 @@ class SummaryViewModel @Inject constructor(
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(
         SummaryUiState(
-            datumList = listOf(),
+            datumList =  mutableListOf(
+                Datum(listOf(Item("a", 1), Item("b", 1), Item("b", 24)), "2/11"),
+                Datum(listOf(Item("a", 1), Item("a", 21), Item("a", 23)), "2/12"),
+                Datum(listOf(Item("a", 2), Item("a", 3)), "2/13"),
+                Datum(listOf(Item("a", 12)), "2/14"),
+                Datum(listOf(Item("a", 12)), "2/15"),
+                Datum(listOf(Item("a", 10)), "2/16"),
+                Datum(listOf(Item("a", 24)), "2/17")
+            ),
             tabList = arrayListOf("食事", "睡眠", "排泄", "体温", "日記", "すべて")
         )
     )
