@@ -4,6 +4,7 @@ data class GrowthCurveUiState(
     val ageList: List<String>,
     val weightList: List<String>,
     val cmList: List<String>,
-    val recordList:List<GrowthData>,
+    val wightList:List<GrowthWeightData>,
+    val heightList:List<GrowthHeightData>,
     val tabList: List<String>
 )
