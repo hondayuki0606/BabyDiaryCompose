@@ -73,7 +73,20 @@ fun GrowthCurveChart(
             it.size.width
         } ?: 0
 
-        val data = arrayListOf(Datum(listOf(Item("a", 1)), ""))
+        val data = arrayListOf(
+            Datum(listOf(Item("a", 1)), "1"),
+            Datum(listOf(Item("a", 1)), "2"),
+            Datum(listOf(Item("a", 1)), "3"),
+            Datum(listOf(Item("a", 1)), "4"),
+            Datum(listOf(Item("a", 1)), "5"),
+            Datum(listOf(Item("a", 1)), "6"),
+            Datum(listOf(Item("a", 1)), "7"),
+            Datum(listOf(Item("a", 1)), "8"),
+            Datum(listOf(Item("a", 1)), "9"),
+            Datum(listOf(Item("a", 1)), "10"),
+            Datum(listOf(Item("a", 1)), "11"),
+            Datum(listOf(Item("a", 1)), "12"),
+        )
         // データ値を表す文字列を計測する
         val dataValueLayoutResults =
             measureDataValue(data = data, attributes = attributes, textMeasurer = textMeasurer)
@@ -345,10 +358,12 @@ private fun DrawScope.drawData(
 //                cornerRadius = CornerRadius(10L),
 //                style = Fill
 //            )
+                val allLabelArea = dataLabelArea.right - dataLabelArea.left
+                val weight = allLabelArea / data.size
                 // ラベルの座標を計算
                 val labelLayoutResult = dataLabelLayoutResults[index]
                 val labelTop = dataLabelArea.top
-                val labelLeft = barLeft + barWidth / 2f - labelLayoutResult.size.width / 2f
+                val labelLeft = (weight * index) + barWidth / 2f - labelLayoutResult.size.width / 2f
                 // ラベルを描画
                 drawText(
                     textLayoutResult = labelLayoutResult,
