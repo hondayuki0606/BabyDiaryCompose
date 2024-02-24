@@ -180,6 +180,15 @@ fun GrowthCurveChart(
                 attributes = attributes
             )
 
+            // ラベルを描写する
+            drawLabel(
+                dataLabelLayoutResults = dataLabelLayoutResults,
+                plotArea = plotArea,
+                dataLabelArea = dataLabelArea,
+                dataValueArea = dataValueArea,
+                attributes = attributes
+            )
+
             // grid値とgrid線を描画する
             drawGrid(
                 yAxisAttributes = yAxisAttributes,
@@ -289,6 +298,7 @@ private fun Rect.union(other: Rect): Rect {
     )
 }
 
+
 // データを描画する
 private fun DrawScope.drawData(
     data: List<Datum>,
@@ -357,18 +367,18 @@ private fun DrawScope.drawData(
 //                size = Size(width = barWidth, height = barHeight),
 //                cornerRadius = CornerRadius(10L),
 //                style = Fill
-//            )
-                val allLabelArea = dataLabelArea.right - dataLabelArea.left
-                val weight = allLabelArea / data.size
-                // ラベルの座標を計算
-                val labelLayoutResult = dataLabelLayoutResults[index]
-                val labelTop = dataLabelArea.top
-                val labelLeft = (weight * index) + barWidth / 2f - labelLayoutResult.size.width / 2f
-                // ラベルを描画
-                drawText(
-                    textLayoutResult = labelLayoutResult,
-                    topLeft = Offset(labelLeft, labelTop)
-                )
+////            )
+//                val allLabelArea = dataLabelArea.right - dataLabelArea.left
+//                val weight = allLabelArea / data.size
+//                // ラベルの座標を計算
+//                val labelLayoutResult = dataLabelLayoutResults[index]
+//                val labelTop = dataLabelArea.top
+//                val labelLeft = (weight * index) + barWidth / 2f - labelLayoutResult.size.width / 2f
+//                // ラベルを描画
+//                drawText(
+//                    textLayoutResult = labelLayoutResult,
+//                    topLeft = Offset(labelLeft, labelTop)
+//                )
             }
 
 
@@ -382,6 +392,41 @@ private fun DrawScope.drawData(
 //                textLayoutResult = valueLayoutResult,
 //                topLeft = Offset(valueLeft, valueTop)
 //            )
+        }
+    }
+}
+
+// X軸のラベルを描画する
+private fun DrawScope.drawLabel(
+    dataLabelLayoutResults: List<TextLayoutResult>,
+    plotArea: Rect,
+    dataLabelArea: Rect,
+    dataValueArea: Rect,
+    attributes: BarChartAttributes
+) {
+    // データ値を座標に変換する係数を計算 y = ax + b
+    val barWidth = attributes.barWidth.toPx()
+    // clipの範囲をプロット領域とラベル領域、データ値領域の全てを含むようにする
+    val unionArea = plotArea.union(dataLabelArea).union(dataValueArea)
+    clipRect(
+        left = unionArea.left,
+        top = unionArea.top,
+        right = unionArea.right,
+        bottom = unionArea.bottom
+    ) {
+        dataLabelLayoutResults.forEachIndexed { index, _ ->
+            // 描画するbarの座標を計算
+            val allLabelArea = dataLabelArea.right - dataLabelArea.left
+            val weight = allLabelArea / dataLabelLayoutResults.size
+            // ラベルの座標を計算
+            val labelLayoutResult = dataLabelLayoutResults[index]
+            val labelTop = dataLabelArea.top
+            val labelLeft = (weight * index) + barWidth / 2f - labelLayoutResult.size.width / 2f
+            // ラベルを描画
+            drawText(
+                textLayoutResult = labelLayoutResult,
+                topLeft = Offset(labelLeft, labelTop)
+            )
         }
     }
 }
