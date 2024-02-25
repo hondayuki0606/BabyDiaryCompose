@@ -21,6 +21,7 @@ import com.example.babydiarycompose.data.GrowthWeightData
 import com.example.babydiarycompose.data.Item
 import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
+import com.example.babydiarycompose.utils.Flower
 import com.example.babydiarycompose.utils.Pink
 import com.example.babydiarycompose.utils.Teal200
 import java.text.DecimalFormat
@@ -171,8 +172,6 @@ fun GrowthCurveChart(
             // データを描画する
             drawData(
                 data = data,
-                dataLabelLayoutResults = dataLabelLayoutResults,
-                dataValueLayoutResults = dataValueLayoutResults,
                 yAxisAttributes = yAxisAttributes,
                 plotArea = plotArea,
                 dataLabelArea = dataLabelArea,
@@ -302,8 +301,6 @@ private fun Rect.union(other: Rect): Rect {
 // データを描画する
 private fun DrawScope.drawData(
     data: List<Datum>,
-    dataLabelLayoutResults: List<TextLayoutResult>,
-    dataValueLayoutResults: List<TextLayoutResult>,
     yAxisAttributes: YAxisAttributes,
     plotArea: Rect,
     dataLabelArea: Rect,
@@ -334,64 +331,26 @@ private fun DrawScope.drawData(
                 val t = a * it.value.toFloat()
                 val y = t + b
                 val barTop = min(y, b)
-                val barHeight = abs(t)
                 val barLeft = xStart + barInterval * index
-//            drawRect(
-//                color = Pink,
-//                topLeft = Offset(x = barLeft, y = barTop),
-//                size = Size(width = barWidth, height = barHeight)
-//            )
+
                 val left = 21
                 // 最大７つまで配置可能
                 if (it.event == "a") {
                     println("left = ${barLeft}")
                     drawCircle(
-                        color = Pink,
-                        radius = 5.dp.toPx(),
+                        color = Flower,
+                        radius = 2.dp.toPx(),
                         center = Offset(x = barLeft, y = barTop),
                     )
                 } else if (it.event == "b") {
                     println("left = ${barLeft + (left)}")
                     drawCircle(
-                        color = Teal200,
-                        radius = 5.dp.toPx(),
+                        color = Flower,
+                        radius = 2.dp.toPx(),
                         center = Offset(x = barLeft + left, y = barTop),
                     )
                 }
-
-//                }
-
-//            drawRoundRect(
-//                color = Pink,
-//                topLeft = Offset.Zero,
-//                size = Size(width = barWidth, height = barHeight),
-//                cornerRadius = CornerRadius(10L),
-//                style = Fill
-////            )
-//                val allLabelArea = dataLabelArea.right - dataLabelArea.left
-//                val weight = allLabelArea / data.size
-//                // ラベルの座標を計算
-//                val labelLayoutResult = dataLabelLayoutResults[index]
-//                val labelTop = dataLabelArea.top
-//                val labelLeft = (weight * index) + barWidth / 2f - labelLayoutResult.size.width / 2f
-//                // ラベルを描画
-//                drawText(
-//                    textLayoutResult = labelLayoutResult,
-//                    topLeft = Offset(labelLeft, labelTop)
-//                )
             }
-
-
-//
-//            // データ値の描画
-//            val valueLayoutResult = dataValueLayoutResults[index]
-//            val valueLeft = barLeft + (barWidth - valueLayoutResult.size.width) / 2
-//            val valueTop = if (0f <= datum.value.toFloat()) barTop - valueLayoutResult.size.height
-//            else barTop + barHeight
-//            drawText(
-//                textLayoutResult = valueLayoutResult,
-//                topLeft = Offset(valueLeft, valueTop)
-//            )
         }
     }
 }
@@ -460,6 +419,7 @@ private fun DrawScope.drawGrid(
         val valueLeft = gridValueArea.right - valueSize.width
         val valueTop = y - valueSize.height / 2
         drawText(
+            color = Flower,
             textLayoutResult = gridValueLayoutResults[index],
             topLeft = Offset(x = valueLeft, y = valueTop)
         )
