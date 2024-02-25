@@ -179,8 +179,8 @@ fun GrowthCurveChart(
                 attributes = attributes
             )
 
-            // ラベルを描写する
-            drawLabel(
+            // X軸のラベルを描写する
+            drawXLabel(
                 dataLabelLayoutResults = dataLabelLayoutResults,
                 plotArea = plotArea,
                 dataLabelArea = dataLabelArea,
@@ -189,12 +189,18 @@ fun GrowthCurveChart(
             )
 
             // grid値とgrid線を描画する
-            drawGrid(
+            drawGridLine(
+                yAxisAttributes = yAxisAttributes,
+                gridLineArea = gridLineArea,
+                attributes = attributes
+            )
+
+            // Y軸のラベルを描画する
+            drawYLabel(
                 yAxisAttributes = yAxisAttributes,
                 gridValueLayoutResults = gridValueLayoutResults,
                 gridLineArea = gridLineArea,
                 gridValueArea = gridValueArea,
-                attributes = attributes
             )
         }
     }
@@ -356,7 +362,7 @@ private fun DrawScope.drawData(
 }
 
 // X軸のラベルを描画する
-private fun DrawScope.drawLabel(
+private fun DrawScope.drawXLabel(
     dataLabelLayoutResults: List<TextLayoutResult>,
     plotArea: Rect,
     dataLabelArea: Rect,
@@ -391,11 +397,9 @@ private fun DrawScope.drawLabel(
 }
 
 // grid値とgrid線を描画する
-private fun DrawScope.drawGrid(
+private fun DrawScope.drawGridLine(
     yAxisAttributes: YAxisAttributes,
-    gridValueLayoutResults: List<TextLayoutResult>,
     gridLineArea: Rect,
-    gridValueArea: Rect,
     attributes: BarChartAttributes
 ) {
     val yMin = yAxisAttributes.minValue
@@ -414,15 +418,38 @@ private fun DrawScope.drawGrid(
             start = Offset(x = gridLineArea.left, y = y),
             end = Offset(x = gridLineArea.right, y = y)
         )
+    }
+}
+
+
+// grid値とgrid線を描画する
+private fun DrawScope.drawYLabel(
+    yAxisAttributes: YAxisAttributes,
+    gridValueLayoutResults: List<TextLayoutResult>,
+    gridLineArea: Rect,
+    gridValueArea: Rect,
+) {
+    val yMin = yAxisAttributes.minValue
+    val yMax = yAxisAttributes.maxValue
+
+    // データ値を座標に変換する係数を計算 y = ax + b
+    val yRange = yMax - yMin
+    val a = (gridLineArea.top - gridLineArea.bottom) / yRange
+    val b = (gridLineArea.bottom * yMax - gridLineArea.top * yMin) / yRange
+
+    yAxisAttributes.gridList.forEachIndexed { index, gridValue ->
+        val y = a * gridValue + b
         // grid値を描画する
         val valueSize = gridValueLayoutResults[index].size
         val valueLeft = gridValueArea.right - valueSize.width
         val valueTop = y - valueSize.height / 2
-        drawText(
-            color = Flower,
-            textLayoutResult = gridValueLayoutResults[index],
-            topLeft = Offset(x = valueLeft, y = valueTop)
-        )
+        if (index < 11) {
+            drawText(
+                color = Flower,
+                textLayoutResult = gridValueLayoutResults[index],
+                topLeft = Offset(x = valueLeft, y = valueTop)
+            )
+        }
     }
 }
 
