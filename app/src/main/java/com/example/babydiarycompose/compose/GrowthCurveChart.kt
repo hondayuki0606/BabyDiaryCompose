@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.babydiarycompose.data.BarChartAttributes
 import com.example.babydiarycompose.data.Datum
 import com.example.babydiarycompose.data.GrowthHeightData
@@ -107,30 +108,11 @@ fun GrowthCurveChart(
             bottom = height - maxDataLabelHeight // データラベル分、軸の位置をずらす
         )
 
-//        var posDataValueSpace = 0
-//        // データの描画エリアを設定する
-//        data.forEach {
-//            it.value.forEach { item ->
-//                if (0f <= item.value.toFloat())
-//                    posDataValueSpace = maxDataValueHeight
-//            }
-//        }
-//        var negDataValueSpace = 0
-//        data.forEach {
-//            it.value.forEach { item ->
-//                if (0f <= item.value.toFloat())
-//                    negDataValueSpace = maxDataValueHeight
-//            }
-//        }
-        val posDataValueSpace = maxDataValueHeight
-//            data.find { 0f <= it.value[0].value.toFloat() }?.run { maxDataValueHeight } ?: 0
-        val negDataValueSpace = maxDataValueHeight
-//            data.find { it.value[0].toFloat() < 0f }?.run { maxDataValueHeight } ?: 0
         val plotArea = Rect(
             left = axisArea.left,
-            top = axisArea.top + posDataValueSpace,
+            top = axisArea.top + maxDataValueHeight,
             right = axisArea.right,
-            bottom = axisArea.bottom - negDataValueSpace
+            bottom = axisArea.bottom - maxDataValueHeight
         )
 
         // データラベルの描画エリアを設定する
@@ -201,6 +183,21 @@ fun GrowthCurveChart(
                 gridValueLayoutResults = gridValueLayoutResults,
                 gridLineArea = gridLineArea,
                 gridValueArea = gridValueArea,
+            )
+
+            // 成長のラベルを描画する
+            drawGrowthCurveHeightLabel(
+                gridLineArea = gridLineArea,
+                gridValueArea = gridValueArea,
+                attributes = attributes,
+                textMeasurer = textMeasurer
+            )
+
+            drawGrowthCurveWeightLabel(
+                gridLineArea = gridLineArea,
+                gridValueArea = gridValueArea,
+                attributes = attributes,
+                textMeasurer = textMeasurer
             )
         }
     }
@@ -451,6 +448,50 @@ private fun DrawScope.drawYLabel(
             )
         }
     }
+}
+
+private fun DrawScope.drawGrowthCurveHeightLabel(
+    gridLineArea: Rect,
+    gridValueArea: Rect,
+    attributes: BarChartAttributes,
+    textMeasurer: TextMeasurer
+) {
+    val valueLeft = gridValueArea.left
+    val valueBottom = gridLineArea.bottom
+    drawText(
+        color = Flower,
+        textLayoutResult = textMeasurer.measure(
+            text = AnnotatedString("身長"),
+            style = TextStyle(
+                color = attributes.dataLabelTextColor,
+                fontSize = 24.sp
+            )
+        ),
+        topLeft = Offset(x = valueLeft + 800, y = valueBottom - 50)
+    )
+}
+
+private fun DrawScope.drawGrowthCurveWeightLabel(
+    gridLineArea: Rect,
+    gridValueArea: Rect,
+    attributes: BarChartAttributes,
+    textMeasurer: TextMeasurer,
+) {
+    val valueLeft = gridValueArea.left
+    val valueTop = gridLineArea.top
+    drawText(
+        color = Teal200,
+        textLayoutResult = textMeasurer.measure(
+            text = AnnotatedString("体重"),
+            style = TextStyle(
+                color = attributes.dataLabelTextColor,
+                fontSize = 24.sp
+            )
+        ),
+        topLeft = Offset(
+            x = valueLeft + 100, y = valueTop + 50
+        )
+    )
 }
 
 @Preview(widthDp = 400, heightDp = 400)
