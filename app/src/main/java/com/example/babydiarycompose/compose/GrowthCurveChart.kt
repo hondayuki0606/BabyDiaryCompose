@@ -52,12 +52,6 @@ fun GrowthCurveChart(
             attributes = attributes,
             textMeasurer = textMeasurer
         )
-        // データラベルを計測する
-        val dataWeightLabelLayoutResults = measureGrowthDataLabel(
-            ageList = weightList,
-            attributes = attributes,
-            textMeasurer = textMeasurer
-        )
         // データラベルの最大の高さを取得する
         val maxDataLabelHeight = dataLabelLayoutResults.maxOfOrNull {
             it.size.height
@@ -72,14 +66,14 @@ fun GrowthCurveChart(
             makeYAxisAttributes(maxValue = 15F, gridInterval = 1F, attributes = attributes)
 
         // grid値の左を表す文字列を計測する
-        val gridLeftValueLayoutResults = measureGridValue(
-            yAxisAttributes = yAxisAttributes,
+        val gridLeftValueLayoutResults = measureWeightListGridValue(
+            weightList = weightList,
             attributes = attributes,
             textMeasurer = textMeasurer
         )
 
         // grid値の右を表す文字列を計測する
-        val gridRightValueLayoutResults = measureWeightDataValue(
+        val gridRightValueLayoutResults = measureCmListDataValue(
             cmList = cmList,
             attributes = attributes,
             textMeasurer = textMeasurer
@@ -224,6 +218,7 @@ fun GrowthCurveChart(
                 gridValueLayoutResults = gridRightValueLayoutResults,
                 gridLineArea = gridLineArea,
                 gridValueArea = gridValueArea,
+                area = axisArea
             )
 
             // 身長ラベルを描画
@@ -267,20 +262,16 @@ private fun measureGrowthDataLabel(
 }
 
 // grid値を表す文字列を計測する
-private fun measureGridValue(
-    yAxisAttributes: YAxisAttributes,
+private fun measureWeightListGridValue(
+    weightList: List<String>,
     attributes: BarChartAttributes,
     textMeasurer: TextMeasurer
 ): List<TextLayoutResult> {
     val textLayoutResults = mutableListOf<TextLayoutResult>()
-    val formatter = attributes.gridValueFormatPattern?.let {
-        DecimalFormat(it)
-    } ?: NumberFormat.getInstance()
-    yAxisAttributes.gridList.forEach {
-        val label = formatter.format(it)
+    weightList.forEach {
         textLayoutResults.add(
             textMeasurer.measure(
-                text = AnnotatedString(label),
+                text = AnnotatedString(it),
                 style = TextStyle(
                     color = attributes.gridValueTextColor,
                     fontSize = attributes.gridValueTextSize
@@ -292,17 +283,13 @@ private fun measureGridValue(
 }
 
 // データ値を表す文字列を計測する
-private fun measureWeightDataValue(
+private fun measureCmListDataValue(
     cmList: List<String>,
     attributes: BarChartAttributes,
     textMeasurer: TextMeasurer
 ): List<TextLayoutResult> {
     val textLayoutResults = mutableListOf<TextLayoutResult>()
-    val formatter = attributes.dataValueFormatPattern?.let {
-        DecimalFormat(it)
-    } ?: NumberFormat.getInstance()
     cmList.forEach {
-//        val value = formatter.format(it.value.toFloat())
         textLayoutResults.add(
             textMeasurer.measure(
                 text = AnnotatedString(it),
@@ -508,19 +495,17 @@ private fun DrawScope.drawLeftYLabel(
     val a = (gridLineArea.top - gridLineArea.bottom) / yRange
     val b = (gridLineArea.bottom * yMax - gridLineArea.top * yMin) / yRange
 
-    yAxisAttributes.gridList.forEachIndexed { index, gridValue ->
-        val y = a * gridValue + b
+    gridValueLayoutResults.forEachIndexed { index, gridValueLayoutResult ->
         // grid値を描画する
-        val valueSize = gridValueLayoutResults[index].size
+        val y = a * index + b
+        val valueSize = gridValueLayoutResult.size
         val valueLeft = gridValueArea.right - valueSize.width
         val valueTop = y - valueSize.height / 2
-        if (index < 11) {
-            drawText(
-                color = Flower,
-                textLayoutResult = gridValueLayoutResults[index],
-                topLeft = Offset(x = valueLeft, y = valueTop)
-            )
-        }
+        drawText(
+            color = Flower,
+            textLayoutResult = gridValueLayoutResult,
+            topLeft = Offset(x = valueLeft, y = valueTop)
+        )
     }
 }
 
@@ -530,6 +515,7 @@ private fun DrawScope.drawRightYLabel(
     gridValueLayoutResults: List<TextLayoutResult>,
     gridLineArea: Rect,
     gridValueArea: Rect,
+    area: Rect,
 ) {
     val yMin = yAxisAttributes.minValue
     val yMax = yAxisAttributes.maxValue
@@ -539,19 +525,16 @@ private fun DrawScope.drawRightYLabel(
     val a = (gridLineArea.top - gridLineArea.bottom) / yRange
     val b = (gridLineArea.bottom * yMax - gridLineArea.top * yMin) / yRange
 
-    yAxisAttributes.gridList.forEachIndexed { index, gridValue ->
-        val y = (a) * gridValue + b
+    gridValueLayoutResults.forEachIndexed { index, gridValueLayoutResult ->
         // grid値を描画する
-        if (index < 9) {
-            val valueSize = gridValueLayoutResults[index].size
-            val valueLeft = gridValueArea.right - valueSize.width
-            val valueTop = y - valueSize.height / 2
-            drawText(
-                color = Flower,
-                textLayoutResult = gridValueLayoutResults[index],
-                topLeft = Offset(x = valueLeft + 200, y = valueTop)
-            )
-        }
+        val y = a * index + b
+        val valueSize = gridValueLayoutResult.size
+        val valueTop = y - valueSize.height / 2
+        drawText(
+            color = Teal200,
+            textLayoutResult = gridValueLayoutResult,
+            topLeft = Offset(x = area.right, y = valueTop)
+        )
     }
 }
 
