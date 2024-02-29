@@ -444,7 +444,8 @@ private fun DrawScope.drawXLabel(
             // ラベルの座標を計算
             val labelLayoutResult = dataLabelLayoutResults[index]
             val labelTop = dataLabelArea.top
-            val labelLeft = (weight * index) + barWidth / 2f - labelLayoutResult.size.width / 2f
+            val labelLeft =
+                (weight * (index + 1)) + barWidth / 2f - labelLayoutResult.size.width / 2f
             // ラベルを描画
             drawText(
                 textLayoutResult = labelLayoutResult,
@@ -479,7 +480,6 @@ private fun DrawScope.drawGridLine(
     }
 }
 
-
 // grid値とgrid線を描画する
 private fun DrawScope.drawLeftYLabel(
     yAxisAttributes: YAxisAttributes,
@@ -497,7 +497,7 @@ private fun DrawScope.drawLeftYLabel(
 
     gridValueLayoutResults.forEachIndexed { index, gridValueLayoutResult ->
         // grid値を描画する
-        val y = a * index + b
+        val y = a * (index.toFloat() + 1) + b
         val valueSize = gridValueLayoutResult.size
         val valueLeft = gridValueArea.right - valueSize.width
         val valueTop = y - valueSize.height / 2
@@ -527,7 +527,7 @@ private fun DrawScope.drawRightYLabel(
 
     gridValueLayoutResults.forEachIndexed { index, gridValueLayoutResult ->
         // grid値を描画する
-        val y = a * index + b
+        val y = a * (index.toFloat() + 1) + b
         val valueSize = gridValueLayoutResult.size
         val valueTop = y - valueSize.height / 2
         drawText(
