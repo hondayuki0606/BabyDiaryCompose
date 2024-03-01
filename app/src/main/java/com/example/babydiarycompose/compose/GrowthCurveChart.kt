@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.PathEffect.Companion.dashPathEffect
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.platform.LocalDensity
@@ -24,8 +25,6 @@ import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
 import com.example.babydiarycompose.utils.Flower
 import com.example.babydiarycompose.utils.Teal200
-import java.text.DecimalFormat
-import java.text.NumberFormat
 import kotlin.math.max
 import kotlin.math.min
 
@@ -197,8 +196,8 @@ fun GrowthCurveChart(
                 attributes = attributes
             )
 
-            // grid値とgrid線を描画する
-            drawGridLine(
+            // grid線を描画する
+            drawHorizontalGridLine(
                 yAxisAttributes = yAxisAttributes,
                 gridLineArea = gridLineArea,
                 attributes = attributes
@@ -363,8 +362,6 @@ private fun DrawScope.drawHeightData(
             val barTop = min(y, b)
             val barLeft = xStart + barInterval * index
 
-            val left = 21
-            println("left = ${barLeft}")
             drawCircle(
                 color = Flower,
                 radius = 2.dp.toPx(),
@@ -409,7 +406,6 @@ private fun DrawScope.drawWeightData(
             val barLeft = xStart + barInterval * index
 
             val left = 21
-            println("left = ${barLeft + (left)}")
             drawCircle(
                 color = Flower,
                 radius = 2.dp.toPx(),
@@ -445,18 +441,26 @@ private fun DrawScope.drawXLabel(
             val labelLayoutResult = dataLabelLayoutResults[index]
             val labelTop = dataLabelArea.top
             val labelLeft =
-                (weight * (index + 1)) + barWidth / 2f - labelLayoutResult.size.width / 2f
+                (weight * index) + barWidth / 2f - labelLayoutResult.size.width / 2f
             // ラベルを描画
             drawText(
                 textLayoutResult = labelLayoutResult,
                 topLeft = Offset(labelLeft, labelTop)
+            )
+            val pathEffect = dashPathEffect(floatArrayOf(5f, 5f), 0f)
+            // grid線を描画する
+            drawLine(
+                color = attributes.gridLineColor,
+                start = Offset(x = labelLeft, y = unionArea.top),
+                end = Offset(x = labelLeft, y = labelTop),
+                pathEffect = pathEffect
             )
         }
     }
 }
 
 // grid値とgrid線を描画する
-private fun DrawScope.drawGridLine(
+private fun DrawScope.drawHorizontalGridLine(
     yAxisAttributes: YAxisAttributes,
     gridLineArea: Rect,
     attributes: BarChartAttributes
@@ -470,12 +474,14 @@ private fun DrawScope.drawGridLine(
     val b = (gridLineArea.bottom * yMax - gridLineArea.top * yMin) / yRange
 
     yAxisAttributes.gridList.forEachIndexed { index, gridValue ->
-        val y = a * gridValue + b
+        val y = a * index + b
+        val pathEffect = dashPathEffect(floatArrayOf(5f, 5f), 0f)
         // grid線を描画する
         drawLine(
             color = attributes.gridLineColor,
             start = Offset(x = gridLineArea.left, y = y),
-            end = Offset(x = gridLineArea.right, y = y)
+            end = Offset(x = gridLineArea.right, y = y),
+            pathEffect = pathEffect
         )
     }
 }
@@ -497,7 +503,7 @@ private fun DrawScope.drawLeftYLabel(
 
     gridValueLayoutResults.forEachIndexed { index, gridValueLayoutResult ->
         // grid値を描画する
-        val y = a * (index.toFloat() + 1) + b
+        val y = a * index.toFloat() + b
         val valueSize = gridValueLayoutResult.size
         val valueLeft = gridValueArea.right - valueSize.width
         val valueTop = y - valueSize.height / 2

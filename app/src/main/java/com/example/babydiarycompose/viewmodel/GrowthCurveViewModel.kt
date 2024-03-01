@@ -20,7 +20,21 @@ class GrowthCurveViewModel @Inject constructor(
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(
         GrowthCurveUiState(
-            ageList = arrayListOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12\n(ヵ月)"),
+            ageList = arrayListOf(
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12\n(ヵ月)"
+            ),
             weightList = arrayListOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "(kg)\n10"),
             cmList = arrayListOf("40", "45", "50", "55", "60", "65", "70", "75", "(cm)\n80"),
             growthWeight = listOf(),
