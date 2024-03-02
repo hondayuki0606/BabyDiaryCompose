@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect.Companion.dashPathEffect
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipRect
@@ -24,6 +26,8 @@ import com.example.babydiarycompose.data.Item
 import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
 import com.example.babydiarycompose.utils.Flower
+import com.example.babydiarycompose.utils.Pink
+import com.example.babydiarycompose.utils.Teal
 import com.example.babydiarycompose.utils.Teal200
 import kotlin.math.max
 import kotlin.math.min
@@ -189,6 +193,14 @@ fun GrowthCurveChart(
 
             // X軸のラベルを描写する
             drawXLabel(
+                dataLabelLayoutResults = dataLabelLayoutResults,
+                plotArea = plotArea,
+                dataLabelArea = dataLabelArea,
+                dataValueArea = dataValueArea,
+                attributes = attributes
+            )
+
+            drawWeightArc(
                 dataLabelLayoutResults = dataLabelLayoutResults,
                 plotArea = plotArea,
                 dataLabelArea = dataLabelArea,
@@ -456,6 +468,46 @@ private fun DrawScope.drawXLabel(
                 pathEffect = pathEffect
             )
         }
+    }
+}
+
+
+// X軸のラベルを描画する
+private fun DrawScope.drawWeightArc(
+    dataLabelLayoutResults: List<TextLayoutResult>,
+    plotArea: Rect,
+    dataLabelArea: Rect,
+    dataValueArea: Rect,
+    attributes: BarChartAttributes
+) {
+    // データ値を座標に変換する係数を計算 y = ax + b
+    val barWidth = attributes.barWidth.toPx()
+    // clipの範囲をプロット領域とラベル領域、データ値領域の全てを含むようにする
+    val unionArea = plotArea.union(dataLabelArea).union(dataValueArea)
+    clipRect(
+        left = unionArea.left,
+        top = unionArea.top,
+        right = unionArea.right,
+        bottom = unionArea.bottom
+    ) {
+//        dataLabelLayoutResults.forEachIndexed { index, _ ->
+//            // 描画するbarの座標を計算
+        val allLabelArea = dataLabelArea.right - dataLabelArea.left
+        val weight = allLabelArea / dataLabelLayoutResults.size
+//            // ラベルの座標を計算
+        val labelLayoutResult = dataLabelLayoutResults[0]
+//            val labelTop = dataLabelArea.top
+        val labelLeft =
+            (weight * 0) + barWidth / 2f - labelLayoutResult.size.width / 2f
+        drawArc(
+            color = Teal,
+            topLeft = Offset(x = labelLeft, y = unionArea.top),
+            startAngle = 180f,
+            sweepAngle = 180f,
+            useCenter = true,
+            size = Size(size.width, size.height)
+        )
+//        }
     }
 }
 
