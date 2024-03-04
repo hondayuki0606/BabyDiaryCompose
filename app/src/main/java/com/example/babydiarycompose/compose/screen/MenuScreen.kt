@@ -21,6 +21,7 @@ fun MenuScreen() {
             .size(100.dp)
             .verticalScroll(rememberScrollState())
     ) {
-       Text(text = "settings")
+        Text(text = "めいたん")
+        Text(text = "2023年10月14日")
     }
 }
