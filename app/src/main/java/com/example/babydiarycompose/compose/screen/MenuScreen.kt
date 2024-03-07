@@ -9,9 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -59,41 +64,7 @@ fun MenuScreen() {
             }
         }
 
-        Box(modifier = Modifier.background(DarkBrown)) {
-            Row {
-                Image(
-                    modifier = Modifier
-                        .padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                        ),
-                    contentScale = ContentScale.Fit,
-                    painter = painterResource(R.drawable.profile_icon),
-                    contentDescription = "image"
-                )
-                Column {
-                    Text(
-                        text = "めいたん",
-                        color = White
-                    )
-                    Text(
-                        text = "2023年10月14日",
-                        color = Pink,
-                        style = TextStyle(fontSize = 12.sp),
-                    )
-                }
-                Image(
-                    modifier = Modifier
-                        .padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                        ),
-                    contentScale = ContentScale.Fit,
-                    painter = painterResource(R.drawable.profile_icon),
-                    contentDescription = "image"
-                )
-            }
-        }
+        MenuIconButton(mainTitle = "めいたん", subTitle = "2023年10月14日")
         MenuIconButton(mainTitle = "赤ちゃんの追加・編集")
         MenuIconButton(mainTitle = "アカウント", subTitle = "共有・引継ぎ・アカウントリンク")
         MenuIconButton(mainTitle = "記録・日記の検索")
@@ -133,61 +104,44 @@ fun MenuIconButton(mainTitle: String, subTitle: String = "") {
                 painter = painterResource(R.drawable.profile_icon),
                 contentDescription = "image"
             )
-            Column {
-                Text(
-                    text = mainTitle,
-                    color = White
-                )
-                if (subTitle.isNotEmpty()) {
-                    Text(
-                        text = subTitle,
-                        color = White,
-                        style = TextStyle(fontSize = 12.sp),
-                    )
-                }
-            }
-            Image(
-                modifier = Modifier
-                    .padding(
-                        start = 10.dp,
-                        end = 10.dp,
-                    ),
-                contentScale = ContentScale.Fit,
-                painter = painterResource(R.drawable.profile_icon),
-                contentDescription = "image"
-            )
+            TextButton(mainTitle, subTitle)
+            ArrowBackImage()
         }
     }
 }
-
 
 @Composable
 fun MenuButton(mainTitle: String, subTitle: String = "") {
     Box(modifier = Modifier.background(DarkBrown)) {
         Row {
-            Column {
-                Text(
-                    text = mainTitle,
-                    color = White
-                )
-                if (subTitle.isNotEmpty()) {
-                    Text(
-                        text = subTitle,
-                        color = White,
-                        style = TextStyle(fontSize = 12.sp),
-                    )
-                }
-            }
-            Image(
-                modifier = Modifier
-                    .padding(
-                        start = 10.dp,
-                        end = 10.dp,
-                    ),
-                contentScale = ContentScale.Fit,
-                painter = painterResource(R.drawable.profile_icon),
-                contentDescription = "image"
+            TextButton(mainTitle, subTitle)
+            ArrowBackImage()
+        }
+    }
+}
+
+@Composable
+fun TextButton(mainTitle: String, subTitle: String = "") {
+    Column {
+        Text(
+            text = mainTitle,
+            color = White
+        )
+        if (subTitle.isNotEmpty()) {
+            Text(
+                text = subTitle,
+                color = White,
+                style = TextStyle(fontSize = 12.sp),
             )
         }
     }
+}
+
+@Composable
+fun ArrowBackImage() {
+    Icon(
+        painter = rememberVectorPainter(image = Icons.Default.KeyboardArrowRight),
+        contentDescription = null,
+        tint = Color.White
+    )
 }
