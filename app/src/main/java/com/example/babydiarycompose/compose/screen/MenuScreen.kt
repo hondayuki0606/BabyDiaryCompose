@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.compose.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -26,6 +29,7 @@ import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -46,29 +50,7 @@ fun MenuScreen() {
             .background(Dark)
             .verticalScroll(rememberScrollState())
     ) {
-        Box {
-            Row {
-                Icon(
-                    painter = rememberVectorPainter(image = Icons.Default.KeyboardArrowRight),
-                    contentDescription = null,
-                    tint = Color.White
-                )
-                Column {
-                    Text(
-                        text = "ぴよログ操作ガイド",
-                        color = Pink,
-                        style = TextStyle(fontSize = 12.sp),
-                    )
-                    Text(
-                        text = "生後日数・満日数と数え日数の違いは？",
-                        color = White,
-                        style = TextStyle(fontSize = 12.sp),
-                    )
-                }
-                Text(text = "詳細を見る", color = Pink)
-            }
-        }
-
+        TopMenuButton("広告が非表示に！テーマカラーも増えます", "プレミアムプラン（最大1ヶ月無料）")
         MenuIconButton(
             painterResourceId = Icons.Default.KeyboardArrowRight,
             mainTitle = "めいたん",
@@ -137,9 +119,62 @@ fun MenuScreen() {
             mainTitle = "すくすくプラス",
             subTitle = "もじ・かず・ちえを学ぶ幼児向けアプリ"
         )
-        Text(text = "V7.13.0", color = White)
-        Text(text = "PiyoLogId:71A1BE2-8261-4F2D-B723-9239F9903B57-2.13.0", color = White)
-        Text(text = "11D372", color = White)
+        Text(
+            text = "V7.13.0",
+            color = White,
+            style = TextStyle(fontSize = 12.sp),
+            modifier = Modifier.wrapContentSize(Alignment.CenterEnd)
+        )
+        Text(
+            text = "PiyoLogId:71A1BE2-8261-4F2D-B723-9239F9903B57-2.13.0",
+            color = White,
+            style = TextStyle(fontSize = 12.sp),
+            modifier = Modifier.wrapContentSize(Alignment.CenterEnd)
+        )
+        Text(
+            text = "11D372",
+            color = White,
+            style = TextStyle(fontSize = 12.sp),
+            modifier = Modifier.wrapContentSize(Alignment.CenterEnd)
+        )
+    }
+}
+
+@Composable
+fun TopMenuButton(mainTitle: String, subTitle: String = "") {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Default.KeyboardArrowRight),
+                    contentDescription = null,
+                    tint = Color.White
+                )
+                Column {
+                    Text(
+                        text = mainTitle,
+                        color = Pink,
+                        style = TextStyle(fontSize = 12.sp),
+                    )
+                    Text(
+                        text = subTitle,
+                        color = White,
+                        style = TextStyle(fontSize = 12.sp),
+                    )
+                }
+            }
+            Text(text = "詳細を見る", color = Pink)
+        }
     }
 }
 
@@ -150,13 +185,24 @@ fun MenuIconButton(painterResourceId: ImageVector, mainTitle: String, subTitle: 
             .fillMaxWidth()
             .background(DarkBrown)
     ) {
-        Row {
-            Icon(
-                painter = rememberVectorPainter(image = painterResourceId),
-                contentDescription = null,
-                tint = Color.White
-            )
-            TextButton(mainTitle, subTitle)
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.padding(end = 10.dp),
+                    painter = rememberVectorPainter(image = painterResourceId),
+                    contentDescription = null,
+                    tint = Color.White
+                )
+                TextButton(mainTitle, subTitle)
+            }
             ArrowBackImage()
         }
     }
@@ -169,7 +215,13 @@ fun MenuButton(mainTitle: String, subTitle: String = "") {
             .fillMaxWidth()
             .background(DarkBrown)
     ) {
-        Row {
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             TextButton(mainTitle, subTitle)
             ArrowBackImage()
         }
