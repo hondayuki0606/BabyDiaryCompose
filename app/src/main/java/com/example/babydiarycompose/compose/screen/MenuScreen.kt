@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -123,19 +122,19 @@ fun MenuScreen() {
             text = "V7.13.0",
             color = White,
             style = TextStyle(fontSize = 12.sp),
-            modifier = Modifier.wrapContentSize(Alignment.CenterEnd)
+            modifier = Modifier.align(Alignment.End)
         )
         Text(
             text = "PiyoLogId:71A1BE2-8261-4F2D-B723-9239F9903B57-2.13.0",
             color = White,
             style = TextStyle(fontSize = 12.sp),
-            modifier = Modifier.wrapContentSize(Alignment.CenterEnd)
+            modifier = Modifier.align(Alignment.End)
         )
         Text(
             text = "11D372",
             color = White,
             style = TextStyle(fontSize = 12.sp),
-            modifier = Modifier.wrapContentSize(Alignment.CenterEnd)
+            modifier = Modifier.align(Alignment.End)
         )
     }
 }
