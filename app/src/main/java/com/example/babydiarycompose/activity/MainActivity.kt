@@ -1,9 +1,10 @@
 package com.example.babydiarycompose.activity
 
+//import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,41 +28,42 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.babydiarycompose.compose.screen.GrowthCurveScreen
 import com.example.babydiarycompose.compose.screen.MenuScreen
 import com.example.babydiarycompose.compose.screen.RecordingScreen
 import com.example.babydiarycompose.compose.screen.SummaryScreen
 import com.example.babydiarycompose.data.MenuOptions
+//import androidx.navigation.compose.NavHost
+//import androidx.navigation.compose.composable
+//import androidx.navigation.compose.rememberNavController
+import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.utils.Pink
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BabyDiaryComposeTheme {
-                val navController = rememberNavController()
+                val navController = rememberAnimatedNavController()
                 val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
                 var selectedItemIndex by rememberSaveable {
                     mutableIntStateOf(0)
@@ -198,7 +200,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
-                    NavHost(
+                    AnimatedNavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
                         startDestination = MenuOptions.HOME.route,
