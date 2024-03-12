@@ -61,45 +61,39 @@ dependencies {
     // room
     val roomVersion = "2.5.2"
     implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-rxjava2:$roomVersion")
+    implementation("androidx.room:room-rxjava3:$roomVersion")
+    implementation("androidx.room:room-guava:$roomVersion")
+    implementation("androidx.room:room-paging:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$roomVersion")
-    // optional - RxJava2 support for Room
-    implementation("androidx.room:room-rxjava2:$roomVersion")
-    // optional - RxJava3 support for Room
-    implementation("androidx.room:room-rxjava3:$roomVersion")
-    // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation("androidx.room:room-guava:$roomVersion")
-    // optional - Test helpers
     testImplementation("androidx.room:room-testing:$roomVersion")
-    // optional - Paging 3 Integration
-    implementation("androidx.room:room-paging:$roomVersion")
+
 
     // Hilt Navigation
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     // Use Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
     ksp("com.google.dagger:hilt-android-compiler:2.48")
-    annotationProcessor("androidx.hilt:hilt-compiler:1.1.0")
+    annotationProcessor("androidx.hilt:hilt-compiler:1.2.0")
 
     // constraintlayout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     // navigationを使用
-    implementation("androidx.compose.material:material:1.6.0")
-//    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("androidx.compose.material:material:1.6.3")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // foundationを使用
-    implementation("androidx.compose.foundation:foundation:1.6.0")
+    implementation("androidx.compose.foundation:foundation:1.6.3")
 
-    // Navigation-animation
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.24.13-rc")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
 
+    // compose
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     // bomを使用しているのでcomposeのバージョンは指定しない
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")

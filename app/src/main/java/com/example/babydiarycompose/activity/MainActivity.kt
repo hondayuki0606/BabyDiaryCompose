@@ -1,10 +1,12 @@
 package com.example.babydiarycompose.activity
 
 //import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+//import com.google.accompanist.navigation.animation.AnimatedNavHost
+//import com.google.accompanist.navigation.animation.composable
+//import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,30 +42,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.babydiarycompose.compose.screen.GrowthCurveScreen
 import com.example.babydiarycompose.compose.screen.MenuScreen
 import com.example.babydiarycompose.compose.screen.RecordingScreen
 import com.example.babydiarycompose.compose.screen.SummaryScreen
 import com.example.babydiarycompose.data.MenuOptions
-//import androidx.navigation.compose.NavHost
-//import androidx.navigation.compose.composable
-//import androidx.navigation.compose.rememberNavController
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.utils.Pink
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BabyDiaryComposeTheme {
-                val navController = rememberAnimatedNavController()
+                val navController = rememberNavController()
                 val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
                 var selectedItemIndex by rememberSaveable {
                     mutableIntStateOf(0)
@@ -200,7 +199,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
-                    AnimatedNavHost(
+                    NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
                         startDestination = MenuOptions.HOME.route,
