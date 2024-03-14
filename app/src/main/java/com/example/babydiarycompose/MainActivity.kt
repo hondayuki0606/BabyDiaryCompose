@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.activity
+package com.example.babydiarycompose
 
 //import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 //import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -7,7 +7,6 @@ package com.example.babydiarycompose.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.babydiarycompose.BabyDiaryApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
