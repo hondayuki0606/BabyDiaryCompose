@@ -19,8 +19,8 @@ import com.example.babydiarycompose.data.Datum
 import com.example.babydiarycompose.data.Item
 import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
-import com.example.babydiarycompose.utils.Pink
-import com.example.babydiarycompose.utils.Teal200
+import com.example.babydiarycompose.ui.theme.Pink
+import com.example.babydiarycompose.ui.theme.Teal200
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import kotlin.math.abs

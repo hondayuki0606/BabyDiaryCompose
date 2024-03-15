@@ -25,10 +25,10 @@ import com.example.babydiarycompose.data.GrowthWeightData
 import com.example.babydiarycompose.data.Item
 import com.example.babydiarycompose.data.YAxisAttributes
 import com.example.babydiarycompose.data.makeYAxisAttributes
-import com.example.babydiarycompose.utils.Flower
-import com.example.babydiarycompose.utils.Pink
-import com.example.babydiarycompose.utils.Teal
-import com.example.babydiarycompose.utils.Teal200
+import com.example.babydiarycompose.ui.theme.Flower
+import com.example.babydiarycompose.ui.theme.Pink
+import com.example.babydiarycompose.ui.theme.Teal
+import com.example.babydiarycompose.ui.theme.Teal200
 import kotlin.math.max
 import kotlin.math.min
 

@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose.dialog
+package com.example.babydiarycompose.ui.dialog
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape

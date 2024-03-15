@@ -39,13 +39,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.babydiarycompose.compose.screen.GrowthCurveScreen
-import com.example.babydiarycompose.compose.screen.MenuScreen
-import com.example.babydiarycompose.compose.screen.RecordingScreen
-import com.example.babydiarycompose.compose.screen.SummaryScreen
+import com.example.babydiarycompose.ui.screen.GrowthCurveScreen
+import com.example.babydiarycompose.ui.screen.MenuScreen
+import com.example.babydiarycompose.ui.screen.RecordingScreen
+import com.example.babydiarycompose.ui.screen.SummaryScreen
 import com.example.babydiarycompose.data.MenuOptions
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
-import com.example.babydiarycompose.utils.Pink
+import com.example.babydiarycompose.ui.theme.Pink
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

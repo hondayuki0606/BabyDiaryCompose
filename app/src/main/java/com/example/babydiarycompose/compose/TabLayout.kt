@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import com.example.babydiarycompose.ui.theme.Pink40
-import com.example.babydiarycompose.utils.Pink
+import com.example.babydiarycompose.ui.theme.Pink
 
 @Composable
 fun TabLayout(tabList: List<String>, tabIndex: Int) {

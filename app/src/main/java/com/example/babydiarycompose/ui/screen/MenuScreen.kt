@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose.screen
+package com.example.babydiarycompose.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.babydiarycompose.ui.theme.Dark
 import com.example.babydiarycompose.ui.theme.DarkBrown
+import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
-import com.example.babydiarycompose.utils.Pink
 
 @Composable
 fun MenuScreen() {

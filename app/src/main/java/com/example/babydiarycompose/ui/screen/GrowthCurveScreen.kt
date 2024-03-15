@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose.screen
+package com.example.babydiarycompose.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

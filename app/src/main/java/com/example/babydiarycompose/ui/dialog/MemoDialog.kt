@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose.dialog
+package com.example.babydiarycompose.ui.dialog
 
 import android.R
 import androidx.compose.foundation.BorderStroke

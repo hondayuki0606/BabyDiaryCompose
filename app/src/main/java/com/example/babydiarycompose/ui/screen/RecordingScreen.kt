@@ -1,4 +1,4 @@
-package com.example.babydiarycompose.compose.screen
+package com.example.babydiarycompose.ui.screen
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -37,11 +37,11 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.babydiarycompose.compose.dialog.EventDetailDialog
-import com.example.babydiarycompose.compose.dialog.EventTimeSettingDialog
+import com.example.babydiarycompose.ui.dialog.EventDetailDialog
+import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
-import com.example.babydiarycompose.utils.Pink
+import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
