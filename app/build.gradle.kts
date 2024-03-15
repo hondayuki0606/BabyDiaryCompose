@@ -16,7 +16,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.babydiarycompose.CustomTestRunner"
         // Consult the README on instructions for setting up Unsplash API key
         buildConfigField("String", "UNSPLASH_ACCESS_KEY", "\"" + getUnsplashAccess() + "\"")
 
@@ -73,6 +74,13 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48.1")
     ksp("com.google.dagger:hilt-android-compiler:2.48")
     annotationProcessor("androidx.hilt:hilt-compiler:1.2.0")
+
+    testImplementation("com.google.dagger:hilt-android-testing:2.44")
+    kspTest("com.google.dagger:hilt-android-compiler:2.44")
+    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.44")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.44")
+    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
 
     // constraintlayout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
