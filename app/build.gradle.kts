@@ -39,6 +39,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    hilt {
+        enableTransformForLocalTests = true
+    }
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -59,6 +62,7 @@ android {
 
 dependencies {
 
+    implementation("com.google.ar:core:1.42.0")
     // room
     val roomVersion = "2.5.2"
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -76,11 +80,11 @@ dependencies {
     annotationProcessor("androidx.hilt:hilt-compiler:1.2.0")
 
     testImplementation("com.google.dagger:hilt-android-testing:2.44")
-    kspTest("com.google.dagger:hilt-android-compiler:2.44")
-    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
+    kspTest("com.google.dagger:hilt-android-compiler:2.48")
+    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.44")
-    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.44")
-    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.48")
+    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
 
     // constraintlayout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
