@@ -12,10 +12,10 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-@Config(application = HiltTestApplication::class)
+//@Config(application = HiltTestApplication::class)
 class ComposeTest {
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
+//    @get:Rule
+//    var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -24,7 +24,7 @@ class ComposeTest {
 
     @Before
     fun init() {
-        hiltRule.inject()
+//        hiltRule.inject()
     }
 
     @Test
