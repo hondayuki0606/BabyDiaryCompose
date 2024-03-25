@@ -8,16 +8,18 @@ import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.robolectric.annotation.Config
 import org.junit.runner.RunWith
 
-//@HiltAndroidTest
-//@Config(application = HiltTestApplication::class)
+//@UninstallModules(RepositoryModule::class)
+@HiltAndroidTest
+@Config(application = HiltTestApplication::class)
 @RunWith(AndroidJUnit4::class)
 class ComposeTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1)
+    @get:Rule
     val composeTestRule = createComposeRule()
 
     @Before
