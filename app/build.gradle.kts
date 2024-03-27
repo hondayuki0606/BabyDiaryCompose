@@ -142,6 +142,7 @@ dependencies {
     androidTestImplementation("io.mockk:mockk:1.13.5")
     androidTestImplementation("io.mockk:mockk-android:1.13.5")
     androidTestImplementation("io.mockk:mockk-agent:1.13.5")
+    implementation("com.google.accompanist:accompanist-webview:0.28.0")
 }
 
 //dependencies {
