@@ -44,6 +44,7 @@ import com.example.babydiarycompose.ui.screen.MenuScreen
 import com.example.babydiarycompose.ui.screen.RecordingScreen
 import com.example.babydiarycompose.ui.screen.SummaryScreen
 import com.example.babydiarycompose.data.MenuOptions
+import com.example.babydiarycompose.ui.screen.MyWebComposable
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 
@@ -220,7 +221,15 @@ fun BabyDiaryApp() {
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        MenuScreen()
+                        MenuScreen(navController)
+                    }
+                }
+                composable("web") {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        MyWebComposable("https://www.yahoo.co.jp/")
                     }
                 }
             }

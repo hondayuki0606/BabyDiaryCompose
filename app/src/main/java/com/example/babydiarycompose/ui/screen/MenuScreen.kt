@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,13 +37,15 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.babydiarycompose.data.MenuOptions
 import com.example.babydiarycompose.ui.theme.Dark
 import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
 
 @Composable
-fun MenuScreen() {
+fun MenuScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +85,8 @@ fun MenuScreen() {
         MenuIconButton(
             painterResourceId = Icons.Default.Settings,
             mainTitle = "設定",
-            subTitle = "カスタマイズや設定の変更はここから"
+            subTitle = "カスタマイズや設定の変更はここから",
+            navController = navController,
         )
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
@@ -178,7 +182,12 @@ fun TopMenuButton(mainTitle: String, subTitle: String = "") {
 }
 
 @Composable
-fun MenuIconButton(painterResourceId: ImageVector, mainTitle: String, subTitle: String = "") {
+fun MenuIconButton(
+    painterResourceId: ImageVector,
+    mainTitle: String,
+    subTitle: String = "",
+    navController: NavHostController? = null
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -200,7 +209,7 @@ fun MenuIconButton(painterResourceId: ImageVector, mainTitle: String, subTitle: 
                     contentDescription = null,
                     tint = Color.White
                 )
-                TextButton(mainTitle, subTitle)
+                TextButton(mainTitle, subTitle, navController)
             }
             ArrowBackImage()
         }
@@ -228,7 +237,7 @@ fun MenuButton(mainTitle: String, subTitle: String = "") {
 }
 
 @Composable
-fun TextButton(mainTitle: String, subTitle: String = "") {
+fun TextButton(mainTitle: String, subTitle: String = "", navController: NavHostController? = null) {
     Column {
         Text(
             text = mainTitle, color = White
@@ -238,6 +247,10 @@ fun TextButton(mainTitle: String, subTitle: String = "") {
                 text = subTitle,
                 color = White,
                 style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier
+                    .clickable {
+                        navController?.navigate(MenuOptions.WEB.route)
+                    }
             )
         }
     }

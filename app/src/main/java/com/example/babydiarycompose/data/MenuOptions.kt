@@ -42,4 +42,12 @@ enum class MenuOptions(
         R.drawable.ic_launcher_background,
         "settings"
     ),
+    WEB(
+        R.string.settings,  // settings
+//        R.drawable.ic_cog_solid,
+//        R.drawable.ic_cog_outlined,
+        R.drawable.ic_launcher_background,
+        R.drawable.ic_launcher_background,
+        "web"
+    ),
 }
