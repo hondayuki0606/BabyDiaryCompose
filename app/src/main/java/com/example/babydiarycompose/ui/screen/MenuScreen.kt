@@ -39,13 +39,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.babydiarycompose.data.MenuOptions
+import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.theme.Dark
 import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
 
 @Composable
-fun MenuScreen(navController: NavHostController) {
+fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +87,8 @@ fun MenuScreen(navController: NavHostController) {
             painterResourceId = Icons.Default.Settings,
             mainTitle = "設定",
             subTitle = "カスタマイズや設定の変更はここから",
-            navController = navController,
+            url = "https://www.yahoo.co.jp/",
+            screenTransitionListener = screenTransitionListener,
         )
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
@@ -103,7 +105,9 @@ fun MenuScreen(navController: NavHostController) {
         MenuButton(mainTitle = "プライバシーポリシー")
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
-            painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント"
+            painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント",
+            url = " https://twitter.com/?lang=ja",
+            screenTransitionListener = screenTransitionListener,
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(text = "ぴよログ性アプリ", color = White, style = TextStyle(fontSize = 12.sp))
@@ -186,7 +190,8 @@ fun MenuIconButton(
     painterResourceId: ImageVector,
     mainTitle: String,
     subTitle: String = "",
-    navController: NavHostController? = null
+    url: String = "",
+    screenTransitionListener: ScreenTransitionListener? = null
 ) {
     Box(
         modifier = Modifier
@@ -209,7 +214,7 @@ fun MenuIconButton(
                     contentDescription = null,
                     tint = Color.White
                 )
-                TextButton(mainTitle, subTitle, navController)
+                TextButton(mainTitle, subTitle, url, screenTransitionListener)
             }
             ArrowBackImage()
         }
@@ -237,8 +242,16 @@ fun MenuButton(mainTitle: String, subTitle: String = "") {
 }
 
 @Composable
-fun TextButton(mainTitle: String, subTitle: String = "", navController: NavHostController? = null) {
-    Column {
+fun TextButton(
+    mainTitle: String,
+    subTitle: String = "",
+    url: String = "",
+    screenTransitionListener: ScreenTransitionListener? = null
+) {
+    Column(modifier = Modifier
+        .clickable {
+            screenTransitionListener?.webTransitionListener(url)
+        }) {
         Text(
             text = mainTitle, color = White
         )
@@ -246,11 +259,7 @@ fun TextButton(mainTitle: String, subTitle: String = "", navController: NavHostC
             Text(
                 text = subTitle,
                 color = White,
-                style = TextStyle(fontSize = 12.sp),
-                modifier = Modifier
-                    .clickable {
-                        navController?.navigate(MenuOptions.WEB.route)
-                    }
+                style = TextStyle(fontSize = 12.sp)
             )
         }
     }

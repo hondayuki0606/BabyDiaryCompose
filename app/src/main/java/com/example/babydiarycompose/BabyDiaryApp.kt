@@ -44,6 +44,7 @@ import com.example.babydiarycompose.ui.screen.MenuScreen
 import com.example.babydiarycompose.ui.screen.RecordingScreen
 import com.example.babydiarycompose.ui.screen.SummaryScreen
 import com.example.babydiarycompose.data.MenuOptions
+import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.screen.MyWebComposable
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
@@ -55,6 +56,7 @@ fun BabyDiaryApp() {
         val navController = rememberNavController()
         val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
         var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
+        var netUrl = ""
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -221,7 +223,13 @@ fun BabyDiaryApp() {
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        MenuScreen(navController)
+                        val webTransitionListener = object : ScreenTransitionListener {
+                            override fun webTransitionListener(url: String) {
+                                netUrl = url
+                                navController.navigate(MenuOptions.WEB.route)
+                            }
+                        }
+                        MenuScreen(webTransitionListener)
                     }
                 }
                 composable("web") {
@@ -229,7 +237,7 @@ fun BabyDiaryApp() {
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        MyWebComposable("https://www.yahoo.co.jp/")
+                        MyWebComposable(netUrl)
                     }
                 }
             }
