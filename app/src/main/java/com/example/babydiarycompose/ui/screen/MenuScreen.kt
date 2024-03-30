@@ -114,12 +114,16 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         MenuIconButton(
             painterResourceId = Icons.Default.ThumbUp,
             mainTitle = "陣痛タイマー by ぴよログ",
-            subTitle = "陣痛間隔を計測、共有もできます"
+            subTitle = "陣痛間隔を計測、共有もできます",
+            url = "https://play.google.com/store/apps/details?id=jp.co.sakabou.paintimer&hl=en-JP",
+            screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.DateRange,
             mainTitle = "ぴよログ予防接種",
-            subTitle = "ぴよログと連携して予防接種を管理"
+            subTitle = "ぴよログと連携して予防接種を管理",
+            url = "https://play.google.com/store/search?q=%E3%81%B4%E3%82%88%E3%83%AD%E3%82%B0+%E4%BA%88%E9%98%B2%E6%8E%A5%E7%A8%AE&c=apps&hl=en-JP",
+            screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Face,
