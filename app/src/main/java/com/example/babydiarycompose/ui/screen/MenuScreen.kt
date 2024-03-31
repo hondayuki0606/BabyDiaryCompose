@@ -1,5 +1,8 @@
 package com.example.babydiarycompose.ui.screen
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -87,7 +91,8 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
             painterResourceId = Icons.Default.Settings,
             mainTitle = "設定",
             subTitle = "カスタマイズや設定の変更はここから",
-            url = "https://www.yahoo.co.jp/",
+            packageName = "jp.co.sakabou.paintimer",
+            webUrl = "https://www.yahoo.co.jp/",
             screenTransitionListener = screenTransitionListener,
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -106,7 +111,7 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
             painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント",
-            url = " https://twitter.com/?lang=ja",
+            webUrl = " https://twitter.com/?lang=ja",
             screenTransitionListener = screenTransitionListener,
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -115,39 +120,46 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
             painterResourceId = Icons.Default.ThumbUp,
             mainTitle = "陣痛タイマー by ぴよログ",
             subTitle = "陣痛間隔を計測、共有もできます",
-            url = "https://play.google.com/store/apps/details?id=jp.co.sakabou.paintimer&hl=en-JP",
+            packageName = "jp.co.sakabou.paintimer",
+            webUrl = "https://play.google.com/store/apps/details?id=jp.co.sakabou.paintimer&hl=en-JP",
             screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.DateRange,
             mainTitle = "ぴよログ予防接種",
             subTitle = "ぴよログと連携して予防接種を管理",
-            url = "https://play.google.com/store/search?q=%E3%81%B4%E3%82%88%E3%83%AD%E3%82%B0+%E4%BA%88%E9%98%B2%E6%8E%A5%E7%A8%AE&c=apps&hl=en-JP",
+            packageName = "jp.co.sakabou.vaccine",
+            webUrl = "https://play.google.com/store/search?q=%E3%81%B4%E3%82%88%E3%83%AD%E3%82%B0+%E4%BA%88%E9%98%B2%E6%8E%A5%E7%A8%AE&c=apps&hl=en-JP",
             screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Face,
             mainTitle = "すくすくプラス",
-            subTitle = "もじ・かず・ちえを学ぶ幼児向けアプリ"
+            subTitle = "もじ・かず・ちえを学ぶ幼児向けアプリ",
+            packageName = "com.piyolog.sukusukuplus",
+            webUrl = "https://play.google.com/store/search?q=%E3%81%B4%E3%82%88%E3%83%AD%E3%82%B0+%E4%BA%88%E9%98%B2%E6%8E%A5%E7%A8%AE&c=apps&hl=en-JP",
+            screenTransitionListener = screenTransitionListener,
         )
         Text(
-            text = "V7.13.0",
+            text = "V7.13.0\n" +
+                    "PiyoLogId:71A1BE2-8261-4F2D-B723-9239F9903B57-2.13.0\n" +
+                    "11D372",
             color = White,
             style = TextStyle(fontSize = 12.sp),
             modifier = Modifier.align(Alignment.End)
         )
-        Text(
-            text = "PiyoLogId:71A1BE2-8261-4F2D-B723-9239F9903B57-2.13.0",
-            color = White,
-            style = TextStyle(fontSize = 12.sp),
-            modifier = Modifier.align(Alignment.End)
-        )
-        Text(
-            text = "11D372",
-            color = White,
-            style = TextStyle(fontSize = 12.sp),
-            modifier = Modifier.align(Alignment.End)
-        )
+//        Text(
+//            text = "",
+//            color = White,
+//            style = TextStyle(fontSize = 12.sp),
+//            modifier = Modifier.align(Alignment.End)
+//        )
+//        Text(
+//            text = "",
+//            color = White,
+//            style = TextStyle(fontSize = 12.sp),
+//            modifier = Modifier.align(Alignment.End)
+//        )
     }
 }
 
@@ -194,7 +206,8 @@ fun MenuIconButton(
     painterResourceId: ImageVector,
     mainTitle: String,
     subTitle: String = "",
-    url: String = "",
+    packageName: String = "",
+    webUrl: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
     Box(
@@ -218,7 +231,7 @@ fun MenuIconButton(
                     contentDescription = null,
                     tint = Color.White
                 )
-                TextButton(mainTitle, subTitle, url, screenTransitionListener)
+                TextButton(mainTitle, subTitle, packageName, webUrl, screenTransitionListener)
             }
             ArrowBackImage()
         }
@@ -249,12 +262,27 @@ fun MenuButton(mainTitle: String, subTitle: String = "") {
 fun TextButton(
     mainTitle: String,
     subTitle: String = "",
-    url: String = "",
+    packageName: String = "",
+    webUrl: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
+    val context = LocalContext.current
     Column(modifier = Modifier
         .clickable {
-            screenTransitionListener?.webTransitionListener(url)
+            if (packageName.isNotEmpty()) {
+                val appUrl = "market://details?id=$packageName"
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(appUrl)
+                try {
+                    context.startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    intent.data =
+                        Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                    context.startActivity(intent)
+                }
+            } else if (webUrl.isNotEmpty()) {
+                screenTransitionListener?.webTransitionListener(webUrl)
+            }
         }) {
         Text(
             text = mainTitle, color = White
