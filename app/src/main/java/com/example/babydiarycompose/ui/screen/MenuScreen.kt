@@ -111,8 +111,9 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
             painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント",
-            webUrl = " https://twitter.com/?lang=ja",
-            screenTransitionListener = screenTransitionListener,
+            twitter = "a",
+//            webUrl = " https://twitter.com/?lang=ja",
+//            screenTransitionListener = screenTransitionListener,
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(text = "ぴよログ性アプリ", color = White, style = TextStyle(fontSize = 12.sp))
@@ -121,24 +122,18 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
             mainTitle = "陣痛タイマー by ぴよログ",
             subTitle = "陣痛間隔を計測、共有もできます",
             packageName = "jp.co.sakabou.paintimer",
-            webUrl = "https://play.google.com/store/apps/details?id=jp.co.sakabou.paintimer&hl=en-JP",
-            screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.DateRange,
             mainTitle = "ぴよログ予防接種",
             subTitle = "ぴよログと連携して予防接種を管理",
             packageName = "jp.co.sakabou.vaccine",
-            webUrl = "https://play.google.com/store/search?q=%E3%81%B4%E3%82%88%E3%83%AD%E3%82%B0+%E4%BA%88%E9%98%B2%E6%8E%A5%E7%A8%AE&c=apps&hl=en-JP",
-            screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Face,
             mainTitle = "すくすくプラス",
             subTitle = "もじ・かず・ちえを学ぶ幼児向けアプリ",
             packageName = "com.piyolog.sukusukuplus",
-            webUrl = "https://play.google.com/store/search?q=%E3%81%B4%E3%82%88%E3%83%AD%E3%82%B0+%E4%BA%88%E9%98%B2%E6%8E%A5%E7%A8%AE&c=apps&hl=en-JP",
-            screenTransitionListener = screenTransitionListener,
         )
         Text(
             text = "V7.13.0\n" +
@@ -148,18 +143,6 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
             style = TextStyle(fontSize = 12.sp),
             modifier = Modifier.align(Alignment.End)
         )
-//        Text(
-//            text = "",
-//            color = White,
-//            style = TextStyle(fontSize = 12.sp),
-//            modifier = Modifier.align(Alignment.End)
-//        )
-//        Text(
-//            text = "",
-//            color = White,
-//            style = TextStyle(fontSize = 12.sp),
-//            modifier = Modifier.align(Alignment.End)
-//        )
     }
 }
 
@@ -207,6 +190,7 @@ fun MenuIconButton(
     mainTitle: String,
     subTitle: String = "",
     packageName: String = "",
+    twitter: String = "",
     webUrl: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
@@ -231,7 +215,14 @@ fun MenuIconButton(
                     contentDescription = null,
                     tint = Color.White
                 )
-                TextButton(mainTitle, subTitle, packageName, webUrl, screenTransitionListener)
+                TextButton(
+                    mainTitle,
+                    subTitle,
+                    packageName,
+                    twitter,
+                    webUrl,
+                    screenTransitionListener
+                )
             }
             ArrowBackImage()
         }
@@ -263,6 +254,7 @@ fun TextButton(
     mainTitle: String,
     subTitle: String = "",
     packageName: String = "",
+    twitter: String = "",
     webUrl: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
@@ -280,8 +272,29 @@ fun TextButton(
                         Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
                     context.startActivity(intent)
                 }
+            } else if (twitter.isNotEmpty()) {
+                val userId = "piyolog_app"
+                val appUrl = "https://twitter.com/$userId"
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(appUrl)
+                try {
+                    context.startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    intent.data =
+                        Uri.parse(appUrl)
+                    context.startActivity(intent)
+                }
             } else if (webUrl.isNotEmpty()) {
-                screenTransitionListener?.webTransitionListener(webUrl)
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(webUrl)
+                try {
+                    context.startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    intent.data =
+                        Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                    context.startActivity(intent)
+                }
+//                screenTransitionListener?.webTransitionListener(webUrl)
             }
         }) {
         Text(
