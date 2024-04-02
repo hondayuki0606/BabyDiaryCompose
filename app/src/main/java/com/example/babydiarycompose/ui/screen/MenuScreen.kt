@@ -41,8 +41,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.example.babydiarycompose.data.MenuOptions
 import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.theme.Dark
 import com.example.babydiarycompose.ui.theme.DarkBrown
@@ -109,11 +107,15 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         MenuButton(mainTitle = "利用規約")
         MenuButton(mainTitle = "プライバシーポリシー")
         Spacer(modifier = Modifier.height(20.dp))
+        val userId = "piyolog_app"
+        val httpsUrl = "https://twitter.com/$userId"
         MenuIconButton(
             painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント",
-            twitter = "a",
-//            webUrl = " https://twitter.com/?lang=ja",
-//            screenTransitionListener = screenTransitionListener,
+            httpsUrl = httpsUrl
+        )
+        MenuButton(
+            mainTitle = "半田ぴよログスポーツパーク",
+            httpsUrl = "https://park.piyolog.com/"
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(text = "ぴよログ性アプリ", color = White, style = TextStyle(fontSize = 12.sp))
@@ -190,7 +192,7 @@ fun MenuIconButton(
     mainTitle: String,
     subTitle: String = "",
     packageName: String = "",
-    twitter: String = "",
+    httpsUrl: String = "",
     webUrl: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
@@ -219,7 +221,7 @@ fun MenuIconButton(
                     mainTitle,
                     subTitle,
                     packageName,
-                    twitter,
+                    httpsUrl,
                     webUrl,
                     screenTransitionListener
                 )
@@ -230,7 +232,7 @@ fun MenuIconButton(
 }
 
 @Composable
-fun MenuButton(mainTitle: String, subTitle: String = "") {
+fun MenuButton(mainTitle: String, subTitle: String = "", httpsUrl: String = "") {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -243,7 +245,7 @@ fun MenuButton(mainTitle: String, subTitle: String = "") {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TextButton(mainTitle, subTitle)
+            TextButton(mainTitle = mainTitle, subTitle = subTitle, httpsUrl = httpsUrl)
             ArrowBackImage()
         }
     }
@@ -254,7 +256,7 @@ fun TextButton(
     mainTitle: String,
     subTitle: String = "",
     packageName: String = "",
-    twitter: String = "",
+    httpsUrl: String = "",
     webUrl: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
@@ -272,16 +274,14 @@ fun TextButton(
                         Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
                     context.startActivity(intent)
                 }
-            } else if (twitter.isNotEmpty()) {
-                val userId = "piyolog_app"
-                val appUrl = "https://twitter.com/$userId"
+            } else if (httpsUrl.isNotEmpty()) {
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(appUrl)
+                intent.data = Uri.parse(httpsUrl)
                 try {
                     context.startActivity(intent)
                 } catch (e: ActivityNotFoundException) {
                     intent.data =
-                        Uri.parse(appUrl)
+                        Uri.parse(httpsUrl)
                     context.startActivity(intent)
                 }
             } else if (webUrl.isNotEmpty()) {
