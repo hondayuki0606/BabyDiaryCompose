@@ -101,17 +101,15 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         MenuButton(mainTitle = "お知らせ")
-        MenuButton(mainTitle = "このアプリをレビューする")
+        MenuButton(mainTitle = "このアプリをレビューする", packageName = "jp.co.sakabou.piyolog")
         MenuButton(mainTitle = "お問い合わせ")
         MenuButton(mainTitle = "ぴよログを友達に教える")
         MenuButton(mainTitle = "利用規約")
         MenuButton(mainTitle = "プライバシーポリシー")
         Spacer(modifier = Modifier.height(20.dp))
-        val userId = "piyolog_app"
-        val httpsUrl = "https://twitter.com/$userId"
         MenuIconButton(
             painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント",
-            httpsUrl = httpsUrl
+            httpsUrl = "https://twitter.com/piyolog_app"
         )
         MenuButton(
             mainTitle = "半田ぴよログスポーツパーク",
@@ -232,7 +230,12 @@ fun MenuIconButton(
 }
 
 @Composable
-fun MenuButton(mainTitle: String, subTitle: String = "", httpsUrl: String = "") {
+fun MenuButton(
+    mainTitle: String,
+    subTitle: String = "",
+    packageName: String = "",
+    httpsUrl: String = ""
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -245,7 +248,12 @@ fun MenuButton(mainTitle: String, subTitle: String = "", httpsUrl: String = "") 
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TextButton(mainTitle = mainTitle, subTitle = subTitle, httpsUrl = httpsUrl)
+            TextButton(
+                mainTitle = mainTitle,
+                subTitle = subTitle,
+                packageName = packageName,
+                httpsUrl = httpsUrl
+            )
             ArrowBackImage()
         }
     }
