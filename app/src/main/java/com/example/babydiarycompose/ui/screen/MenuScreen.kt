@@ -104,8 +104,14 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         MenuButton(mainTitle = "このアプリをレビューする", packageName = "jp.co.sakabou.piyolog")
         MenuButton(mainTitle = "お問い合わせ")
         MenuButton(mainTitle = "ぴよログを友達に教える")
-        MenuButton(mainTitle = "利用規約")
-        MenuButton(mainTitle = "プライバシーポリシー")
+        MenuButton(
+            mainTitle = "利用規約",
+            httpsUrl = "https://www.piyolog.com/app/piyolog/eula.html"
+        )
+        MenuButton(
+            mainTitle = "プライバシーポリシー",
+            httpsUrl = "https://www.piyolog.com/app/piyolog/privacy.html"
+        )
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
             painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント",
