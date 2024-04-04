@@ -18,7 +18,7 @@ enum class Screen(
 //        R.drawable.ic_home_outlined,
         R.drawable.ic_launcher_background,
         R.drawable.ic_launcher_background,
-        "home"
+        "record"
     ),
     SUMMARY(
         1,
@@ -27,7 +27,7 @@ enum class Screen(
 //        R.drawable.ic_template_outlined,
         R.drawable.ic_launcher_background,
         R.drawable.ic_launcher_background,
-        "components"
+        "summary"
     ),
     GROW(
         2,
@@ -36,7 +36,7 @@ enum class Screen(
 //        R.drawable.ic_document_text_outlined,
         R.drawable.ic_launcher_background,
         R.drawable.ic_launcher_background,
-        "articles"
+        "grow"
     ),
     MENU(
         3,
