@@ -43,7 +43,7 @@ import com.example.babydiarycompose.ui.screen.GrowthCurveScreen
 import com.example.babydiarycompose.ui.screen.MenuScreen
 import com.example.babydiarycompose.ui.screen.RecordingScreen
 import com.example.babydiarycompose.ui.screen.SummaryScreen
-import com.example.babydiarycompose.data.MenuOptions
+import com.example.babydiarycompose.data.Screen
 import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.screen.MyWebComposable
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
@@ -116,20 +116,20 @@ fun BabyDiaryApp() {
                             onClick = {
                                 selectedItemIndex = index
                                 when (selectedItemIndex) {
-                                    0 -> {
-                                        navController.navigate(MenuOptions.HOME.route)
+                                    Screen.RECORD.index -> {
+                                        navController.navigate(Screen.RECORD.route)
                                     }
 
-                                    1 -> {
-                                        navController.navigate(MenuOptions.COMPONENTS.route)
+                                    Screen.SUMMARY.index -> {
+                                        navController.navigate(Screen.SUMMARY.route)
                                     }
 
-                                    2 -> {
-                                        navController.navigate(MenuOptions.ARTICLES.route)
+                                    Screen.GROW.index -> {
+                                        navController.navigate(Screen.GROW.route)
                                     }
 
-                                    else -> {
-                                        navController.navigate(MenuOptions.SETTINGS.route)
+                                    Screen.MENU.index -> {
+                                        navController.navigate(Screen.MENU.route)
                                     }
                                 }
                             },
@@ -148,20 +148,20 @@ fun BabyDiaryApp() {
                                     IconButton(onClick = {
                                         selectedItemIndex = index
                                         when (selectedItemIndex) {
-                                            0 -> {
-                                                navController.navigate(MenuOptions.HOME.route)
+                                            Screen.RECORD.index -> {
+                                                navController.navigate(Screen.RECORD.route)
                                             }
 
-                                            1 -> {
-                                                navController.navigate(MenuOptions.COMPONENTS.route)
+                                            Screen.SUMMARY.index -> {
+                                                navController.navigate(Screen.SUMMARY.route)
                                             }
 
-                                            2 -> {
-                                                navController.navigate(MenuOptions.ARTICLES.route)
+                                            Screen.GROW.index -> {
+                                                navController.navigate(Screen.GROW.route)
                                             }
 
-                                            else -> {
-                                                navController.navigate(MenuOptions.SETTINGS.route)
+                                            Screen.MENU.index -> {
+                                                navController.navigate(Screen.MENU.route)
                                             }
                                         }
                                     }) {
@@ -190,11 +190,11 @@ fun BabyDiaryApp() {
             }
         ) { innerPadding ->
             NavHost(
-                modifier = Modifier.padding(innerPadding),
                 navController = navController,
-                startDestination = MenuOptions.HOME.route,
+                startDestination = Screen.RECORD.route,
+                modifier = Modifier.padding(innerPadding),
             ) {
-                composable("home") {
+                composable(Screen.RECORD.route) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
@@ -202,7 +202,7 @@ fun BabyDiaryApp() {
                         RecordingScreen()
                     }
                 }
-                composable("components") {
+                composable(Screen.SUMMARY.route) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
@@ -210,7 +210,7 @@ fun BabyDiaryApp() {
                         SummaryScreen()
                     }
                 }
-                composable("articles") {
+                composable(Screen.GROW.route) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
@@ -218,7 +218,7 @@ fun BabyDiaryApp() {
                         GrowthCurveScreen()
                     }
                 }
-                composable("settings") {
+                composable(Screen.MENU.route) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
@@ -226,13 +226,13 @@ fun BabyDiaryApp() {
                         val webTransitionListener = object : ScreenTransitionListener {
                             override fun webTransitionListener(url: String) {
                                 netUrl = url
-                                navController.navigate(MenuOptions.WEB.route)
+                                navController.navigate(Screen.WEB.route)
                             }
                         }
                         MenuScreen(webTransitionListener)
                     }
                 }
-                composable("web") {
+                composable(Screen.SETTINGS.route) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),

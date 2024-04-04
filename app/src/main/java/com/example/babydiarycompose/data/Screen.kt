@@ -4,13 +4,15 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.babydiarycompose.R
 
-enum class MenuOptions(
-    @StringRes val title: Int,
-    @DrawableRes val activeIcon: Int,
-    @DrawableRes val inactiveIcon: Int,
+enum class Screen(
+    val index: Int,
+    @StringRes val title: Int = 0,
+    @DrawableRes val activeIcon: Int = 0,
+    @DrawableRes val inactiveIcon: Int = 0,
     val route: String
 ) {
-    HOME(
+    RECORD(
+        0,
         R.string.home,  // home
 //        R.drawable.ic_home_solid,
 //        R.drawable.ic_home_outlined,
@@ -18,7 +20,8 @@ enum class MenuOptions(
         R.drawable.ic_launcher_background,
         "home"
     ),
-    COMPONENTS(
+    SUMMARY(
+        1,
         R.string.components,  // components
 //        R.drawable.ic_template_solid,
 //        R.drawable.ic_template_outlined,
@@ -26,7 +29,8 @@ enum class MenuOptions(
         R.drawable.ic_launcher_background,
         "components"
     ),
-    ARTICLES(
+    GROW(
+        2,
         R.string.articles,  // articles
 //        R.drawable.ic_document_text_solid,
 //        R.drawable.ic_document_text_outlined,
@@ -34,7 +38,17 @@ enum class MenuOptions(
         R.drawable.ic_launcher_background,
         "articles"
     ),
+    MENU(
+        3,
+        R.string.settings,  // settings
+//        R.drawable.ic_cog_solid,
+//        R.drawable.ic_cog_outlined,
+        R.drawable.ic_launcher_background,
+        R.drawable.ic_launcher_background,
+        "menu"
+    ),
     SETTINGS(
+        99,
         R.string.settings,  // settings
 //        R.drawable.ic_cog_solid,
 //        R.drawable.ic_cog_outlined,
@@ -43,6 +57,7 @@ enum class MenuOptions(
         "settings"
     ),
     WEB(
+        99,
         R.string.settings,  // settings
 //        R.drawable.ic_cog_solid,
 //        R.drawable.ic_cog_outlined,
