@@ -45,7 +45,7 @@ import com.example.babydiarycompose.ui.screen.RecordingScreen
 import com.example.babydiarycompose.ui.screen.SummaryScreen
 import com.example.babydiarycompose.data.Screen
 import com.example.babydiarycompose.listener.ScreenTransitionListener
-import com.example.babydiarycompose.ui.screen.MyWebComposable
+import com.example.babydiarycompose.ui.screen.SettingsScreen
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 
@@ -223,13 +223,12 @@ fun BabyDiaryApp() {
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        val webTransitionListener = object : ScreenTransitionListener {
-                            override fun webTransitionListener(url: String) {
-                                netUrl = url
-                                navController.navigate(Screen.WEB.route)
+                        val settingsTransitionListener = object : ScreenTransitionListener {
+                            override fun settingsTransitionListener() {
+                                navController.navigate(Screen.SETTINGS.route)
                             }
                         }
-                        MenuScreen(webTransitionListener)
+                        MenuScreen(settingsTransitionListener)
                     }
                 }
                 composable(Screen.SETTINGS.route) {
@@ -237,7 +236,7 @@ fun BabyDiaryApp() {
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        MyWebComposable(netUrl)
+                        SettingsScreen()
                     }
                 }
             }
