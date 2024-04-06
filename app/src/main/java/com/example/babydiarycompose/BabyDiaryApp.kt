@@ -28,6 +28,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,9 +55,9 @@ import com.example.babydiarycompose.ui.theme.Pink
 fun BabyDiaryApp() {
     BabyDiaryComposeTheme {
         val navController = rememberNavController()
+        var isDisplayedNavigationBar by rememberSaveable { mutableStateOf(true) }
         val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
         var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
-        var netUrl = ""
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -103,88 +104,90 @@ fun BabyDiaryApp() {
                 )
             },
             bottomBar = {
-                NavigationBar(containerColor = Color(0xFF1c1c1c)) {
-                    items.forEachIndexed { index, item ->
-                        NavigationBarItem(
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = Pink,
-                                unselectedIconColor = Color.Gray,
-                                selectedTextColor = Color.White,
-                                indicatorColor = Color.White
-                            ),
-                            selected = selectedItemIndex == index,
-                            onClick = {
-                                selectedItemIndex = index
-                                when (selectedItemIndex) {
-                                    Screen.RECORD.index -> {
-                                        navController.navigate(Screen.RECORD.route)
-                                    }
-
-                                    Screen.SUMMARY.index -> {
-                                        navController.navigate(Screen.SUMMARY.route)
-                                    }
-
-                                    Screen.GROW.index -> {
-                                        navController.navigate(Screen.GROW.route)
-                                    }
-
-                                    Screen.MENU.index -> {
-                                        navController.navigate(Screen.MENU.route)
-                                    }
-                                }
-                            },
-                            label = {
-                                Text(
-                                    color = Color.White,
-                                    text = item
-                                )
-                            },
-                            icon = {
-                                BadgedBox(
-                                    badge = {
-                                        Badge()
-                                    }
-                                ) {
-                                    IconButton(onClick = {
-                                        selectedItemIndex = index
-                                        when (selectedItemIndex) {
-                                            Screen.RECORD.index -> {
-                                                navController.navigate(Screen.RECORD.route)
-                                            }
-
-                                            Screen.SUMMARY.index -> {
-                                                navController.navigate(Screen.SUMMARY.route)
-                                            }
-
-                                            Screen.GROW.index -> {
-                                                navController.navigate(Screen.GROW.route)
-                                            }
-
-                                            Screen.MENU.index -> {
-                                                navController.navigate(Screen.MENU.route)
-                                            }
+                if (isDisplayedNavigationBar) {
+                    NavigationBar(containerColor = Color(0xFF1c1c1c)) {
+                        items.forEachIndexed { index, item ->
+                            NavigationBarItem(
+                                colors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = Pink,
+                                    unselectedIconColor = Color.Gray,
+                                    selectedTextColor = Color.White,
+                                    indicatorColor = Color.White
+                                ),
+                                selected = selectedItemIndex == index,
+                                onClick = {
+                                    selectedItemIndex = index
+                                    when (selectedItemIndex) {
+                                        Screen.RECORD.index -> {
+                                            navController.navigate(Screen.RECORD.route)
                                         }
-                                    }) {
-                                        Icon(
-                                            imageVector = when (index) {
-                                                0 ->
-                                                    Icons.Default.Edit
 
-                                                1 ->
-                                                    Icons.Default.Build
+                                        Screen.SUMMARY.index -> {
+                                            navController.navigate(Screen.SUMMARY.route)
+                                        }
 
-                                                2 ->
-                                                    Icons.Default.Info
+                                        Screen.GROW.index -> {
+                                            navController.navigate(Screen.GROW.route)
+                                        }
 
-                                                else ->
-                                                    Icons.Default.Menu
-                                            },
-                                            contentDescription = items[selectedItemIndex]
-                                        )
+                                        Screen.MENU.index -> {
+                                            navController.navigate(Screen.MENU.route)
+                                        }
+                                    }
+                                },
+                                label = {
+                                    Text(
+                                        color = Color.White,
+                                        text = item
+                                    )
+                                },
+                                icon = {
+                                    BadgedBox(
+                                        badge = {
+                                            Badge()
+                                        }
+                                    ) {
+                                        IconButton(onClick = {
+                                            selectedItemIndex = index
+                                            when (selectedItemIndex) {
+                                                Screen.RECORD.index -> {
+                                                    navController.navigate(Screen.RECORD.route)
+                                                }
+
+                                                Screen.SUMMARY.index -> {
+                                                    navController.navigate(Screen.SUMMARY.route)
+                                                }
+
+                                                Screen.GROW.index -> {
+                                                    navController.navigate(Screen.GROW.route)
+                                                }
+
+                                                Screen.MENU.index -> {
+                                                    navController.navigate(Screen.MENU.route)
+                                                }
+                                            }
+                                        }) {
+                                            Icon(
+                                                imageVector = when (index) {
+                                                    0 ->
+                                                        Icons.Default.Edit
+
+                                                    1 ->
+                                                        Icons.Default.Build
+
+                                                    2 ->
+                                                        Icons.Default.Info
+
+                                                    else ->
+                                                        Icons.Default.Menu
+                                                },
+                                                contentDescription = items[selectedItemIndex]
+                                            )
+                                        }
                                     }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
@@ -200,6 +203,7 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         RecordingScreen()
+                        isDisplayedNavigationBar = true
                     }
                 }
                 composable(Screen.SUMMARY.route) {
@@ -208,6 +212,7 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         SummaryScreen()
+                        isDisplayedNavigationBar = true
                     }
                 }
                 composable(Screen.GROW.route) {
@@ -216,6 +221,7 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         GrowthCurveScreen()
+                        isDisplayedNavigationBar = true
                     }
                 }
                 composable(Screen.MENU.route) {
@@ -229,6 +235,7 @@ fun BabyDiaryApp() {
                             }
                         }
                         MenuScreen(settingsTransitionListener)
+                        isDisplayedNavigationBar = true
                     }
                 }
                 composable(Screen.SETTINGS.route) {
@@ -237,6 +244,7 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         SettingsScreen()
+                        isDisplayedNavigationBar = false
                     }
                 }
             }
