@@ -14,8 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -140,6 +145,44 @@ fun MenuButton(
                 httpsUrl = httpsUrl
             )
             ArrowBackImage()
+        }
+    }
+}
+
+@Composable
+fun ToggleButton(
+    mainTitle: String,
+    subTitle: String = "",
+    packageName: String = "",
+    httpsUrl: String = "",
+    settings: Boolean = false,
+    screenTransitionListener: ScreenTransitionListener? = null
+) {
+    var checked by remember { mutableStateOf(true) }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(DarkBrown)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            TextButton(
+                mainTitle = mainTitle,
+                subTitle = subTitle,
+                packageName = packageName,
+                httpsUrl = httpsUrl
+            )
+            Switch(
+                checked = checked,
+                onCheckedChange = {
+                    checked = it
+                }
+            )
         }
     }
 }

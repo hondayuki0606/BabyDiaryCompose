@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.babydiarycompose.ui.button.MenuButton
 import com.example.babydiarycompose.ui.button.MenuIconButton
+import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.Dark
 import com.example.babydiarycompose.ui.theme.White
 
@@ -49,6 +50,17 @@ fun SettingsScreen() {
         MenuButton(
             mainTitle = "飲み物の入力方式",
         )
-
+        MenuButton(
+            mainTitle = "身長/体重入力方式",
+        )
+        ToggleButton(
+            mainTitle = "授乳タイマーボタン",
+        )
+        ToggleButton(
+            mainTitle = "検索ボタン",
+        )
+        ToggleButton(
+            mainTitle = "日記編集ボタン",
+        )
     }
 }
