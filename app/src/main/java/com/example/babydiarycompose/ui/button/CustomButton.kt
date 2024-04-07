@@ -153,10 +153,6 @@ fun MenuButton(
 fun ToggleButton(
     mainTitle: String,
     subTitle: String = "",
-    packageName: String = "",
-    httpsUrl: String = "",
-    settings: Boolean = false,
-    screenTransitionListener: ScreenTransitionListener? = null
 ) {
     var checked by remember { mutableStateOf(true) }
     Box(
@@ -174,8 +170,6 @@ fun ToggleButton(
             TextButton(
                 mainTitle = mainTitle,
                 subTitle = subTitle,
-                packageName = packageName,
-                httpsUrl = httpsUrl
             )
             Switch(
                 checked = checked,
