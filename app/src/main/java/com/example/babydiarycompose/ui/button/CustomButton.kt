@@ -3,17 +3,26 @@ package com.example.babydiarycompose.ui.button
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -177,6 +186,69 @@ fun ToggleButton(
                     checked = it
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun MultiToggleButton(
+    mainTitle: String,
+    currentSelection: String,
+    toggleStates: List<String>,
+    onToggleChange: ((String) -> Unit)?
+) {
+    val selectedTint = MaterialTheme.colorScheme.primary
+    val unselectedTint = Color.Unspecified
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(DarkBrown)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                mainTitle, modifier = Modifier.padding(4.dp), color = White,
+                style = TextStyle(fontSize = 12.sp)
+            )
+            Row(
+                modifier = Modifier
+                    .height(IntrinsicSize.Min)
+                    .border(BorderStroke(1.dp, Color.LightGray))
+            ) {
+                toggleStates.forEachIndexed { index, toggleState ->
+                    val isSelected = currentSelection.lowercase() == toggleState.lowercase()
+                    val backgroundTint = if (isSelected) selectedTint else unselectedTint
+                    val textColor = if (isSelected) Color.White else Color.Unspecified
+
+                    if (index != 0) {
+                        Divider(
+                            color = Color.LightGray,
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(1.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .background(backgroundTint)
+                            .padding(vertical = 6.dp, horizontal = 8.dp)
+                            .toggleable(
+                                value = isSelected,
+                                enabled = true,
+                                onValueChange = { selected ->
+                                    if (selected) {
+                                        if (onToggleChange != null) {
+                                            onToggleChange(toggleState)
+                                        }
+                                    }
+                                })
+                    ) {
+                        Text(toggleState, color = textColor, modifier = Modifier.padding(4.dp))
+                    }
+                }
+            }
         }
     }
 }
