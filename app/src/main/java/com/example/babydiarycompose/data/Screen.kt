@@ -47,6 +47,15 @@ enum class Screen(
         R.drawable.ic_launcher_background,
         "menu"
     ),
+    ACCOUNT(
+        99,
+        R.string.settings,  // settings
+//        R.drawable.ic_cog_solid,
+//        R.drawable.ic_cog_outlined,
+        R.drawable.ic_launcher_background,
+        R.drawable.ic_launcher_background,
+        "account"
+    ),
     SETTINGS(
         99,
         R.string.settings,  // settings

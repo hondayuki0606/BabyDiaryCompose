@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.babydiarycompose.data.Screen
 import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.button.MenuButton
 import com.example.babydiarycompose.ui.button.MenuIconButton
@@ -55,7 +56,9 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         MenuIconButton(
             painterResourceId = Icons.Default.AccountBox,
             mainTitle = "アカウント",
-            subTitle = "共有・引継ぎ・アカウントリンク"
+            subTitle = "共有・引継ぎ・アカウントリンク",
+            screenName = Screen.ACCOUNT.route,
+            screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Search, mainTitle = "記録・日記の検索"
@@ -76,7 +79,7 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
             painterResourceId = Icons.Default.Settings,
             mainTitle = "設定",
             subTitle = "カスタマイズや設定の変更はここから",
-            settings = true,
+            screenName = Screen.SETTINGS.route,
             screenTransitionListener = screenTransitionListener,
         )
         Spacer(modifier = Modifier.height(20.dp))

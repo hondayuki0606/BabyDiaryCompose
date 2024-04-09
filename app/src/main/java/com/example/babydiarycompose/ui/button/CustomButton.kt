@@ -90,7 +90,7 @@ fun MenuIconButton(
     subTitle: String = "",
     packageName: String = "",
     httpsUrl: String = "",
-    settings: Boolean = false,
+    screenName: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
     Box(
@@ -119,7 +119,7 @@ fun MenuIconButton(
                     subTitle,
                     packageName,
                     httpsUrl,
-                    settings,
+                    screenName,
                     screenTransitionListener
                 )
             }
@@ -259,7 +259,7 @@ fun TextButton(
     subTitle: String = "",
     packageName: String = "",
     httpsUrl: String = "",
-    settings: Boolean = false,
+    screenName: String = "",
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
     val context = LocalContext.current
@@ -286,8 +286,8 @@ fun TextButton(
                         Uri.parse(httpsUrl)
                     context.startActivity(intent)
                 }
-            } else if (settings) {
-                screenTransitionListener?.settingsTransitionListener()
+            } else if (screenName.isNotEmpty()) {
+                screenTransitionListener?.transitionListener(screenName)
             }
         }) {
         Text(

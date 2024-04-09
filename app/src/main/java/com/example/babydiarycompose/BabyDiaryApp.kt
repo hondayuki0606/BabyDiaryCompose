@@ -46,6 +46,7 @@ import com.example.babydiarycompose.ui.screen.RecordingScreen
 import com.example.babydiarycompose.ui.screen.SummaryScreen
 import com.example.babydiarycompose.data.Screen
 import com.example.babydiarycompose.listener.ScreenTransitionListener
+import com.example.babydiarycompose.ui.screen.AccountScreen
 import com.example.babydiarycompose.ui.screen.SettingsScreen
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
@@ -230,8 +231,8 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         val settingsTransitionListener = object : ScreenTransitionListener {
-                            override fun settingsTransitionListener() {
-                                navController.navigate(Screen.SETTINGS.route)
+                            override fun settingsTransitionListener(screenName: String) {
+                                navController.navigate(screenName)
                             }
                         }
                         MenuScreen(settingsTransitionListener)
@@ -244,6 +245,15 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         SettingsScreen()
+                        isDisplayedNavigationBar = false
+                    }
+                }
+                composable(Screen.ACCOUNT.route) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        AccountScreen()
                         isDisplayedNavigationBar = false
                     }
                 }
