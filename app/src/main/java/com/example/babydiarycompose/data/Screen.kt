@@ -56,6 +56,24 @@ enum class Screen(
         R.drawable.ic_launcher_background,
         "account"
     ),
+    SEARCH_OF_RECORD_AND_DIARY(
+        99,
+        R.string.settings,  // settings
+//        R.drawable.ic_cog_solid,
+//        R.drawable.ic_cog_outlined,
+        R.drawable.ic_launcher_background,
+        R.drawable.ic_launcher_background,
+        "searchOfRecordAndDiary"
+    ),
+    OUTPUT_OF_RECORD(
+        99,
+        R.string.settings,  // settings
+//        R.drawable.ic_cog_solid,
+//        R.drawable.ic_cog_outlined,
+        R.drawable.ic_launcher_background,
+        R.drawable.ic_launcher_background,
+        "outputOfRecord"
+    ),
     SETTINGS(
         99,
         R.string.settings,  // settings

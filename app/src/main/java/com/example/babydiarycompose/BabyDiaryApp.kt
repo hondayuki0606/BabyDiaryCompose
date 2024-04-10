@@ -47,6 +47,8 @@ import com.example.babydiarycompose.ui.screen.SummaryScreen
 import com.example.babydiarycompose.data.Screen
 import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.screen.AccountScreen
+import com.example.babydiarycompose.ui.screen.OutputOfRecordScreen
+import com.example.babydiarycompose.ui.screen.SearchOfRecordAndDiaryScreen
 import com.example.babydiarycompose.ui.screen.SettingsScreen
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
@@ -231,7 +233,7 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         val settingsTransitionListener = object : ScreenTransitionListener {
-                            override fun settingsTransitionListener(screenName: String) {
+                            override fun transitionListener(screenName: String) {
                                 navController.navigate(screenName)
                             }
                         }
@@ -245,6 +247,24 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         SettingsScreen()
+                        isDisplayedNavigationBar = false
+                    }
+                }
+                composable(Screen.SEARCH_OF_RECORD_AND_DIARY.route) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        SearchOfRecordAndDiaryScreen()
+                        isDisplayedNavigationBar = false
+                    }
+                }
+                composable(Screen.OUTPUT_OF_RECORD.route) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        OutputOfRecordScreen()
                         isDisplayedNavigationBar = false
                     }
                 }

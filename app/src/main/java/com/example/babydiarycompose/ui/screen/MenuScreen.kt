@@ -61,12 +61,17 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
             screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
-            painterResourceId = Icons.Default.Search, mainTitle = "記録・日記の検索"
+            painterResourceId = Icons.Default.Search,
+            mainTitle = "記録・日記の検索",
+            screenName = Screen.SEARCH_OF_RECORD_AND_DIARY.route,
+            screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Create,
             mainTitle = "記録の出力",
-            subTitle = "PDF・テキスト・印刷サービスについて"
+            subTitle = "PDF・テキスト・印刷サービスについて",
+            screenName = Screen.OUTPUT_OF_RECORD.route,
+            screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Favorite,
@@ -103,7 +108,8 @@ fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
-            painterResourceId = Icons.Default.Call, mainTitle = "公式Twitterアカウント",
+            painterResourceId = Icons.Default.Call,
+            mainTitle = "公式Twitterアカウント",
             httpsUrl = "https://twitter.com/piyolog_app"
         )
         MenuButton(
