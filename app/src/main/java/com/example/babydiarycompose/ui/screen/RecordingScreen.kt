@@ -21,8 +21,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,6 +50,8 @@ import com.example.babydiarycompose.viewmodel.RecordingViewModel
 @Composable
 fun RecordingScreen(
     viewModel: RecordingViewModel = hiltViewModel(),
+    rightArrowValue: (Boolean) -> Unit,
+    leftArrowValue: (Boolean) -> Unit,
 ) {
     val uiState = viewModel.uiState
     viewModel.getEventList(LocalContext.current)
@@ -79,10 +83,28 @@ fun RecordingScreen(
             }
         }
         val pageList = listOf("aaa", "bbb", "ccc", "ddd", "eee", "fff")
-        val pagerState = rememberPagerState(pageCount = {
-            pageList.size
-        })
-        HorizontalPager(state = pagerState,
+        val pagerState = rememberPagerState(
+            pageCount = {
+                pageList.size
+            },
+            initialPage = pageList.size - 1
+        )
+        LaunchedEffect(pagerState) {
+            snapshotFlow { pagerState.currentPage }.collect { page ->
+                if (page == 0) {
+                    leftArrowValue(false)
+                } else {
+                    leftArrowValue(true)
+                }
+                if (page == pageList.size - 1) {
+                    rightArrowValue(false)
+                } else {
+                    rightArrowValue(true)
+                }
+            }
+        }
+        HorizontalPager(
+            state = pagerState,
             verticalAlignment = Alignment.Top,
             modifier = Modifier
                 .constrainAs(verticalScroll) {
@@ -93,8 +115,8 @@ fun RecordingScreen(
                     height = Dimension.fillToConstraints
                     width = Dimension.fillToConstraints
                 }
+                .background(Color(0xFF272727))) { _ ->
 
-                .background(Color(0xFF272727))) { page ->
             LazyColumn {
                 items(viewModel.uiState.value.eventList) {
                     EventCard(event = it)
@@ -225,7 +247,16 @@ fun HorizontalDivider(
 @Composable
 fun PreviewRecordingScreen() {
     BabyDiaryComposeTheme {
-        RecordingScreen()
+        var isDisplayedLeftArrow = false
+        var isDisplayedRightArrow = false
+        RecordingScreen(
+            leftArrowValue = {
+                isDisplayedLeftArrow = it
+            },
+            rightArrowValue = {
+                isDisplayedRightArrow = it
+            },
+        )
     }
 }
 

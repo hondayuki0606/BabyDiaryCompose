@@ -59,6 +59,9 @@ fun BabyDiaryApp() {
     BabyDiaryComposeTheme {
         val navController = rememberNavController()
         var isDisplayedNavigationBar by rememberSaveable { mutableStateOf(true) }
+        var isDisplayedTopBarTitle by rememberSaveable { mutableStateOf(true) }
+        var isDisplayedRightArrow by rememberSaveable { mutableStateOf(false) }
+        var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
         val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
         var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
         Scaffold(
@@ -77,31 +80,37 @@ fun BabyDiaryApp() {
                                 textAlign = TextAlign.Center,
                                 maxLines = 1, fontSize = 12.sp
                             )
-                            Text(
-                                color = Color(0xFFEC7786),
-                                text = "2023/12/27(水)",
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center,
-                                maxLines = 1,
-                            )
+                            if (isDisplayedTopBarTitle) {
+                                Text(
+                                    color = Color(0xFFEC7786),
+                                    text = "2023/12/27(水)",
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1,
+                                )
+                            }
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                painter = rememberVectorPainter(image = Icons.Default.ArrowBack),
-                                contentDescription = null,
-                                tint = Color.White
-                            )
+                        if (isDisplayedLeftArrow) {
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    painter = rememberVectorPainter(image = Icons.Default.ArrowBack),
+                                    contentDescription = null,
+                                    tint = Color.White
+                                )
+                            }
                         }
                     },
                     actions = {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
-                                contentDescription = null,
-                                tint = Color.White
-                            )
+                        if (isDisplayedRightArrow) {
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
+                                    contentDescription = null,
+                                    tint = Color.White
+                                )
+                            }
                         }
                     }
                 )
@@ -205,7 +214,14 @@ fun BabyDiaryApp() {
                         contentAlignment = Alignment.Center,
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        RecordingScreen()
+                        RecordingScreen(
+                            leftArrowValue = {
+                                isDisplayedLeftArrow = it
+                            },
+                            rightArrowValue = {
+                                isDisplayedRightArrow = it
+                            },
+                        )
                         isDisplayedNavigationBar = true
                     }
                 }
