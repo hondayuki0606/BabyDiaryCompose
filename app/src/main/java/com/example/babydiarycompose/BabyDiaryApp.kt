@@ -52,6 +52,8 @@ import com.example.babydiarycompose.ui.screen.SearchOfRecordAndDiaryScreen
 import com.example.babydiarycompose.ui.screen.SettingsScreen
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,6 +66,9 @@ fun BabyDiaryApp() {
         var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
         val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
         var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
+        var currentData by rememberSaveable { mutableStateOf("") }
+        val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd(E)")
+        currentData = myFormatObj.format(LocalDateTime.now())
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -83,7 +88,7 @@ fun BabyDiaryApp() {
                             if (isDisplayedTopBarTitle) {
                                 Text(
                                     color = Color(0xFFEC7786),
-                                    text = "2023/12/27(水)",
+                                    text = currentData,
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Center,
                                     maxLines = 1,
@@ -111,6 +116,11 @@ fun BabyDiaryApp() {
                                     tint = Color.White
                                 )
                             }
+                        } else {
+                            Text(
+                                color = Color.White,
+                                text = "生まれてから\n181日目"
+                            )
                         }
                     }
                 )
@@ -220,6 +230,12 @@ fun BabyDiaryApp() {
                             },
                             rightArrowValue = {
                                 isDisplayedRightArrow = it
+                                if (it) {
+                                    currentData =
+                                        myFormatObj.format(LocalDateTime.now().minusDays(1))
+                                } else {
+                                    currentData = myFormatObj.format(LocalDateTime.now())
+                                }
                             },
                         )
                         isDisplayedNavigationBar = true
