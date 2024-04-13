@@ -230,13 +230,11 @@ fun BabyDiaryApp() {
                             },
                             rightArrowValue = {
                                 isDisplayedRightArrow = it
-                                if (it) {
-                                    currentData =
-                                        myFormatObj.format(LocalDateTime.now().minusDays(1))
-                                } else {
-                                    currentData = myFormatObj.format(LocalDateTime.now())
-                                }
+
                             },
+                            currentDateValue = {
+                                currentData = myFormatObj.format(LocalDateTime.now().minusDays(it.toLong()))
+                            }
                         )
                         isDisplayedNavigationBar = true
                     }
