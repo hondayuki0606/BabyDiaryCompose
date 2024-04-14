@@ -11,6 +11,9 @@ interface EventDao {
     @Query("SELECT * FROM event")
     fun getAll(): List<Event>
 
+    @Query("SELECT * FROM event where event.year_and_month_and_day = :currentData")
+    fun getEvent(currentData: String): List<Event>
+
     @Insert
     fun insertAll(vararg event: Event)
 

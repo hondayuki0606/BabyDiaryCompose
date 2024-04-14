@@ -38,6 +38,7 @@ import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun EventTimeSettingDialog(
@@ -161,8 +162,11 @@ fun EventTimeSettingDialog(
                                         }
 
                                         else -> {
+                                            val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                                            val currentData = myFormatObj.format(LocalDateTime.now())
                                             val eventList = arrayListOf(
                                                 Event(
+                                                    yearAndMonthAndDay = currentData,
                                                     "${hourState.value}:${
                                                         String.format(
                                                             "%02d",

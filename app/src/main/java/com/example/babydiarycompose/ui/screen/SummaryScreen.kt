@@ -1,5 +1,6 @@
 package com.example.babydiarycompose.ui.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,11 +15,12 @@ import com.example.babydiarycompose.data.Datum
 import com.example.babydiarycompose.data.Item
 import com.example.babydiarycompose.viewmodel.SummaryViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun SummaryScreen(viewModel: SummaryViewModel = hiltViewModel()) {
     Column {
         val uiState = viewModel.uiState
-        viewModel.getEventList(LocalContext.current)
+        viewModel.getEventList(LocalContext.current, "")
         TabLayout(tabList = uiState.value.tabList, tabIndex = uiState.value.tabList.size - 1)
         BarChart(
             data = uiState.value.datumList,

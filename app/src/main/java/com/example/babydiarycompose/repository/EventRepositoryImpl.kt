@@ -23,10 +23,11 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                 eventDao.insertAll(
                     com.example.babydiarycompose.model.Event(
                         searchList.size,
-                        it.time,
-                        it.imageUrl,
-                        it.eventName,
-                        it.eventDetail
+                        yearAndMonthAndDay = it.yearAndMonthAndDay,
+                        time = it.time,
+                        icon = it.imageUrl,
+                        eventName = it.eventName,
+                        eventDetail = it.eventDetail,
                     ),
                 )
             }
@@ -35,19 +36,38 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         }.join()
         return result
     }
-
-    override suspend fun getEventList(applicationContext: Context): List<Event> {
+    override suspend fun getAll(applicationContext: Context): List<Event> {
         val result = arrayListOf<Event>()
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(applicationContext)
-            val eventList = db.eventDao().getAll()
+//            val eventList = db.eventDao().getEvent(currentData)
+//            eventList.forEach {
+//                result.add(
+//                    Event(
+//                        yearAndMonthAndDay = it.yearAndMonthAndDay ?: "",
+//                        time = it.time ?: "",
+//                        imageUrl = it.icon ?: 0,
+//                        eventName = it.eventName ?: "",
+//                        eventDetail = it.eventDetail ?: ""
+//                    )
+//                )
+//            }
+        }.join()
+        return result
+    }
+    override suspend fun getEventList(applicationContext: Context, currentData: String): List<Event> {
+        val result = arrayListOf<Event>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(applicationContext)
+            val eventList = db.eventDao().getEvent(currentData)
             eventList.forEach {
                 result.add(
                     Event(
-                        it.time ?: "",
-                        it.icon ?: 0,
-                        it.eventName ?: "",
-                        it.eventDetail ?: ""
+                        yearAndMonthAndDay = it.yearAndMonthAndDay ?: "",
+                        time = it.time ?: "",
+                        imageUrl = it.icon ?: 0,
+                        eventName = it.eventName ?: "",
+                        eventDetail = it.eventDetail ?: ""
                     )
                 )
             }

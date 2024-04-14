@@ -29,6 +29,8 @@ import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun BreastMilkDialog(
@@ -84,12 +86,15 @@ fun BreastMilkDialog(
                     Column {
                         Button(
                             onClick = {
+                                val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                                val currentData = myFormatObj.format(LocalDateTime.now())
                                 val eventList = arrayListOf(
                                     Event(
-                                        "${hour}:${String.format("%02d", minutes)}",
-                                        resIcon,
-                                        eventName,
-                                        "右:${rightTime.value}分 / 左${leftTime.value}分"
+                                        yearAndMonthAndDay = currentData,
+                                        time = "${hour}:${String.format("%02d", minutes)}",
+                                        imageUrl = resIcon,
+                                        eventName = eventName,
+                                        eventDetail = "右:${rightTime.value}分 / 左${leftTime.value}分"
                                     )
                                 )
                                 viewModel.addEventList(applicationContext, eventList)

@@ -70,20 +70,27 @@ class RecordingViewModel @Inject constructor(
 
     fun addEventList(appContext: Context, eventList: List<Event>) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.addEventList(appContext, eventList).let { result ->
-                if (result) {
-                    getEventList(appContext)
-                }
-            }
+            eventRepository.addEventList(appContext, eventList)
+//                .let { result ->
+//                if (result) {
+//                    getEventList(appContext, currentData)
+//                }
+//            }
         }
     }
 
-    fun getEventList(appContext: Context) {
+    fun getEventList(appContext: Context, currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getEventList(appContext).let { eventList ->
+            eventRepository.getEventList(appContext,currentData).let { eventList ->
+                val settingEventList = mutableListOf<Event>()
+                eventList.forEach {
+                    if (it.yearAndMonthAndDay == currentData) {
+                        settingEventList.add(it)
+                    }
+                }
                 _uiState.update {
                     it.copy(
-                        eventList = eventList
+                        eventList = settingEventList
                     )
                 }
             }

@@ -39,16 +39,16 @@ class SummaryViewModel @Inject constructor(
     fun addEventList(appContext: Context, eventList: List<Event>) {
         viewModelScope.launch(Dispatchers.IO) {
             eventRepository.addEventList(appContext, eventList).let { result ->
-                if (result) {
-                    getEventList(appContext)
-                }
+//                if (result) {
+//                    getEventList(appContext)
+//                }
             }
         }
     }
 
-    fun getEventList(appContext: Context) {
+    fun getEventList(appContext: Context, currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getEventList(appContext).let { eventList ->
+            eventRepository.getEventList(appContext, currentData).let { eventList ->
                 val tmp = mutableListOf(
                     Datum(listOf(Item("a", 1), Item("b", 1), Item("b", 24)), "2/11"),
                     Datum(listOf(Item("a", 1), Item("a", 21), Item("a", 23)), "2/12"),

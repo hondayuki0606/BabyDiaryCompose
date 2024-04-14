@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Event(
     @PrimaryKey val uid: Int,
+    @ColumnInfo(name = "year_and_month_and_day") val yearAndMonthAndDay: String?,
     @ColumnInfo(name = "time") val time: String?,
     @ColumnInfo(name = "icon") val icon: Int?,
     @ColumnInfo(name = "event_name") val eventName: String?,

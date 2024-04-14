@@ -30,6 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun MilkDialog(
@@ -59,18 +61,21 @@ fun MilkDialog(
                             color = Color.Black,
                             fontSize = 12.sp,
                             modifier = Modifier.clickable {
-                                    val eventList = arrayListOf(
-                                        Event(
-                                            "${hour}:${String.format("%02d", minutes)}",
-                                            resIcon,
-                                            eventName,
-                                            it
-                                        )
+                                val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                                val currentData = myFormatObj.format(LocalDateTime.now())
+                                val eventList = arrayListOf(
+                                    Event(
+                                        yearAndMonthAndDay = currentData,
+                                        "${hour}:${String.format("%02d", minutes)}",
+                                        resIcon,
+                                        eventName,
+                                        it
                                     )
-                                    viewModel.addEventList(applicationContext, eventList)
-                                    setShowDialog(false)
-                                    resultValue(true)
-                                })
+                                )
+                                viewModel.addEventList(applicationContext, eventList)
+                                setShowDialog(false)
+                                resultValue(true)
+                            })
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
@@ -87,9 +92,9 @@ fun MilkDialog(
                                 .height(50.dp)
                         ) {
                             Text(text = "キャンセル", modifier = Modifier.clickable {
-                                    setShowDialog(false)
-                                    resultValue(true)
-                                })
+                                setShowDialog(false)
+                                resultValue(true)
+                            })
                         }
                     }
                 }

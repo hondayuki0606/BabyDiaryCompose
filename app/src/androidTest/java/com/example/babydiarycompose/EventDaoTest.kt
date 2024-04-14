@@ -33,7 +33,7 @@ class EventDaoTest {
         eventDao.insertAll(event)
 
         // execute
-        val eventValue = eventDao.getAll()
+        val eventValue = eventDao.getAll(currentData)
 
         // verify
         assert(eventValue.size == 1)

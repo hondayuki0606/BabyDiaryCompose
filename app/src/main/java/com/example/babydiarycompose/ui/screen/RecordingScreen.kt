@@ -5,15 +5,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -21,19 +16,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerDefaults
 
-import androidx.compose.foundation.pager.PagerScope
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +38,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -56,8 +49,9 @@ import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.time.delay
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -69,7 +63,6 @@ fun RecordingScreen(
 ) {
     val uiState = viewModel.uiState
     val current = LocalContext.current
-    viewModel.getEventList(current)
     val times = (0..23).toList()
     ConstraintLayout(
         modifier = Modifier
@@ -104,11 +97,11 @@ fun RecordingScreen(
             },
             initialPage = oneYear
         )
+        var currentData by rememberSaveable { mutableStateOf("") }
+        val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { page ->
-                val currentDay = oneYear - page - 1
-                currentDateValue(currentDay)
-                viewModel.getEventList(current)
                 if (page == 0) {
                     leftArrowValue(false)
                 } else {
@@ -119,6 +112,10 @@ fun RecordingScreen(
                 } else {
                     rightArrowValue(true)
                 }
+                val currentDay = oneYear - page - 1
+                currentDateValue(currentDay)
+                currentData = myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
+                viewModel.getEventList(current, currentData)
             }
         }
         HorizontalPager(
@@ -284,7 +281,7 @@ fun PreviewRecordingScreen() {
 @Composable
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
-        val event = Event("22", 1, "1111", "111")
+        val event = Event("2024/11/11", "22", 1, "1111", "111")
         EventCard(event)
     }
 }
