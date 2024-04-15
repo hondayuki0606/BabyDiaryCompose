@@ -1,5 +1,6 @@
 package com.example.babydiarycompose.ui.screen
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -46,13 +47,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.ui.dialog.EventDetailDialog
 import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.Icon
+import com.example.babydiarycompose.data.RecordingUiState
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.time.delay
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@SuppressLint("StateFlowValueCalledInComposition", "MutableCollectionMutableState")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
@@ -99,6 +104,7 @@ fun RecordingScreen(
         )
         var currentData by rememberSaveable { mutableStateOf("") }
         val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        var eventList by remember { mutableStateOf(arrayListOf<Event>()) }
 
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { page ->
@@ -116,6 +122,7 @@ fun RecordingScreen(
                 currentDateValue(currentDay)
                 currentData = myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 viewModel.getEventList(current, currentData)
+                eventList = viewModel.uiState.value.eventList as ArrayList<Event>
             }
         }
         HorizontalPager(
@@ -133,7 +140,7 @@ fun RecordingScreen(
                 .background(Color(0xFF272727))) { _ ->
 
             LazyColumn {
-                items(viewModel.uiState.value.eventList) {
+                items(eventList) {
                     EventCard(event = it)
                 }
             }
