@@ -1,6 +1,11 @@
 package com.example.babydiarycompose.viewmodel
 
 import android.content.Context
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.R
@@ -20,6 +25,53 @@ import javax.inject.Inject
 class RecordingViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
+    var _testUiState = MutableLiveData(
+        RecordingUiState(
+            eventList = arrayListOf(),
+            iconList = arrayListOf(
+                Icon("母乳", R.drawable.breast_milk),
+                Icon("ミルク", R.drawable.milk_icon),
+                Icon("寝る", R.drawable.sleep_icon),
+                Icon("起きる", R.drawable.wake_up_icon),
+                Icon("おしっこ", R.drawable.pee_icon),
+                Icon("うんち", R.drawable.poop_icon),
+                Icon("両方", R.drawable.peepoop),
+                Icon("体温", R.drawable.temperature),
+                Icon("身長", R.drawable.stature),
+                Icon("体重", R.drawable.bodyweight),
+                Icon("頭囲", R.drawable.pee_icon),
+                Icon("搾母乳", R.drawable.mammal),
+                Icon("離乳食", R.drawable.babyfood),
+                Icon("おやつ", R.drawable.midafternoonsnack),
+                Icon("ごはん", R.drawable.misjudgement),
+                Icon("のみもの", R.drawable.drink),
+                Icon("せき", R.drawable.cough),
+                Icon("吐く", R.drawable.breatheout),
+                Icon("発疹", R.drawable.rash),
+                Icon("けが", R.drawable.hurt),
+                Icon("お風呂", R.drawable.bath),
+                Icon("くすり", R.drawable.drug),
+                Icon("病院", R.drawable.hospital),
+                Icon("予防接種", R.drawable.immunization),
+                Icon("さんぽ", R.drawable.stroll),
+                Icon("搾乳", R.drawable.milking),
+                Icon("できた", R.drawable.itsdone),
+                Icon("その他", R.drawable.other),
+                // カスタム
+                Icon("カスタム1", R.drawable.custom1),
+                Icon("カスタム2", R.drawable.custom2),
+                Icon("カスタム3", R.drawable.custom3),
+                Icon("カスタム4", R.drawable.custom4),
+                Icon("カスタム5", R.drawable.custom5),
+                Icon("カスタム6", R.drawable.custom6),
+                Icon("カスタム7", R.drawable.custom7),
+                Icon("カスタム8", R.drawable.custom8),
+                Icon("カスタム9", R.drawable.custom9),
+                Icon("カスタム10", R.drawable.custom10),
+            )
+        )
+    )
+    var testUiState: LiveData<RecordingUiState> = _testUiState
     private var _uiState = MutableStateFlow(
         RecordingUiState(
             eventList = arrayListOf(),
@@ -80,14 +132,16 @@ class RecordingViewModel @Inject constructor(
     }
 
     suspend fun getEventList(appContext: Context, currentData: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getEventList(appContext,currentData).let { eventList ->
-                _uiState.update {
-                    it.copy(
-                        eventList = eventList
-                    )
-                }
+//        viewModelScope.launch(Dispatchers.Default) {
+        eventRepository.getEventList(appContext, currentData).let { eventList ->
+//            _testUiState.value?.eventList = eventList
+//            val test = 1
+            _uiState.update {
+                it.copy(
+                    eventList = eventList
+                )
             }
-        }.join()
+        }
+//        }
     }
 }

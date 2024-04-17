@@ -36,6 +36,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         }.join()
         return result
     }
+
     override suspend fun getAll(applicationContext: Context): List<Event> {
         val result = arrayListOf<Event>()
         CoroutineScope(Dispatchers.IO).launch {
@@ -55,9 +56,13 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         }.join()
         return result
     }
-    override suspend fun getEventList(applicationContext: Context, currentData: String): List<Event> {
+
+    override suspend fun getEventList(
+        applicationContext: Context,
+        currentData: String
+    ): List<Event> {
         val result = arrayListOf<Event>()
-//        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(applicationContext)
             val eventList = db.eventDao().getEvent(currentData)
             eventList.forEach {
@@ -71,7 +76,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                     )
                 )
             }
-//        }.join()
+        }.join()
         return result
     }
 }
