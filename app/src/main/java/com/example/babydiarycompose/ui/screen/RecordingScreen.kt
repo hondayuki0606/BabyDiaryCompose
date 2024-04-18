@@ -7,9 +7,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -17,16 +19,21 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -53,6 +60,7 @@ import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -66,9 +74,12 @@ fun RecordingScreen(
     leftArrowValue: (Boolean) -> Unit,
     currentDateValue: (Int) -> Unit,
 ) {
-    val uiState = viewModel.uiState
     val current = LocalContext.current
     val times = (0..23).toList()
+    var currentData by rememberSaveable { mutableStateOf("") }
+    var curentPage by rememberSaveable { mutableIntStateOf(0) }
+    val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+    val uiState by viewModel.uiState.collectAsState()
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF9C4A4A))
@@ -95,16 +106,13 @@ fun RecordingScreen(
                 )
             }
         }
-        val oneYear = 365
+        val oneYear = 10
         val pagerState = rememberPagerState(
             pageCount = {
                 oneYear
             },
             initialPage = oneYear
         )
-        var currentData by rememberSaveable { mutableStateOf("") }
-        val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-        var eventList by remember { mutableStateOf(arrayListOf<Event>()) }
 
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { page ->
@@ -118,11 +126,11 @@ fun RecordingScreen(
                 } else {
                     rightArrowValue(true)
                 }
-                val currentDay = oneYear - page - 1
+                curentPage = page
+                val currentDay = oneYear - curentPage - 1
                 currentDateValue(currentDay)
                 currentData = myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 viewModel.getEventList(current, currentData)
-                eventList = viewModel.uiState.value.eventList as ArrayList<Event>
             }
         }
         HorizontalPager(
@@ -140,7 +148,7 @@ fun RecordingScreen(
                 .background(Color(0xFF272727))) { _ ->
 
             LazyColumn {
-                items(eventList) {
+                items(uiState.eventList) {
                     EventCard(event = it)
                 }
             }
@@ -166,15 +174,25 @@ fun RecordingScreen(
                 }
                 .background(Color(0xFF272727))
         ) {
-            items(uiState.value.iconList) {
+            items(uiState.iconList) {
                 val eventTimeSettingDialog = remember { mutableStateOf(false) }
                 val eventName = remember { mutableStateOf("") }
-                val icon = remember { mutableStateOf(0) }
+                val icon = remember { mutableIntStateOf(0) }
+                val scope = rememberCoroutineScope()
+
                 if (eventTimeSettingDialog.value)
                     EventTimeSettingDialog(eventName = eventName.value,
                         resIcon = icon.value,
                         setShowDialog = {
-                            eventTimeSettingDialog.value = it
+                            scope.launch {
+                                eventTimeSettingDialog.value = it
+                                val currentDay = oneYear - curentPage - 1
+                                currentDateValue(currentDay)
+                                currentData = myFormatObj.format(
+                                    LocalDateTime.now().minusDays(currentDay.toLong())
+                                )
+                                viewModel.getEventList(current, currentData)
+                            }
                         }) {
                         Log.i("breastfeedingDialog", "showDialog : $it")
                     }

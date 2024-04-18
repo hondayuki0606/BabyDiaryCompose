@@ -120,28 +120,17 @@ class RecordingViewModel @Inject constructor(
     )
     var uiState = _uiState.asStateFlow()
 
-    fun addEventList(appContext: Context, eventList: List<Event>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.addEventList(appContext, eventList)
-//                .let { result ->
-//                if (result) {
-//                    getEventList(appContext, currentData)
-//                }
-//            }
-        }
+    suspend fun addEventList(appContext: Context, eventList: List<Event>) {
+        eventRepository.addEventList(appContext, eventList)
     }
 
     suspend fun getEventList(appContext: Context, currentData: String) {
-//        viewModelScope.launch(Dispatchers.Default) {
         eventRepository.getEventList(appContext, currentData).let { eventList ->
-//            _testUiState.value?.eventList = eventList
-//            val test = 1
             _uiState.update {
                 it.copy(
                     eventList = eventList
                 )
             }
         }
-//        }
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -52,6 +54,7 @@ fun MilkDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 val times = arrayListOf("10ml", "20ml", "30ml")
+                val scope = rememberCoroutineScope()
                 LazyColumn(
                     modifier = Modifier.height(100.dp),
                     verticalArrangement = Arrangement.SpaceAround
@@ -61,20 +64,22 @@ fun MilkDialog(
                             color = Color.Black,
                             fontSize = 12.sp,
                             modifier = Modifier.clickable {
-                                val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                                val currentData = myFormatObj.format(LocalDateTime.now())
-                                val eventList = arrayListOf(
-                                    Event(
-                                        yearAndMonthAndDay = currentData,
-                                        "${hour}:${String.format("%02d", minutes)}",
-                                        resIcon,
-                                        eventName,
-                                        it
+                                scope.launch {
+                                    val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                                    val currentData = myFormatObj.format(LocalDateTime.now())
+                                    val eventList = arrayListOf(
+                                        Event(
+                                            yearAndMonthAndDay = currentData,
+                                            "${hour}:${String.format("%02d", minutes)}",
+                                            resIcon,
+                                            eventName,
+                                            it
+                                        )
                                     )
-                                )
-                                viewModel.addEventList(applicationContext, eventList)
-                                setShowDialog(false)
-                                resultValue(true)
+                                    viewModel.addEventList(applicationContext, eventList)
+                                    setShowDialog(false)
+                                    resultValue(true)
+                                }
                             })
                     }
                 }

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,7 @@ import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -147,39 +149,46 @@ fun EventTimeSettingDialog(
                     }
 
                     Spacer(modifier = Modifier.height(20.dp))
-
+                    val scope = rememberCoroutineScope()
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Column {
                             Button(
                                 onClick = {
-                                    when (eventName) {
-                                        "母乳" -> {
-                                            showBreastMilkDialog.value = true
-                                        }
+                                    scope.launch {
+                                        when (eventName) {
+                                            "母乳" -> {
+                                                showBreastMilkDialog.value = true
+                                            }
 
-                                        "ミルク" -> {
-                                            showMilkDialog.value = true
-                                        }
+                                            "ミルク" -> {
+                                                showMilkDialog.value = true
+                                            }
 
-                                        else -> {
-                                            val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                                            val currentData = myFormatObj.format(LocalDateTime.now())
-                                            val eventList = arrayListOf(
-                                                Event(
-                                                    yearAndMonthAndDay = currentData,
-                                                    "${hourState.value}:${
-                                                        String.format(
-                                                            "%02d",
-                                                            minutesState.value
-                                                        )
-                                                    }",
-                                                    resIcon,
-                                                    eventName,
-                                                    ""
+                                            else -> {
+                                                val myFormatObj =
+                                                    DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                                                val currentData =
+                                                    myFormatObj.format(LocalDateTime.now())
+                                                val eventList = arrayListOf(
+                                                    Event(
+                                                        yearAndMonthAndDay = currentData,
+                                                        "${hourState.value}:${
+                                                            String.format(
+                                                                "%02d",
+                                                                minutesState.value
+                                                            )
+                                                        }",
+                                                        resIcon,
+                                                        eventName,
+                                                        ""
+                                                    )
                                                 )
-                                            )
-                                            viewModel.addEventList(applicationContext, eventList)
-                                            setShowDialog(false)
+                                                viewModel.addEventList(
+                                                    applicationContext,
+                                                    eventList
+                                                )
+                                                setShowDialog(false)
+                                            }
                                         }
                                     }
 

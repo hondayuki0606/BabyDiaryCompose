@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -81,25 +83,27 @@ fun BreastMilkDialog(
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
-
+                val scope = rememberCoroutineScope()
                 Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                     Column {
                         Button(
                             onClick = {
-                                val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                                val currentData = myFormatObj.format(LocalDateTime.now())
-                                val eventList = arrayListOf(
-                                    Event(
-                                        yearAndMonthAndDay = currentData,
-                                        time = "${hour}:${String.format("%02d", minutes)}",
-                                        imageUrl = resIcon,
-                                        eventName = eventName,
-                                        eventDetail = "右:${rightTime.value}分 / 左${leftTime.value}分"
+                                scope.launch {
+                                    val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                                    val currentData = myFormatObj.format(LocalDateTime.now())
+                                    val eventList = arrayListOf(
+                                        Event(
+                                            yearAndMonthAndDay = currentData,
+                                            time = "${hour}:${String.format("%02d", minutes)}",
+                                            imageUrl = resIcon,
+                                            eventName = eventName,
+                                            eventDetail = "右:${rightTime.value}分 / 左${leftTime.value}分"
+                                        )
                                     )
-                                )
-                                viewModel.addEventList(applicationContext, eventList)
-                                setShowDialog(false)
-                                resultValue(true)
+                                    viewModel.addEventList(applicationContext, eventList)
+                                    setShowDialog(false)
+                                    resultValue(true)
+                                }
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
