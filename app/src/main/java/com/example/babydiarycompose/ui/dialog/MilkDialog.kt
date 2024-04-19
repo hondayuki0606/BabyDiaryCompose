@@ -32,12 +32,11 @@ import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun MilkDialog(
     eventName: String,
+    currentData: String,
     hour: Int,
     minutes: Int,
     resIcon: Int,
@@ -65,8 +64,6 @@ fun MilkDialog(
                             fontSize = 12.sp,
                             modifier = Modifier.clickable {
                                 scope.launch {
-                                    val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                                    val currentData = myFormatObj.format(LocalDateTime.now())
                                     val eventList = arrayListOf(
                                         Event(
                                             yearAndMonthAndDay = currentData,
@@ -113,7 +110,7 @@ fun MilkDialog(
 fun PreviewMilkDialog() {
     BabyDiaryComposeTheme {
         val showDialog = remember { mutableStateOf(false) }
-        EventTimeSettingDialog(eventName = "", resIcon = 0, setShowDialog = {
+        EventTimeSettingDialog(eventName = "", resIcon = 0, currentData = "", setShowDialog = {
             showDialog.value = it
         }) {
             Log.i("breastfeedingDialog", "showDialog : $it")

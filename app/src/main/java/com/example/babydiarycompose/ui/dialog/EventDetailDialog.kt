@@ -30,6 +30,7 @@ import androidx.compose.ui.window.Dialog
 
 @Composable
 fun EventDetailDialog(
+    currentData :String,
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
@@ -49,6 +50,7 @@ fun EventDetailDialog(
         EventTimeSettingDialog(
             eventName = "",
             resIcon = 0,
+            currentData = currentData,
             setShowDialog = {
                 breastfeedingDialog.value = it
             }) {

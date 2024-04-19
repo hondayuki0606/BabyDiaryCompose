@@ -16,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -46,6 +47,7 @@ import java.time.format.DateTimeFormatter
 fun EventTimeSettingDialog(
     eventName: String,
     resIcon: Int,
+    currentData: String,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
 ) {
@@ -55,16 +57,17 @@ fun EventTimeSettingDialog(
     val hour = currentDateTime.hour
     val minute = currentDateTime.minute
 
-    val hourState = remember { mutableStateOf(hour) }
-    val minutesState = remember { mutableStateOf(minute) }
+    val hourState = remember { mutableIntStateOf(hour) }
+    val minutesState = remember { mutableIntStateOf(minute) }
     val applicationContext = LocalContext.current
 
     val showBreastMilkDialog = remember { mutableStateOf(false) }
     if (showBreastMilkDialog.value)
         BreastMilkDialog(eventName = eventName,
             resIcon = resIcon,
-            hour = hourState.value,
-            minutes = minutesState.value,
+            currentData = currentData,
+            hour = hourState.intValue,
+            minutes = minutesState.intValue,
             setShowDialog = {
                 showBreastMilkDialog.value = it
             }) {
@@ -75,6 +78,7 @@ fun EventTimeSettingDialog(
     val showMilkDialog = remember { mutableStateOf(false) }
     if (showMilkDialog.value)
         MilkDialog(eventName = eventName,
+            currentData = currentData,
             resIcon = resIcon,
             hour = hourState.value,
             minutes = minutesState.value,
@@ -165,10 +169,6 @@ fun EventTimeSettingDialog(
                                             }
 
                                             else -> {
-                                                val myFormatObj =
-                                                    DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                                                val currentData =
-                                                    myFormatObj.format(LocalDateTime.now())
                                                 val eventList = arrayListOf(
                                                     Event(
                                                         yearAndMonthAndDay = currentData,
@@ -227,6 +227,7 @@ fun PreviewBreastfeedingDialog() {
         val showDialog = remember { mutableStateOf(false) }
         EventTimeSettingDialog(eventName = "",
             resIcon = 0,
+            currentData = "",
             setShowDialog = {
                 showDialog.value = it
             }) {

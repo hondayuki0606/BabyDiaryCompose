@@ -1,17 +1,14 @@
 package com.example.babydiarycompose.ui.screen
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,10 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
-
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
@@ -54,18 +48,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.ui.dialog.EventDetailDialog
 import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.Event
-import com.example.babydiarycompose.data.Icon
-import com.example.babydiarycompose.data.RecordingUiState
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.time.delay
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-@SuppressLint("StateFlowValueCalledInComposition", "MutableCollectionMutableState")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
@@ -77,7 +66,6 @@ fun RecordingScreen(
     val current = LocalContext.current
     val times = (0..23).toList()
     var currentData by rememberSaveable { mutableStateOf("") }
-    var curentPage by rememberSaveable { mutableIntStateOf(0) }
     val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
     val uiState by viewModel.uiState.collectAsState()
     ConstraintLayout(
@@ -126,8 +114,7 @@ fun RecordingScreen(
                 } else {
                     rightArrowValue(true)
                 }
-                curentPage = page
-                val currentDay = oneYear - curentPage - 1
+                val currentDay = oneYear - page - 1
                 currentDateValue(currentDay)
                 currentData = myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 viewModel.getEventList(current, currentData)
@@ -149,7 +136,7 @@ fun RecordingScreen(
 
             LazyColumn {
                 items(uiState.eventList) {
-                    EventCard(event = it)
+                    EventCard(event = it, currentData = currentData)
                 }
             }
         }
@@ -179,18 +166,13 @@ fun RecordingScreen(
                 val eventName = remember { mutableStateOf("") }
                 val icon = remember { mutableIntStateOf(0) }
                 val scope = rememberCoroutineScope()
-
                 if (eventTimeSettingDialog.value)
                     EventTimeSettingDialog(eventName = eventName.value,
-                        resIcon = icon.value,
+                        resIcon = icon.intValue,
+                        currentData = currentData,
                         setShowDialog = {
                             scope.launch {
                                 eventTimeSettingDialog.value = it
-                                val currentDay = oneYear - curentPage - 1
-                                currentDateValue(currentDay)
-                                currentData = myFormatObj.format(
-                                    LocalDateTime.now().minusDays(currentDay.toLong())
-                                )
                                 viewModel.getEventList(current, currentData)
                             }
                         }) {
@@ -200,7 +182,7 @@ fun RecordingScreen(
                     modifier = Modifier.clickable {
                         eventTimeSettingDialog.value = true
                         eventName.value = it.title
-                        icon.value = it.icon
+                        icon.intValue = it.icon
                     },
                 ) {
                     Image(
@@ -231,12 +213,13 @@ fun RecordingScreen(
 }
 
 @Composable
-fun EventCard(event: Event) {
+fun EventCard(event: Event, currentData: String) {
     val showDialog = remember { mutableStateOf(false) }
     val volumeValue = remember { mutableStateOf("10ml") }
     if (showDialog.value)
         EventDetailDialog(
             volumeValue = { volumeValue.value = it },
+            currentData = currentData,
             setShowDialog = {
                 showDialog.value = it
             },
@@ -287,14 +270,10 @@ fun HorizontalDivider(
 @Composable
 fun PreviewRecordingScreen() {
     BabyDiaryComposeTheme {
-        var isDisplayedLeftArrow = false
-        var isDisplayedRightArrow = false
         RecordingScreen(
             leftArrowValue = {
-                isDisplayedLeftArrow = it
             },
             rightArrowValue = {
-                isDisplayedRightArrow = it
             },
             currentDateValue = {
             }
@@ -307,6 +286,6 @@ fun PreviewRecordingScreen() {
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
         val event = Event("2024/11/11", "22", 1, "1111", "111")
-        EventCard(event)
+        EventCard(event, currentData = "")
     }
 }

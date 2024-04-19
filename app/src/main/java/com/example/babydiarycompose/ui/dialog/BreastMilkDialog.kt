@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,20 +32,19 @@ import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun BreastMilkDialog(
     eventName: String,
+    currentData: String,
     hour: Int,
     minutes: Int,
     resIcon: Int,
     setShowDialog: (Boolean) -> Unit,
     resultValue: (Boolean) -> Unit
 ) {
-    val rightTime = remember { mutableStateOf(5) }
-    val leftTime = remember { mutableStateOf(5) }
+    val rightTime = remember { mutableIntStateOf(5) }
+    val leftTime = remember { mutableIntStateOf(5) }
     val viewModel: RecordingViewModel = hiltViewModel()
     val applicationContext = LocalContext.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
@@ -89,15 +89,13 @@ fun BreastMilkDialog(
                         Button(
                             onClick = {
                                 scope.launch {
-                                    val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                                    val currentData = myFormatObj.format(LocalDateTime.now())
                                     val eventList = arrayListOf(
                                         Event(
                                             yearAndMonthAndDay = currentData,
                                             time = "${hour}:${String.format("%02d", minutes)}",
                                             imageUrl = resIcon,
                                             eventName = eventName,
-                                            eventDetail = "右:${rightTime.value}分 / 左${leftTime.value}分"
+                                            eventDetail = "右:${rightTime.intValue}分 / 左${leftTime.intValue}分"
                                         )
                                     )
                                     viewModel.addEventList(applicationContext, eventList)
@@ -137,7 +135,7 @@ fun BreastMilkDialog(
 fun PreviewBreastMilkDialog() {
     BabyDiaryComposeTheme {
         val showDialog = remember { mutableStateOf(false) }
-        EventTimeSettingDialog(eventName = "", resIcon = 0, setShowDialog = {
+        EventTimeSettingDialog(eventName = "", resIcon = 0, currentData = "", setShowDialog = {
             showDialog.value = it
         }) {
             Log.i("breastfeedingDialog", "showDialog : $it")
