@@ -1,6 +1,5 @@
 package com.example.babydiarycompose.ui.dialog
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,7 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun BreastMilkDialog(
     eventName: String,
-    currentData: String,
+    selectedDate: String,
     hour: Int,
     minutes: Int,
     resIcon: Int,
@@ -91,7 +90,7 @@ fun BreastMilkDialog(
                                 scope.launch {
                                     val eventList = arrayListOf(
                                         Event(
-                                            yearAndMonthAndDay = currentData,
+                                            yearAndMonthAndDay = selectedDate,
                                             time = "${hour}:${String.format("%02d", minutes)}",
                                             imageUrl = resIcon,
                                             eventName = eventName,
@@ -135,10 +134,8 @@ fun BreastMilkDialog(
 fun PreviewBreastMilkDialog() {
     BabyDiaryComposeTheme {
         val showDialog = remember { mutableStateOf(false) }
-        EventTimeSettingDialog(eventName = "", resIcon = 0, currentData = "", setShowDialog = {
+        EventTimeSettingDialog(eventName = "", resIcon = 0, selectedDate = "", setShowDialog = {
             showDialog.value = it
-        }) {
-            Log.i("breastfeedingDialog", "showDialog : $it")
-        }
+        })
     }
 }

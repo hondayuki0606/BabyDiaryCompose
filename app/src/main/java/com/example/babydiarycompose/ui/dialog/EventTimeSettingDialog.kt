@@ -1,6 +1,5 @@
 package com.example.babydiarycompose.ui.dialog
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,8 +46,7 @@ fun EventTimeSettingDialog(
     eventName: String,
     resIcon: Int,
     selectedDate: String,
-    setShowDialog: (Boolean) -> Unit,
-    setValue: (String) -> Unit
+    setShowDialog: (Boolean) -> Unit
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
     val currentDateTime = LocalDateTime.now()
@@ -64,7 +62,7 @@ fun EventTimeSettingDialog(
     if (showBreastMilkDialog.value)
         BreastMilkDialog(eventName = eventName,
             resIcon = resIcon,
-            currentData = selectedDate,
+            selectedDate = selectedDate,
             hour = hourState.intValue,
             minutes = minutesState.intValue,
             setShowDialog = {
@@ -229,8 +227,7 @@ fun PreviewBreastfeedingDialog() {
             selectedDate = "",
             setShowDialog = {
                 showDialog.value = it
-            }) {
-            Log.i("breastfeedingDialog", "showDialog : $it")
-        }
+            }
+        )
     }
 }

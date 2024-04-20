@@ -112,8 +112,7 @@ fun PreviewMilkDialog() {
         val showDialog = remember { mutableStateOf(false) }
         EventTimeSettingDialog(eventName = "", resIcon = 0, selectedDate = "", setShowDialog = {
             showDialog.value = it
-        }) {
-            Log.i("breastfeedingDialog", "showDialog : $it")
         }
+        )
     }
 }

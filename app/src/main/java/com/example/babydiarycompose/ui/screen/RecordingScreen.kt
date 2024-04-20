@@ -116,7 +116,8 @@ fun RecordingScreen(
                 }
                 val currentDay = oneYear - page - 1
                 currentDateValue(currentDay)
-                selectedDate = myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
+                selectedDate =
+                    myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 viewModel.getEventList(current, selectedDate)
             }
         }
@@ -175,9 +176,8 @@ fun RecordingScreen(
                                 eventTimeSettingDialog.value = it
                                 viewModel.getEventList(current, selectedDate)
                             }
-                        }) {
-                        Log.i("breastfeedingDialog", "showDialog : $it")
-                    }
+                        }
+                    )
                 Column(
                     modifier = Modifier.clickable {
                         eventTimeSettingDialog.value = true

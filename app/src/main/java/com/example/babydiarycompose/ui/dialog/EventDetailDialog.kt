@@ -30,7 +30,7 @@ import androidx.compose.ui.window.Dialog
 
 @Composable
 fun EventDetailDialog(
-    selectedDate :String,
+    selectedDate: String,
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
@@ -53,9 +53,8 @@ fun EventDetailDialog(
             selectedDate = selectedDate,
             setShowDialog = {
                 breastfeedingDialog.value = it
-            }) {
-            Log.i("breastfeedingDialog", "showDialog : $it")
-        }
+            }
+        )
     // 量ダイアログ
     val quantityDialog = remember { mutableStateOf(false) }
     val quantityDialogValue = remember { mutableStateOf(volumeValue) }
