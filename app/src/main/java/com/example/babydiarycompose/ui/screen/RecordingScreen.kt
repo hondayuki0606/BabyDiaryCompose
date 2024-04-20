@@ -65,7 +65,7 @@ fun RecordingScreen(
 ) {
     val current = LocalContext.current
     val times = (0..23).toList()
-    var currentData by rememberSaveable { mutableStateOf("") }
+    var selectedDate by rememberSaveable { mutableStateOf("") }
     val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
     val uiState by viewModel.uiState.collectAsState()
     ConstraintLayout(
@@ -116,8 +116,8 @@ fun RecordingScreen(
                 }
                 val currentDay = oneYear - page - 1
                 currentDateValue(currentDay)
-                currentData = myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
-                viewModel.getEventList(current, currentData)
+                selectedDate = myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
+                viewModel.getEventList(current, selectedDate)
             }
         }
         HorizontalPager(
@@ -136,7 +136,7 @@ fun RecordingScreen(
 
             LazyColumn {
                 items(uiState.eventList) {
-                    EventCard(event = it, currentData = currentData)
+                    EventCard(event = it, selectedDate = selectedDate)
                 }
             }
         }
@@ -169,11 +169,11 @@ fun RecordingScreen(
                 if (eventTimeSettingDialog.value)
                     EventTimeSettingDialog(eventName = eventName.value,
                         resIcon = icon.intValue,
-                        currentData = currentData,
+                        selectedDate = selectedDate,
                         setShowDialog = {
                             scope.launch {
                                 eventTimeSettingDialog.value = it
-                                viewModel.getEventList(current, currentData)
+                                viewModel.getEventList(current, selectedDate)
                             }
                         }) {
                         Log.i("breastfeedingDialog", "showDialog : $it")
@@ -213,13 +213,13 @@ fun RecordingScreen(
 }
 
 @Composable
-fun EventCard(event: Event, currentData: String) {
+fun EventCard(event: Event, selectedDate: String) {
     val showDialog = remember { mutableStateOf(false) }
     val volumeValue = remember { mutableStateOf("10ml") }
     if (showDialog.value)
         EventDetailDialog(
             volumeValue = { volumeValue.value = it },
-            currentData = currentData,
+            selectedDate = selectedDate,
             setShowDialog = {
                 showDialog.value = it
             },
@@ -286,6 +286,6 @@ fun PreviewRecordingScreen() {
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
         val event = Event("2024/11/11", "22", 1, "1111", "111")
-        EventCard(event, currentData = "")
+        EventCard(event, selectedDate = "")
     }
 }

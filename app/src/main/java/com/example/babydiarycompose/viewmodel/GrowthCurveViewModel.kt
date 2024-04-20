@@ -67,9 +67,9 @@ class GrowthCurveViewModel @Inject constructor(
         }
     }
 
-    fun getEventList(appContext: Context,currentData:String) {
+    fun getEventList(appContext: Context, currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getEventList(appContext, currentData).let {eventList ->
+            eventRepository.getEventList(appContext, currentData).let { eventList ->
                 _uiState.update {
                     it.copy(
                     )

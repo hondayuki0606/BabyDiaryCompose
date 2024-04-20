@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MilkDialog(
     eventName: String,
-    currentData: String,
+    selectedDate: String,
     hour: Int,
     minutes: Int,
     resIcon: Int,
@@ -66,7 +66,7 @@ fun MilkDialog(
                                 scope.launch {
                                     val eventList = arrayListOf(
                                         Event(
-                                            yearAndMonthAndDay = currentData,
+                                            yearAndMonthAndDay = selectedDate,
                                             "${hour}:${String.format("%02d", minutes)}",
                                             resIcon,
                                             eventName,
@@ -110,7 +110,7 @@ fun MilkDialog(
 fun PreviewMilkDialog() {
     BabyDiaryComposeTheme {
         val showDialog = remember { mutableStateOf(false) }
-        EventTimeSettingDialog(eventName = "", resIcon = 0, currentData = "", setShowDialog = {
+        EventTimeSettingDialog(eventName = "", resIcon = 0, selectedDate = "", setShowDialog = {
             showDialog.value = it
         }) {
             Log.i("breastfeedingDialog", "showDialog : $it")

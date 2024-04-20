@@ -41,13 +41,12 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun EventTimeSettingDialog(
     eventName: String,
     resIcon: Int,
-    currentData: String,
+    selectedDate: String,
     setShowDialog: (Boolean) -> Unit,
     setValue: (String) -> Unit
 ) {
@@ -65,7 +64,7 @@ fun EventTimeSettingDialog(
     if (showBreastMilkDialog.value)
         BreastMilkDialog(eventName = eventName,
             resIcon = resIcon,
-            currentData = currentData,
+            currentData = selectedDate,
             hour = hourState.intValue,
             minutes = minutesState.intValue,
             setShowDialog = {
@@ -78,10 +77,10 @@ fun EventTimeSettingDialog(
     val showMilkDialog = remember { mutableStateOf(false) }
     if (showMilkDialog.value)
         MilkDialog(eventName = eventName,
-            currentData = currentData,
+            selectedDate = selectedDate,
             resIcon = resIcon,
-            hour = hourState.value,
-            minutes = minutesState.value,
+            hour = hourState.intValue,
+            minutes = minutesState.intValue,
             setShowDialog = {
                 showMilkDialog.value = it
             }) {
@@ -171,11 +170,11 @@ fun EventTimeSettingDialog(
                                             else -> {
                                                 val eventList = arrayListOf(
                                                     Event(
-                                                        yearAndMonthAndDay = currentData,
-                                                        "${hourState.value}:${
+                                                        yearAndMonthAndDay = selectedDate,
+                                                        "${hourState.intValue}:${
                                                             String.format(
                                                                 "%02d",
-                                                                minutesState.value
+                                                                minutesState.intValue
                                                             )
                                                         }",
                                                         resIcon,
@@ -227,7 +226,7 @@ fun PreviewBreastfeedingDialog() {
         val showDialog = remember { mutableStateOf(false) }
         EventTimeSettingDialog(eventName = "",
             resIcon = 0,
-            currentData = "",
+            selectedDate = "",
             setShowDialog = {
                 showDialog.value = it
             }) {
