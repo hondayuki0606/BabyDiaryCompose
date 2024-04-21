@@ -223,7 +223,6 @@ fun EventCard(event: Event, selectedDate: String) {
             setShowDialog = {
                 showDialog.value = it
             },
-            setValue = { Log.i("showDialog", "showDialog : $it") }
         )
 
     Row(verticalAlignment = Alignment.CenterVertically) {

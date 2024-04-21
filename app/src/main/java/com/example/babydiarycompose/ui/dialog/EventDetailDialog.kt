@@ -33,7 +33,6 @@ fun EventDetailDialog(
     selectedDate: String,
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,
-    setValue: (String) -> Unit
 ) {
 
     val datePickerDialog = remember { mutableStateOf(false) }
