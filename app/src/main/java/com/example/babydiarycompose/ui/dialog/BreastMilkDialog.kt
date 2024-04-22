@@ -1,10 +1,12 @@
 package com.example.babydiarycompose.ui.dialog
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -29,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
+import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 
@@ -50,7 +53,9 @@ fun BreastMilkDialog(
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = Color.DarkGray,
-            modifier = Modifier.height(200.dp)
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = "${eventName}:${hour}時${minutes}分", color = Color.White)
@@ -102,10 +107,11 @@ fun BreastMilkDialog(
                                     resultValue(true)
                                 }
                             },
-                            shape = RoundedCornerShape(50.dp),
+//                            shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp)
+                                .background(Pink)
                         ) {
                             Text(text = "OK")
                         }
@@ -115,10 +121,11 @@ fun BreastMilkDialog(
                                 setShowDialog(false)
                                 resultValue(true)
                             },
-                            shape = RoundedCornerShape(50.dp),
+//                            shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp)
+                                .background(Pink)
                         ) {
                             Text(text = "キャンセル")
                         }
