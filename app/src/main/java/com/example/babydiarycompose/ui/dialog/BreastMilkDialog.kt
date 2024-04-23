@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,14 +52,19 @@ fun BreastMilkDialog(
     val applicationContext = LocalContext.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = Color.DarkGray,
+            color = Color(0x00000000),
+            shape = RoundedCornerShape(4.dp),
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "${eventName}:${hour}時${minutes}分", color = Color.White)
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.DarkGray)) {
+                    Text(text = "${eventName}:${hour}時${minutes}分", color = Color.White)
+                }
+                Spacer(modifier = Modifier.height(5.dp))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
