@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -28,6 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
@@ -58,12 +61,23 @@ fun BreastMilkDialog(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            ConstraintLayout(
+                modifier = Modifier
+                    .background(Color(0xFF9C4A4A))
+                    .fillMaxSize()
+            ) {
+                val (eventTitle, picker, okButton, cancelButton) = createRefs()
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.DarkGray)
+                        .constrainAs(eventTitle) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(picker.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        }
                 ) {
                     Text(
                         text = "${eventName}:${hour}時${minutes}分",
@@ -73,7 +87,14 @@ fun BreastMilkDialog(
                 }
                 Spacer(modifier = Modifier.height(5.dp))
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.constrainAs(picker) {
+                        top.linkTo(eventTitle.bottom)
+                        bottom.linkTo(okButton.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        height = Dimension.fillToConstraints
+                    }
                 ) {
                     Row(
                         modifier = Modifier
@@ -92,7 +113,6 @@ fun BreastMilkDialog(
                         Spacer(
                             modifier = Modifier.width(50.dp),
                         )
-
                         Column {
                             Text(text = "右", color = Color.White)
                             NumberPicker(
@@ -102,55 +122,62 @@ fun BreastMilkDialog(
                         }
                     }
                 }
-
                 Spacer(modifier = Modifier.height(20.dp))
                 val scope = rememberCoroutineScope()
-                Box {
-                    Column {
-                        Button(
-                            onClick = {
-                                scope.launch {
-                                    val eventList = arrayListOf(
-                                        Event(
-                                            yearAndMonthAndDay = selectedDate,
-                                            time = "${hour}:${String.format("%02d", minutes)}",
-                                            imageUrl = resIcon,
-                                            eventName = eventName,
-                                            eventDetail = "右:${rightTime.intValue}分 / 左${leftTime.intValue}分"
-                                        )
-                                    )
-                                    viewModel.addEventList(applicationContext, eventList)
-                                    setShowDialog(false)
-                                    resultValue(true)
-                                }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            colors = ButtonDefaults.textButtonColors(
-                                containerColor = Color.DarkGray,
-                                contentColor = Color.DarkGray
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .constrainAs(okButton) {
+                            top.linkTo(picker.bottom)
+                            bottom.linkTo(cancelButton.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        },
+                    onClick = {
+                        scope.launch {
+                            val eventList = arrayListOf(
+                                Event(
+                                    yearAndMonthAndDay = selectedDate,
+                                    time = "${hour}:${String.format("%02d", minutes)}",
+                                    imageUrl = resIcon,
+                                    eventName = eventName,
+                                    eventDetail = "右:${rightTime.intValue}分 / 左${leftTime.intValue}分"
+                                )
                             )
-                        ) {
-                            Text(text = "OK", color = Pink)
+                            viewModel.addEventList(applicationContext, eventList)
+                            setShowDialog(false)
+                            resultValue(true)
                         }
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Button(
-                            onClick = {
-                                setShowDialog(false)
-                                resultValue(true)
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            colors = ButtonDefaults.textButtonColors(
-                                containerColor = Color.DarkGray,
-                                contentColor = Color.DarkGray
-                            )
-                        ) {
-                            Text(text = "キャンセル", color = Pink)
-                        }
-                    }
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = Color.DarkGray,
+                        contentColor = Color.DarkGray
+                    )
+                ) {
+                    Text(text = "OK", color = Pink)
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .constrainAs(cancelButton) {
+                            top.linkTo(okButton.bottom)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        },
+                    onClick = {
+                        setShowDialog(false)
+                        resultValue(true)
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = Color.DarkGray,
+                        contentColor = Color.DarkGray
+                    )
+                ) {
+                    Text(text = "キャンセル", color = Pink)
                 }
             }
         }
