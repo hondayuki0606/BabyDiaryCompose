@@ -63,7 +63,7 @@ fun BreastMilkDialog(
         ) {
             ConstraintLayout(
                 modifier = Modifier
-                    .background(Color(0xFF9C4A4A))
+                    .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
                 val (eventTitle, picker, buttonArea) = createRefs()
