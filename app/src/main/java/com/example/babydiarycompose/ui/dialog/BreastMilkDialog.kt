@@ -84,45 +84,52 @@ fun BreastMilkDialog(
                         color = Color.White,
                         textAlign = TextAlign.Center,
                     )
+                    Spacer(modifier = Modifier
+                        .height(5.dp)
+                        .background(Color(0x00000000)))
                 }
-                Spacer(modifier = Modifier.height(5.dp))
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.constrainAs(picker) {
-                        top.linkTo(eventTitle.bottom)
-                        bottom.linkTo(buttonArea.top)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        height = Dimension.fillToConstraints
-                    }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.DarkGray)
+                        .constrainAs(picker) {
+                            top.linkTo(eventTitle.bottom)
+                            bottom.linkTo(buttonArea.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                            height = Dimension.fillToConstraints
+                        },
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
+                    Spacer(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.DarkGray),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            Text(text = "左", color = Color.White)
-                            NumberPicker(
-                                state = rightTime,
-                                range = 0..120,
-                            )
-                        }
-                        Spacer(
-                            modifier = Modifier.width(50.dp),
+                            .height(20.dp)
+                            .background(Color(0x00000000))
+                    )
+                    Column {
+                        Text(text = "左", color = Color.White)
+                        NumberPicker(
+                            state = rightTime,
+                            range = 0..120,
                         )
-                        Column {
-                            Text(text = "右", color = Color.White)
-                            NumberPicker(
-                                state = leftTime,
-                                range = 0..120,
-                            )
-                        }
                     }
+                    Spacer(
+                        modifier = Modifier.width(50.dp),
+                    )
+                    Column {
+                        Text(text = "右", color = Color.White)
+                        NumberPicker(
+                            state = leftTime,
+                            range = 0..120,
+                        )
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .height(20.dp)
+                            .background(Color(0x00000000))
+                    )
                 }
-                Spacer(modifier = Modifier.height(20.dp))
                 val scope = rememberCoroutineScope()
                 Column(
                     modifier = Modifier
