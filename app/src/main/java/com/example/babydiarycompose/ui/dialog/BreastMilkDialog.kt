@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -71,6 +72,7 @@ fun BreastMilkDialog(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 12.dp)
                         .background(Color.DarkGray)
                         .constrainAs(eventTitle) {
                             top.linkTo(parent.top)
@@ -84,12 +86,10 @@ fun BreastMilkDialog(
                         color = Color.White,
                         textAlign = TextAlign.Center,
                     )
-                    Spacer(modifier = Modifier
-                        .height(5.dp)
-                        .background(Color(0x00000000)))
                 }
                 Row(
                     modifier = Modifier
+                        .padding(bottom = 12.dp)
                         .fillMaxWidth()
                         .background(Color.DarkGray)
                         .constrainAs(picker) {
@@ -98,6 +98,7 @@ fun BreastMilkDialog(
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                             height = Dimension.fillToConstraints
+
                         },
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
