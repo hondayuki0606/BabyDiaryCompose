@@ -18,10 +18,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +37,8 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.ui.button.MultiToggleButton
+import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
@@ -67,7 +71,7 @@ fun BreastMilkDialog(
                     .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
-                val (eventTitle, picker, buttonArea) = createRefs()
+                val (eventTitle, picker, toggleButton,buttonArea) = createRefs()
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -94,7 +98,7 @@ fun BreastMilkDialog(
                         .background(Color.DarkGray)
                         .constrainAs(picker) {
                             top.linkTo(eventTitle.bottom)
-                            bottom.linkTo(buttonArea.top)
+                            bottom.linkTo(toggleButton.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                             height = Dimension.fillToConstraints
@@ -103,11 +107,11 @@ fun BreastMilkDialog(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Spacer(
-                        modifier = Modifier
-                            .height(20.dp)
-                            .background(Color(0x00000000))
-                    )
+//                    Spacer(
+//                        modifier = Modifier
+//                            .height(20.dp)
+//                            .background(Color(0x00000000))
+//                    )
                     Column {
                         Text(text = "左", color = Color.White)
                         NumberPicker(
@@ -125,18 +129,34 @@ fun BreastMilkDialog(
                             range = 0..120,
                         )
                     }
-                    Spacer(
-                        modifier = Modifier
-                            .height(20.dp)
-                            .background(Color(0x00000000))
-                    )
+//                    Spacer(
+//                        modifier = Modifier
+//                            .height(20.dp)
+//                            .background(Color(0x00000000))
+//                    )
                 }
+                var breastfeedingInputSelection by remember { mutableStateOf("順序なし") }
+                ToggleButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .constrainAs(toggleButton) {
+                            top.linkTo(picker.bottom)
+                            bottom.linkTo(buttonArea.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        },
+                    currentSelection = breastfeedingInputSelection,
+                    toggleStates = listOf("順序なし", "左から", "右から"),
+                    onToggleChange = {
+                        breastfeedingInputSelection = it
+                    }
+                )
                 val scope = rememberCoroutineScope()
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .constrainAs(buttonArea) {
-                            top.linkTo(picker.bottom)
+                            top.linkTo(toggleButton.bottom)
                             bottom.linkTo(parent.bottom)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)

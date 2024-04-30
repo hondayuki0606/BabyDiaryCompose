@@ -254,6 +254,61 @@ fun MultiToggleButton(
 }
 
 @Composable
+fun ToggleButton(
+    modifier: Modifier,
+    currentSelection: String,
+    toggleStates: List<String>,
+    onToggleChange: ((String) -> Unit)?
+) {
+    val selectedTint = MaterialTheme.colorScheme.primary
+    val unselectedTint = Color.Unspecified
+    Box(
+        modifier = modifier
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                .border(BorderStroke(1.dp, Color.LightGray))
+        ) {
+            toggleStates.forEachIndexed { index, toggleState ->
+                val isSelected = currentSelection.lowercase() == toggleState.lowercase()
+                val backgroundTint = if (isSelected) selectedTint else unselectedTint
+                val textColor = if (isSelected) Color.White else Color.Unspecified
+
+                if (index != 0) {
+                    Divider(
+                        color = Color.LightGray,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(1.dp)
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .background(backgroundTint)
+                        .padding(vertical = 6.dp, horizontal = 8.dp)
+                        .toggleable(
+                            value = isSelected,
+                            enabled = true,
+                            onValueChange = { selected ->
+                                if (selected) {
+                                    if (onToggleChange != null) {
+                                        onToggleChange(toggleState)
+                                    }
+                                }
+                            })
+                ) {
+                    Text(toggleState, color = textColor, modifier = Modifier.padding(4.dp))
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun TextButton(
     mainTitle: String,
     subTitle: String = "",
