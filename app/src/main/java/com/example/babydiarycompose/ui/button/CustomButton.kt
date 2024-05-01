@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
@@ -43,6 +44,7 @@ import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
+import com.example.babydiarycompose.ui.theme.WhiteGray
 
 
 @Composable
@@ -260,14 +262,14 @@ fun ToggleButton(
     toggleStates: List<String>,
     onToggleChange: ((String) -> Unit)?
 ) {
-    val selectedTint = MaterialTheme.colorScheme.primary
-    val unselectedTint = Color.Unspecified
+    val selectedTint = WhiteGray
+    val unselectedTint = Gray
     Box(
         modifier = modifier
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min)
@@ -276,7 +278,6 @@ fun ToggleButton(
             toggleStates.forEachIndexed { index, toggleState ->
                 val isSelected = currentSelection.lowercase() == toggleState.lowercase()
                 val backgroundTint = if (isSelected) selectedTint else unselectedTint
-                val textColor = if (isSelected) Color.White else Color.Unspecified
 
                 if (index != 0) {
                     Divider(
@@ -301,7 +302,7 @@ fun ToggleButton(
                                 }
                             })
                 ) {
-                    Text(toggleState, color = textColor, modifier = Modifier.padding(4.dp))
+                    Text(toggleState, color = Color.White, modifier = Modifier.padding(4.dp))
                 }
             }
         }
