@@ -153,6 +153,7 @@ fun NumberPicker(
 @Composable
 private fun Label(text: String, modifier: Modifier) {
     Text(
+        color = Color.White,
         text = text,
         modifier = modifier.pointerInput(Unit) {
             detectTapGestures(onLongPress = {

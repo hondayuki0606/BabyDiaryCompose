@@ -33,7 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Gray
+import com.example.babydiarycompose.ui.theme.Gray
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +41,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.babydiarycompose.listener.ScreenTransitionListener
+import com.example.babydiarycompose.ui.theme.BackButtonGray
 import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
@@ -273,20 +274,12 @@ fun ToggleButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min)
-                .border(BorderStroke(1.dp, Color.LightGray))
+                .background(BackButtonGray)
         ) {
-            toggleStates.forEachIndexed { index, toggleState ->
+            toggleStates.forEach { toggleState ->
                 val isSelected = currentSelection.lowercase() == toggleState.lowercase()
                 val backgroundTint = if (isSelected) selectedTint else unselectedTint
 
-                if (index != 0) {
-                    Divider(
-                        color = Color.LightGray,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(1.dp)
-                    )
-                }
                 Row(
                     modifier = Modifier
                         .background(backgroundTint)

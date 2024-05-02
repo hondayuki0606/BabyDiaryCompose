@@ -40,6 +40,7 @@ import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.button.MultiToggleButton
 import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
+import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
@@ -77,7 +78,7 @@ fun BreastMilkDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
-                        .background(Color.DarkGray)
+                        .background(DialogBackGray)
                         .constrainAs(eventTitle) {
                             top.linkTo(parent.top)
                             bottom.linkTo(picker.top)
@@ -93,9 +94,8 @@ fun BreastMilkDialog(
                 }
                 Row(
                     modifier = Modifier
-                        .padding(bottom = 12.dp)
                         .fillMaxWidth()
-                        .background(Color.DarkGray)
+                        .background(DialogBackGray)
                         .constrainAs(picker) {
                             top.linkTo(eventTitle.bottom)
                             bottom.linkTo(toggleButton.top)
@@ -107,11 +107,6 @@ fun BreastMilkDialog(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-//                    Spacer(
-//                        modifier = Modifier
-//                            .height(20.dp)
-//                            .background(Color(0x00000000))
-//                    )
                     Column {
                         Text(text = "左", color = Color.White)
                         NumberPicker(
@@ -129,16 +124,12 @@ fun BreastMilkDialog(
                             range = 0..120,
                         )
                     }
-//                    Spacer(
-//                        modifier = Modifier
-//                            .height(20.dp)
-//                            .background(Color(0x00000000))
-//                    )
                 }
                 var breastfeedingInputSelection by remember { mutableStateOf("順序なし") }
                 ToggleButton(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 12.dp)
                         .constrainAs(toggleButton) {
                             top.linkTo(picker.bottom)
                             bottom.linkTo(buttonArea.top)
@@ -183,8 +174,8 @@ fun BreastMilkDialog(
                             }
                         },
                         colors = ButtonDefaults.textButtonColors(
-                            containerColor = Color.DarkGray,
-                            contentColor = Color.DarkGray
+                            containerColor = DialogBackGray,
+                            contentColor = DialogBackGray
                         )
                     ) {
                         Text(text = "OK", color = Pink)
@@ -199,8 +190,8 @@ fun BreastMilkDialog(
                             resultValue(true)
                         },
                         colors = ButtonDefaults.textButtonColors(
-                            containerColor = Color.DarkGray,
-                            contentColor = Color.DarkGray
+                            containerColor = DialogBackGray,
+                            contentColor = DialogBackGray
                         )
                     ) {
                         Text(text = "キャンセル", color = Pink)
