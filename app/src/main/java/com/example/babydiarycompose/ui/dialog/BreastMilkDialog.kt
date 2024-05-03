@@ -72,7 +72,7 @@ fun BreastMilkDialog(
                     .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
-                val (eventTitle, picker, toggleButton,buttonArea) = createRefs()
+                val (eventTitle, rightAndLeftTitle, picker, toggleButton, buttonArea) = createRefs()
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -81,13 +81,14 @@ fun BreastMilkDialog(
                         .background(DialogBackGray)
                         .constrainAs(eventTitle) {
                             top.linkTo(parent.top)
-                            bottom.linkTo(picker.top)
+                            bottom.linkTo(rightAndLeftTitle.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                         }
                 ) {
                     Text(
                         text = "${eventName}:${hour}時${minutes}分",
+                        modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),
                         color = Color.White,
                         textAlign = TextAlign.Center,
                     )
@@ -96,8 +97,27 @@ fun BreastMilkDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(DialogBackGray)
-                        .constrainAs(picker) {
+                        .constrainAs(rightAndLeftTitle) {
                             top.linkTo(eventTitle.bottom)
+                            bottom.linkTo(picker.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        },
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = "左", color = Color.White)
+                    Spacer(
+                        modifier = Modifier.width(50.dp),
+                    )
+                    Text(text = "右", color = Color.White)
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(DialogBackGray)
+                        .constrainAs(picker) {
+                            top.linkTo(rightAndLeftTitle.bottom)
                             bottom.linkTo(toggleButton.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
@@ -108,7 +128,6 @@ fun BreastMilkDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
-                        Text(text = "左", color = Color.White)
                         NumberPicker(
                             state = rightTime,
                             range = 0..120,
@@ -118,7 +137,6 @@ fun BreastMilkDialog(
                         modifier = Modifier.width(50.dp),
                     )
                     Column {
-                        Text(text = "右", color = Color.White)
                         NumberPicker(
                             state = leftTime,
                             range = 0..120,
