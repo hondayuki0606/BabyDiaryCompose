@@ -40,6 +40,7 @@ import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.button.MultiToggleButton
 import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
+import com.example.babydiarycompose.ui.theme.DialogBackDark
 import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
@@ -96,7 +97,7 @@ fun BreastMilkDialog(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(DialogBackGray)
+                        .background(DialogBackDark)
                         .constrainAs(rightAndLeftTitle) {
                             top.linkTo(eventTitle.bottom)
                             bottom.linkTo(picker.top)
