@@ -1,5 +1,6 @@
 package com.example.babydiarycompose.ui.dialog
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,10 +28,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -37,7 +41,6 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
-import com.example.babydiarycompose.ui.button.MultiToggleButton
 import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackDark
@@ -45,6 +48,23 @@ import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
+
+@Composable
+fun VerticalDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = DividerDefaults.Thickness,
+    color: Color = DividerDefaults.color,
+) = Canvas(
+    modifier
+//        .fillMaxHeight()
+        .width(thickness)) {
+    drawLine(
+        color = color,
+        strokeWidth = thickness.toPx(),
+        start = Offset(thickness.toPx() / 2, 0f),
+        end = Offset(thickness.toPx() / 2, size.height),
+    )
+}
 
 @Composable
 fun BreastMilkDialog(
@@ -109,7 +129,11 @@ fun BreastMilkDialog(
                 ) {
                     Text(text = "左", color = Color.White)
                     Spacer(
-                        modifier = Modifier.width(50.dp),
+                        modifier = Modifier.width(50.dp)
+                    )
+                    VerticalDivider(thickness = 2.dp, color = Color.White)
+                    Spacer(
+                        modifier = Modifier.width(50.dp)
                     )
                     Text(text = "右", color = Color.White)
                 }
