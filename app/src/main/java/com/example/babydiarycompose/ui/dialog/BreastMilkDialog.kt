@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -56,7 +57,8 @@ fun VerticalDivider(
     color: Color = DividerDefaults.color,
 ) = Canvas(
     modifier
-//        .fillMaxHeight()
+        .fillMaxHeight()
+        .height(10.dp)
         .width(thickness)) {
     drawLine(
         color = color,
@@ -116,6 +118,7 @@ fun BreastMilkDialog(
                 }
                 Row(
                     modifier = Modifier
+                        .height(IntrinsicSize.Min)
                         .fillMaxWidth()
                         .background(DialogBackDark)
                         .constrainAs(rightAndLeftTitle) {
@@ -131,7 +134,7 @@ fun BreastMilkDialog(
                     Spacer(
                         modifier = Modifier.width(50.dp)
                     )
-                    VerticalDivider(thickness = 2.dp, color = Color.White)
+                    VerticalDivider(thickness = 3.dp, color = Color.White)
                     Spacer(
                         modifier = Modifier.width(50.dp)
                     )
