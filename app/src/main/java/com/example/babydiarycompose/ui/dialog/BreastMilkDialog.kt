@@ -163,18 +163,11 @@ fun BreastMilkDialog(
                     repeat(120) {
                         itemList.add((it + 1).toString() + "分")
                     }
-
-//                    Column {
                     LazyColumn {
                         items(itemList) {
                             Text(text = it, color = Color.White)
                         }
                     }
-//                        NumberPicker(
-//                            state = rightTime,
-//                            range = 0..120,
-//                        )
-//                    }
                     Spacer(
                         modifier = Modifier.width(50.dp),
                     )
