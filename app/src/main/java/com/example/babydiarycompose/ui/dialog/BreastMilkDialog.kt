@@ -14,6 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -59,7 +62,8 @@ fun VerticalDivider(
     modifier
         .fillMaxHeight()
         .height(10.dp)
-        .width(thickness)) {
+        .width(thickness)
+) {
     drawLine(
         color = color,
         strokeWidth = thickness.toPx(),
@@ -155,20 +159,33 @@ fun BreastMilkDialog(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
-                        NumberPicker(
-                            state = rightTime,
-                            range = 0..120,
-                        )
+                    val itemList = arrayListOf("なし")
+                    repeat(120) {
+                        itemList.add((it + 1).toString() + "分")
                     }
+
+//                    Column {
+                    LazyColumn {
+                        items(itemList) {
+                            Text(text = it, color = Color.White)
+                        }
+                    }
+//                        NumberPicker(
+//                            state = rightTime,
+//                            range = 0..120,
+//                        )
+//                    }
                     Spacer(
                         modifier = Modifier.width(50.dp),
                     )
-                    Column {
-                        NumberPicker(
-                            state = leftTime,
-                            range = 0..120,
-                        )
+                    VerticalDivider(thickness = 3.dp, color = Color.White)
+                    Spacer(
+                        modifier = Modifier.width(50.dp),
+                    )
+                    LazyColumn {
+                        items(itemList) {
+                            Text(text = it, color = Color.White)
+                        }
                     }
                 }
                 var breastfeedingInputSelection by remember { mutableStateOf("順序なし") }
