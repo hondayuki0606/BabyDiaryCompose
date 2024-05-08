@@ -167,12 +167,15 @@ fun BreastMilkDialog(
                     }
                     val checkedState = remember { mutableStateOf(true) }
                     LazyColumn {
-                        items(itemList) {
+                        items(itemList) { itemName ->
                             Row {
-                                Text(text = it, color = Color.White)
+                                Text(text = itemName, color = Color.White)
                                 Checkbox(
                                     checked = checkedState.value,
-                                    onCheckedChange = { checkedState.value = !it })
+                                    onCheckedChange = {
+                                        checkedState.value = it
+                                    }
+                                )
                             }
                         }
                     }
@@ -184,9 +187,9 @@ fun BreastMilkDialog(
                         modifier = Modifier.width(50.dp),
                     )
                     LazyColumn {
-                        items(itemList) {
+                        items(itemList) { itemName ->
                             Row {
-                                Text(text = it, color = Color.White)
+                                Text(text = itemName, color = Color.White)
                                 Checkbox(
                                     checked = checkedState.value,
                                     onCheckedChange = { checkedState.value = !it })
