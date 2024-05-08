@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.ui.dialog
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -163,9 +165,15 @@ fun BreastMilkDialog(
                     repeat(120) {
                         itemList.add((it + 1).toString() + "分")
                     }
+                    val checkedState = remember { mutableStateOf(true) }
                     LazyColumn {
                         items(itemList) {
-                            Text(text = it, color = Color.White)
+                            Row {
+                                Text(text = it, color = Color.White)
+                                Checkbox(
+                                    checked = checkedState.value,
+                                    onCheckedChange = { checkedState.value = !it })
+                            }
                         }
                     }
                     Spacer(
@@ -177,7 +185,12 @@ fun BreastMilkDialog(
                     )
                     LazyColumn {
                         items(itemList) {
-                            Text(text = it, color = Color.White)
+                            Row {
+                                Text(text = it, color = Color.White)
+                                Checkbox(
+                                    checked = checkedState.value,
+                                    onCheckedChange = { checkedState.value = !it })
+                            }
                         }
                     }
                 }
