@@ -3,6 +3,7 @@ package com.example.babydiarycompose.ui.dialog
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -165,16 +167,25 @@ fun BreastMilkDialog(
                     repeat(120) {
                         itemList.add((it + 1).toString() + "分")
                     }
-                    val checkedState = remember { mutableStateOf(true) }
+
                     LazyColumn {
                         items(itemList) { itemName ->
-                            Row {
+                            val checkedState = remember { mutableStateOf(false) }
+                            Row(
+                                modifier = Modifier
+                                    .clickable(
+                                        role = Role.Checkbox,
+                                        onClick = {
+                                            checkedState.value = !checkedState.value
+                                        }
+                                    ),
+                                horizontalArrangement = Arrangement.End
+                            ) {
                                 Text(text = itemName, color = Color.White)
+                                Spacer(modifier = Modifier.width(8.dp))
                                 Checkbox(
                                     checked = checkedState.value,
-                                    onCheckedChange = {
-                                        checkedState.value = it
-                                    }
+                                    onCheckedChange = null
                                 )
                             }
                         }
@@ -188,11 +199,23 @@ fun BreastMilkDialog(
                     )
                     LazyColumn {
                         items(itemList) { itemName ->
-                            Row {
+                            val checkedState = remember { mutableStateOf(false) }
+                            Row(
+                                modifier = Modifier
+                                    .clickable(
+                                        role = Role.Checkbox,
+                                        onClick = {
+                                            checkedState.value = !checkedState.value
+                                        }
+                                    ),
+                                horizontalArrangement = Arrangement.End
+                            ) {
                                 Text(text = itemName, color = Color.White)
+                                Spacer(modifier = Modifier.width(8.dp))
                                 Checkbox(
                                     checked = checkedState.value,
-                                    onCheckedChange = { checkedState.value = !it })
+                                    onCheckedChange = null
+                                )
                             }
                         }
                     }
