@@ -142,7 +142,7 @@ fun BreastMilkDialog(
                     Spacer(
                         modifier = Modifier.width(50.dp)
                     )
-                    VerticalDivider(thickness = 3.dp, color = Color.White)
+                    VerticalDivider(thickness = 2.dp, color = Color.White)
                     Spacer(
                         modifier = Modifier.width(50.dp)
                     )
@@ -179,7 +179,7 @@ fun BreastMilkDialog(
                                             checkedState.value = !checkedState.value
                                         }
                                     ),
-                                horizontalArrangement = Arrangement.End
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -193,7 +193,7 @@ fun BreastMilkDialog(
                     Spacer(
                         modifier = Modifier.width(50.dp),
                     )
-                    VerticalDivider(thickness = 3.dp, color = Color.White)
+                    VerticalDivider(thickness = 2.dp, color = Color.White)
                     Spacer(
                         modifier = Modifier.width(50.dp),
                     )
@@ -208,7 +208,7 @@ fun BreastMilkDialog(
                                             checkedState.value = !checkedState.value
                                         }
                                     ),
-                                horizontalArrangement = Arrangement.End
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
