@@ -167,16 +167,15 @@ fun BreastMilkDialog(
                     repeat(120) {
                         itemList.add((it + 1).toString() + "分")
                     }
-
+                    var leftCheckedState by remember { mutableStateOf("なし") }
                     LazyColumn {
                         items(itemList) { itemName ->
-                            val checkedState = remember { mutableStateOf(false) }
                             Row(
                                 modifier = Modifier
                                     .clickable(
                                         role = Role.Checkbox,
                                         onClick = {
-                                            checkedState.value = !checkedState.value
+                                            leftCheckedState = itemName
                                         }
                                     ),
                                 horizontalArrangement = Arrangement.SpaceBetween
@@ -184,7 +183,7 @@ fun BreastMilkDialog(
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Checkbox(
-                                    checked = checkedState.value,
+                                    checked = leftCheckedState == itemName,
                                     onCheckedChange = null
                                 )
                             }
@@ -197,15 +196,16 @@ fun BreastMilkDialog(
                     Spacer(
                         modifier = Modifier.width(50.dp),
                     )
+                    var rightCheckedState by remember { mutableStateOf("なし") }
                     LazyColumn {
                         items(itemList) { itemName ->
-                            val checkedState = remember { mutableStateOf(false) }
+
                             Row(
                                 modifier = Modifier
                                     .clickable(
                                         role = Role.Checkbox,
                                         onClick = {
-                                            checkedState.value = !checkedState.value
+                                            rightCheckedState = itemName
                                         }
                                     ),
                                 horizontalArrangement = Arrangement.SpaceBetween
@@ -213,7 +213,7 @@ fun BreastMilkDialog(
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Checkbox(
-                                    checked = checkedState.value,
+                                    checked = rightCheckedState == itemName,
                                     onCheckedChange = null
                                 )
                             }
