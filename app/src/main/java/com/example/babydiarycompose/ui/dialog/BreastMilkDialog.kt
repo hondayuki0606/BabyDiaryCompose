@@ -37,7 +37,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +49,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.babydiarycompose.R
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.button.ToggleButton
@@ -182,10 +185,18 @@ fun BreastMilkDialog(
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Checkbox(
-                                    checked = leftCheckedState == itemName,
-                                    onCheckedChange = null
-                                )
+                                if (leftCheckedState == itemName) {
+                                    Image(
+                                        modifier = Modifier
+                                            .padding(
+                                                start = 10.dp,
+                                                end = 10.dp,
+                                            ),
+                                        contentScale = ContentScale.Fit,
+                                        painter = painterResource(R.drawable.check_mark),
+                                        contentDescription = "image"
+                                    )
+                                }
                             }
                         }
                     }
@@ -199,7 +210,6 @@ fun BreastMilkDialog(
                     var rightCheckedState by remember { mutableStateOf("なし") }
                     LazyColumn {
                         items(itemList) { itemName ->
-
                             Row(
                                 modifier = Modifier
                                     .clickable(
@@ -212,10 +222,18 @@ fun BreastMilkDialog(
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Checkbox(
-                                    checked = rightCheckedState == itemName,
-                                    onCheckedChange = null
-                                )
+                                if (rightCheckedState == itemName) {
+                                    Image(
+                                        modifier = Modifier
+                                            .padding(
+                                                start = 10.dp,
+                                                end = 10.dp,
+                                            ),
+                                        contentScale = ContentScale.Fit,
+                                        painter = painterResource(R.drawable.check_mark),
+                                        contentDescription = "image"
+                                    )
+                                }
                             }
                         }
                     }
