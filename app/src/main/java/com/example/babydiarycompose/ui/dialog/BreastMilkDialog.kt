@@ -17,12 +17,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -50,7 +48,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.R
-import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
@@ -106,7 +103,7 @@ fun BreastMilkDialog(
                     .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
-                val (eventTitle, rightAndLeftTitle, picker, toggleButton, buttonArea) = createRefs()
+                val (eventTitle, leftScroll, verticalDivider, rightScroll, toggleButton, buttonArea) = createRefs()
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -115,7 +112,7 @@ fun BreastMilkDialog(
                         .background(DialogBackGray)
                         .constrainAs(eventTitle) {
                             top.linkTo(parent.top)
-                            bottom.linkTo(rightAndLeftTitle.top)
+                            bottom.linkTo(verticalDivider.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                         }
@@ -127,61 +124,42 @@ fun BreastMilkDialog(
                         textAlign = TextAlign.Center,
                     )
                 }
-                Row(
-                    modifier = Modifier
-                        .height(IntrinsicSize.Min)
-                        .fillMaxWidth()
-                        .background(DialogBackDark)
-                        .constrainAs(rightAndLeftTitle) {
-                            top.linkTo(eventTitle.bottom)
-                            bottom.linkTo(picker.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(text = "左", color = Color.White)
-                    Spacer(
-                        modifier = Modifier.width(50.dp)
-                    )
-                    VerticalDivider(thickness = 2.dp, color = Color.White)
-                    Spacer(
-                        modifier = Modifier.width(50.dp)
-                    )
-                    Text(text = "右", color = Color.White)
+                val minuteList = arrayListOf("なし")
+                for (minute in 1..120) {
+                    minuteList.add("${minute}分")
                 }
-                Row(
+                var leftCheckedState by remember { mutableStateOf("なし") }
+
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(DialogBackGray)
-                        .constrainAs(picker) {
-                            top.linkTo(rightAndLeftTitle.bottom)
+                        .background(DialogBackDark)
+                        .constrainAs(leftScroll) {
+                            top.linkTo(eventTitle.bottom)
                             bottom.linkTo(toggleButton.top)
                             start.linkTo(parent.start)
-                            end.linkTo(parent.end)
+                            end.linkTo(verticalDivider.start)
                             height = Dimension.fillToConstraints
-
+                            width = Dimension.fillToConstraints
                         },
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
+//                    horizontalArrangement = Arrangement.Center,
+//                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val itemList = arrayListOf("なし")
-                    repeat(120) {
-                        itemList.add((it + 1).toString() + "分")
+                    Box(
+                        modifier = Modifier
+                            .background(DialogBackGray)
+                    ) {
+                        Text(text = "左", color = Color.White)
                     }
-                    var leftCheckedState by remember { mutableStateOf("なし") }
                     LazyColumn {
-                        items(itemList) { itemName ->
+                        items(minuteList) { itemName ->
                             Row(
                                 modifier = Modifier
                                     .clickable(
-                                        role = Role.Checkbox,
                                         onClick = {
                                             leftCheckedState = itemName
                                         }
                                     ),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceAround,
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -196,29 +174,55 @@ fun BreastMilkDialog(
                                         painter = painterResource(R.drawable.check_mark),
                                         contentDescription = "image"
                                     )
+                                } else {
+                                    Text(text = "")
                                 }
                             }
                         }
                     }
-                    Spacer(
-                        modifier = Modifier.width(50.dp),
-                    )
-                    VerticalDivider(thickness = 2.dp, color = Color.White)
-                    Spacer(
-                        modifier = Modifier.width(50.dp),
-                    )
-                    var rightCheckedState by remember { mutableStateOf("なし") }
+                }
+                VerticalDivider(
+                    thickness = 2.dp, color = Color.White,
+                    modifier = Modifier.constrainAs(verticalDivider) {
+                        top.linkTo(eventTitle.bottom)
+                        bottom.linkTo(toggleButton.top)
+                        start.linkTo(leftScroll.end)
+                        end.linkTo(rightScroll.start)
+                        height = Dimension.fillToConstraints
+
+                    },
+                )
+                var rightCheckedState by remember { mutableStateOf("なし") }
+                Column(
+                    modifier = Modifier
+                        .background(DialogBackDark)
+                        .constrainAs(rightScroll) {
+                            top.linkTo(eventTitle.bottom)
+                            bottom.linkTo(toggleButton.top)
+                            start.linkTo(verticalDivider.end)
+                            end.linkTo(parent.end)
+                            height = Dimension.fillToConstraints
+                            width = Dimension.fillToConstraints
+                        },
+//                    horizontalArrangement = Arrangement.Center,
+//                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(DialogBackGray)
+                    ) {
+                        Text(text = "右", color = Color.White)
+                    }
                     LazyColumn {
-                        items(itemList) { itemName ->
+                        items(minuteList) { itemName ->
                             Row(
                                 modifier = Modifier
                                     .clickable(
-                                        role = Role.Checkbox,
                                         onClick = {
                                             rightCheckedState = itemName
                                         }
                                     ),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceAround,
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -233,6 +237,8 @@ fun BreastMilkDialog(
                                         painter = painterResource(R.drawable.check_mark),
                                         contentDescription = "image"
                                     )
+                                } else {
+                                    Text(text = "")
                                 }
                             }
                         }
@@ -244,7 +250,7 @@ fun BreastMilkDialog(
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
                         .constrainAs(toggleButton) {
-                            top.linkTo(picker.bottom)
+                            top.linkTo(rightScroll.bottom)
                             bottom.linkTo(buttonArea.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
