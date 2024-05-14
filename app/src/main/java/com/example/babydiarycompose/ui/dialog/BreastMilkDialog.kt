@@ -109,7 +109,7 @@ fun BreastMilkDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
-                        .background(DialogBackGray)
+                        .background(DialogBackDark)
                         .constrainAs(eventTitle) {
                             top.linkTo(parent.top)
                             bottom.linkTo(verticalDivider.top)
@@ -129,10 +129,10 @@ fun BreastMilkDialog(
                     minuteList.add("${minute}分")
                 }
                 var leftCheckedState by remember { mutableStateOf("なし") }
-
                 Column(
                     modifier = Modifier
                         .background(DialogBackDark)
+                        .fillMaxWidth(.5f)
                         .constrainAs(leftScroll) {
                             top.linkTo(eventTitle.bottom)
                             bottom.linkTo(toggleButton.top)
@@ -140,36 +140,36 @@ fun BreastMilkDialog(
                             end.linkTo(verticalDivider.start)
                             height = Dimension.fillToConstraints
                             width = Dimension.fillToConstraints
+
                         },
-//                    horizontalArrangement = Arrangement.Center,
-//                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
                         modifier = Modifier
-                            .background(DialogBackGray)
+                            .fillMaxWidth()
+                            .background(DialogBackDark)
                     ) {
                         Text(text = "左", color = Color.White)
                     }
-                    LazyColumn {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(DialogBackGray)
+                    ) {
                         items(minuteList) { itemName ->
                             Row(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .clickable(
                                         onClick = {
                                             leftCheckedState = itemName
                                         }
                                     ),
-                                horizontalArrangement = Arrangement.SpaceAround,
+                                horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 if (leftCheckedState == itemName) {
                                     Image(
-                                        modifier = Modifier
-                                            .padding(
-                                                start = 10.dp,
-                                                end = 10.dp,
-                                            ),
                                         contentScale = ContentScale.Fit,
                                         painter = painterResource(R.drawable.check_mark),
                                         contentDescription = "image"
@@ -196,6 +196,7 @@ fun BreastMilkDialog(
                 Column(
                     modifier = Modifier
                         .background(DialogBackDark)
+                        .fillMaxWidth(.5f)
                         .constrainAs(rightScroll) {
                             top.linkTo(eventTitle.bottom)
                             bottom.linkTo(toggleButton.top)
@@ -204,35 +205,34 @@ fun BreastMilkDialog(
                             height = Dimension.fillToConstraints
                             width = Dimension.fillToConstraints
                         },
-//                    horizontalArrangement = Arrangement.Center,
-//                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
                         modifier = Modifier
-                            .background(DialogBackGray)
+                            .fillMaxWidth()
+                            .background(DialogBackDark)
                     ) {
                         Text(text = "右", color = Color.White)
                     }
-                    LazyColumn {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(DialogBackGray)
+                    ) {
                         items(minuteList) { itemName ->
                             Row(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .clickable(
                                         onClick = {
                                             rightCheckedState = itemName
                                         }
                                     ),
-                                horizontalArrangement = Arrangement.SpaceAround,
+                                horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Text(text = itemName, color = Color.White)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 if (rightCheckedState == itemName) {
                                     Image(
-                                        modifier = Modifier
-                                            .padding(
-                                                start = 10.dp,
-                                                end = 10.dp,
-                                            ),
                                         contentScale = ContentScale.Fit,
                                         painter = painterResource(R.drawable.check_mark),
                                         contentDescription = "image"
