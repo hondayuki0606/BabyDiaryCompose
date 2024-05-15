@@ -148,8 +148,11 @@ fun BreastMilkDialog(
                             .fillMaxWidth()
                             .background(DialogBackDark)
                     ) {
-                        Text(text = "左", color = Color.White)
-                    }
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = "左",
+                            color = Color.White
+                        )    }
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -159,6 +162,7 @@ fun BreastMilkDialog(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .padding(start = 10.dp, end = 10.dp)
                                     .clickable(
                                         onClick = {
                                             leftCheckedState = itemName
@@ -167,7 +171,6 @@ fun BreastMilkDialog(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Text(text = itemName, color = Color.White)
-                                Spacer(modifier = Modifier.width(8.dp))
                                 if (leftCheckedState == itemName) {
                                     Image(
                                         contentScale = ContentScale.Fit,
@@ -211,7 +214,11 @@ fun BreastMilkDialog(
                             .fillMaxWidth()
                             .background(DialogBackDark)
                     ) {
-                        Text(text = "右", color = Color.White)
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = "右",
+                            color = Color.White
+                        )
                     }
                     LazyColumn(
                         modifier = Modifier
@@ -222,6 +229,7 @@ fun BreastMilkDialog(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .padding(start = 10.dp, end = 10.dp)
                                     .clickable(
                                         onClick = {
                                             rightCheckedState = itemName
@@ -230,7 +238,6 @@ fun BreastMilkDialog(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 Text(text = itemName, color = Color.White)
-                                Spacer(modifier = Modifier.width(8.dp))
                                 if (rightCheckedState == itemName) {
                                     Image(
                                         contentScale = ContentScale.Fit,
