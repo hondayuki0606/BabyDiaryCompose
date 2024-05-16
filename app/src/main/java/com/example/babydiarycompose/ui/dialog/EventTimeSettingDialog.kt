@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +36,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
+import com.example.babydiarycompose.ui.theme.DialogBackGray
+import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -117,7 +120,8 @@ fun EventTimeSettingDialog(
                             style = TextStyle(
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold
-                            )
+                            ),
+                            color = Color.White
                         )
                         Image(
                             modifier = Modifier
@@ -193,21 +197,28 @@ fun EventTimeSettingDialog(
                                 shape = RoundedCornerShape(50.dp),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(50.dp)
+                                    .height(50.dp),
+                                colors = ButtonDefaults.textButtonColors(
+                                    containerColor = DialogBackGray,
+                                    contentColor = DialogBackGray
+                                )
                             ) {
-                                Text(text = "OK")
+                                Text(text = "OK", color = Pink)
                             }
                             Spacer(modifier = Modifier.height(20.dp))
                             Button(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
                                 onClick = {
                                     setShowDialog(false)
                                 },
-                                shape = RoundedCornerShape(50.dp),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
+                                colors = ButtonDefaults.textButtonColors(
+                                    containerColor = DialogBackGray,
+                                    contentColor = DialogBackGray
+                                )
                             ) {
-                                Text(text = "キャンセル")
+                                Text(text = "キャンセル", color = Pink)
                             }
                         }
                     }
