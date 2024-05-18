@@ -35,11 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.NumberPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
-import com.example.babydiarycompose.ui.theme.DialogBackDark
 import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
@@ -108,6 +108,7 @@ fun EventTimeSettingDialog(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 12.dp)
                         .background(DialogBackGray)
                         .constrainAs(eventTitle) {
                             top.linkTo(parent.top)
@@ -150,12 +151,15 @@ fun EventTimeSettingDialog(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 12.dp)
                         .background(DialogBackGray)
                         .constrainAs(picker) {
                             top.linkTo(eventTitle.bottom)
                             bottom.linkTo(buttonArea.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
+                            height = Dimension.fillToConstraints
+                            width = Dimension.fillToConstraints
                         },
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically

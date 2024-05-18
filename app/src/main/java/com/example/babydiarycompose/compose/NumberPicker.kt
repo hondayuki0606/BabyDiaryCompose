@@ -133,7 +133,7 @@ fun NumberPicker(
                 Label(
                     text = animatedStateValue.toString(),
                     modifier = baseLabelModifier
-                        .alpha(1 - abs(coercedAnimatedOffset) / halvedNumbersColumnHeightPx)
+                        .alpha(1 - kotlin.math.abs(coercedAnimatedOffset) / halvedNumbersColumnHeightPx)
                 )
                 Label(
                     text = (animatedStateValue + 1).toString(),
