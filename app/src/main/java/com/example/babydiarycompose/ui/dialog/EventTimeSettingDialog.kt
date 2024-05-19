@@ -3,7 +3,6 @@ package com.example.babydiarycompose.ui.dialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,10 +17,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,7 +37,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.babydiarycompose.compose.NumberPicker
+import com.example.babydiarycompose.compose.ListItemPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackGray
@@ -60,9 +60,8 @@ fun EventTimeSettingDialog(
     ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
     val hour = currentDateTime.hour
     val minute = currentDateTime.minute
-
-    val hourState = remember { mutableIntStateOf(hour) }
-    val minutesState = remember { mutableIntStateOf(minute) }
+    var hourState by remember { mutableStateOf(hour.toString()) }
+    var minutesState by remember { mutableStateOf(minute.toString()) }
     val applicationContext = LocalContext.current
 
     val showBreastMilkDialog = remember { mutableStateOf(false) }
@@ -70,8 +69,8 @@ fun EventTimeSettingDialog(
         BreastMilkDialog(eventName = eventName,
             resIcon = resIcon,
             selectedDate = selectedDate,
-            hour = hourState.intValue,
-            minutes = minutesState.intValue,
+            hour = hourState.toInt(),
+            minutes = minutesState.toInt(),
             setShowDialog = {
                 showBreastMilkDialog.value = it
             }) {
@@ -84,8 +83,8 @@ fun EventTimeSettingDialog(
         MilkDialog(eventName = eventName,
             selectedDate = selectedDate,
             resIcon = resIcon,
-            hour = hourState.intValue,
-            minutes = minutesState.intValue,
+            hour = hourState.toInt(),
+            minutes = minutesState.toInt(),
             setShowDialog = {
                 showMilkDialog.value = it
             }) {
@@ -158,20 +157,31 @@ fun EventTimeSettingDialog(
                             bottom.linkTo(buttonArea.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
-                            height = Dimension.fillToConstraints
                             width = Dimension.fillToConstraints
                         },
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    NumberPicker(
-                        state = hourState,
-                        range = 0..23,
+                    val hourArrayListOf = arrayListOf<String>()
+                    for (hourElement in 0..23) {
+                        hourArrayListOf.add(hourElement.toString())
+                    }
+                    val minuteArrayListOf = arrayListOf<String>()
+                    for (minuteElement in 0..59) {
+                        minuteArrayListOf.add(minuteElement.toString())
+                    }
+                    ListItemPicker(
+                        value = hourState,
+                        onValueChange = { hourState = it },
+                        list = hourArrayListOf,
+                        dividersColor = Color.Gray
                     )
                     Spacer(modifier = Modifier.width(20.dp))
-                    NumberPicker(
-                        state = minutesState,
-                        range = 0..59,
+                    ListItemPicker(
+                        value = minutesState,
+                        onValueChange = { minutesState = it },
+                        list = minuteArrayListOf,
+                        dividersColor = Color.Gray
                     )
                 }
                 val scope = rememberCoroutineScope()
@@ -198,10 +208,10 @@ fun EventTimeSettingDialog(
                                         val eventList = arrayListOf(
                                             Event(
                                                 yearAndMonthAndDay = selectedDate,
-                                                "${hourState.intValue}:${
+                                                "${hourState.toInt()}:${
                                                     String.format(
                                                         "%02d",
-                                                        minutesState.intValue
+                                                        minutesState.toInt()
                                                     )
                                                 }",
                                                 resIcon,
