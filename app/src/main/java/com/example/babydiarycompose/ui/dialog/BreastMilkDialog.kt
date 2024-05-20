@@ -86,8 +86,6 @@ fun BreastMilkDialog(
     setShowDialog: (Boolean) -> Unit,
     resultValue: (Boolean) -> Unit
 ) {
-    val rightTime = remember { mutableIntStateOf(5) }
-    val leftTime = remember { mutableIntStateOf(5) }
     val viewModel: RecordingViewModel = hiltViewModel()
     val applicationContext = LocalContext.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
@@ -152,7 +150,8 @@ fun BreastMilkDialog(
                             modifier = Modifier.align(Alignment.Center),
                             text = "左",
                             color = Color.White
-                        )    }
+                        )
+                    }
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -285,13 +284,36 @@ fun BreastMilkDialog(
                             .height(50.dp),
                         onClick = {
                             scope.launch {
+                                val rightValue = if (rightCheckedState == "なし") {
+                                    ""
+                                } else {
+                                    "右:${rightCheckedState}"
+                                }
+                                val leftValue = if (leftCheckedState == "なし") {
+                                    ""
+                                } else {
+                                    "左${leftCheckedState}"
+                                }
+
+                                val breastfeedingSelectionValue =
+                                    if (breastfeedingInputSelection == "順序なし") {
+                                        ""
+                                    } else {
+                                        breastfeedingInputSelection
+                                    }
+                                val eventDetail =
+                                    if (rightValue.isNotEmpty() && leftValue.isNotEmpty()) {
+                                        "$rightValue/$leftValue $breastfeedingSelectionValue"
+                                    } else {
+                                        rightValue + leftValue + breastfeedingSelectionValue
+                                    }
                                 val eventList = arrayListOf(
                                     Event(
                                         yearAndMonthAndDay = selectedDate,
                                         time = "${hour}:${String.format("%02d", minutes)}",
                                         imageUrl = resIcon,
                                         eventName = eventName,
-                                        eventDetail = "右:${rightTime.intValue}分 / 左${leftTime.intValue}分"
+                                        eventDetail = eventDetail
                                     )
                                 )
                                 viewModel.addEventList(applicationContext, eventList)
