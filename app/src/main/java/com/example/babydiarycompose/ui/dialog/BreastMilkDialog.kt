@@ -295,17 +295,22 @@ fun BreastMilkDialog(
                                     "左${leftCheckedState}"
                                 }
 
-                                val breastfeedingSelectionValue =
-                                    if (breastfeedingInputSelection == "順序なし") {
-                                        ""
-                                    } else {
-                                        breastfeedingInputSelection
+                                val breastfeedingSelectionValue = when (breastfeedingInputSelection) {
+                                    "順序なし" -> {
+                                        " / "
                                     }
+                                    "右から" -> {
+                                        " ← "
+                                    }
+                                    else -> {
+                                        " → "
+                                    }
+                                }
                                 val eventDetail =
                                     if (rightValue.isNotEmpty() && leftValue.isNotEmpty()) {
-                                        "$rightValue/$leftValue $breastfeedingSelectionValue"
+                                        "$leftValue$breastfeedingSelectionValue$rightValue"
                                     } else {
-                                        rightValue + leftValue + breastfeedingSelectionValue
+                                        leftValue + breastfeedingSelectionValue + rightValue
                                     }
                                 val eventList = arrayListOf(
                                     Event(
