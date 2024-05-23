@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -77,7 +78,7 @@ fun MilkDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
-                        .background(DialogBackDark)
+                        .background(DialogBackGray)
                         .constrainAs(milkTitle) {
                             top.linkTo(parent.top)
                             bottom.linkTo(mlList.top)
@@ -103,7 +104,7 @@ fun MilkDialog(
                 LazyColumn(
                     modifier = Modifier
                         .padding(bottom = 12.dp)
-                        .background(DialogBackDark)
+                        .background(DialogBackGray)
                         .constrainAs(mlList) {
                             top.linkTo(milkTitle.bottom)
                             bottom.linkTo(buttonArea.top)
@@ -117,24 +118,32 @@ fun MilkDialog(
                     items(mls) {
                         Text(text = it,
                             color = Color.White,
-                            fontSize = 12.sp,
-                            modifier = Modifier.clickable {
-                                scope.launch {
-                                    val eventList = arrayListOf(
-                                        Event(
-                                            yearAndMonthAndDay = selectedDate,
-                                            "${hour}:${String.format("%02d", minutes)}",
-                                            resIcon,
-                                            eventName,
-                                            it
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .height(40.dp)
+                                .clickable {
+                                    scope.launch {
+                                        val eventList = arrayListOf(
+                                            Event(
+                                                yearAndMonthAndDay = selectedDate,
+                                                "${hour}:${String.format("%02d", minutes)}",
+                                                resIcon,
+                                                eventName,
+                                                it
+                                            )
                                         )
-                                    )
-                                    viewModel.addEventList(applicationContext, eventList)
-                                    setShowDialog(false)
-                                    resultValue(true)
+                                        viewModel.addEventList(applicationContext, eventList)
+                                        setShowDialog(false)
+                                        resultValue(true)
+                                    }
                                 }
-                            }
                         )
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(2.dp)
+                                .background(color = Color.Gray))
                     }
                 }
                 Box(
