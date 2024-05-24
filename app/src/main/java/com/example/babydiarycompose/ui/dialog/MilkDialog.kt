@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -120,7 +121,7 @@ fun MilkDialog(
                             color = Color.White,
                             fontSize = 14.sp,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier
+                            modifier = Modifier.wrapContentSize(Alignment.Center)
                                 .height(40.dp)
                                 .clickable {
                                     scope.launch {
