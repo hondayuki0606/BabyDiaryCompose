@@ -149,7 +149,6 @@ fun MilkDialog(
                 }
                 Box(
                     modifier = Modifier
-                        .padding(40.dp, 0.dp, 40.dp, 0.dp)
                         .constrainAs(buttonArea) {
                             top.linkTo(mlList.bottom)
                             bottom.linkTo(parent.bottom)
