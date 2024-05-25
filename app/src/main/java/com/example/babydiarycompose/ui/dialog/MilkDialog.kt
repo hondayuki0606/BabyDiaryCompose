@@ -114,21 +114,19 @@ fun MilkDialog(
                             height = Dimension.fillToConstraints
                             width = Dimension.fillToConstraints
                         },
-                    verticalArrangement = Arrangement.SpaceAround
                 ) {
                     items(mls) {
                         Text(text = it,
                             color = Color.White,
                             fontSize = 14.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.wrapContentSize(Alignment.Center)
-                                .height(40.dp)
+                            modifier = Modifier.height(40.dp)
+                                .wrapContentSize(Alignment.CenterStart)
                                 .clickable {
                                     scope.launch {
                                         val eventList = arrayListOf(
                                             Event(
                                                 yearAndMonthAndDay = selectedDate,
-                                                "${hour}:${String.format("%02d", minutes)}",
+                                                "$hour:${String.format("%02d", minutes)}",
                                                 resIcon,
                                                 eventName,
                                                 it
