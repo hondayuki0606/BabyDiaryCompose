@@ -233,25 +233,31 @@ fun EventCard(event: Event, selectedDate: String) {
             Text(
                 color = Color.White,
                 text = event.time,
-                textAlign = TextAlign.End
+                textAlign = TextAlign.End,
+                modifier = Modifier.padding(start = 7.dp)
             )
-            Text(
-                color = Pink,
-                text = "",
-                fontSize = 8.sp
-            )
+            if (event.listItem) {
+                Text(
+                    color = Pink,
+                    text = event.yearAndMonthAndDay,
+                    fontSize = 8.sp
+                )
+            }
         }
         Image(
             painter = painterResource(event.imageUrl),
             contentDescription = "Contact profile picture",
+            modifier = Modifier.padding(start = 7.dp)
         )
         Text(
             color = Color.White,
-            text = event.eventName
+            text = event.eventName,
+            modifier = Modifier.padding(start = 7.dp)
         )
         Text(
             color = Pink,
-            text = event.eventDetail
+            text = event.eventDetail,
+            modifier = Modifier.padding(start = 7.dp)
         )
     }
 }

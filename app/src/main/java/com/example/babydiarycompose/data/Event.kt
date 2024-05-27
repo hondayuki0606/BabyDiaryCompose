@@ -5,5 +5,6 @@ data class Event(
     val time: String,
     val imageUrl: Int,
     val eventName: String,
-    val eventDetail: String
+    val eventDetail: String,
+    val listItem: Boolean = false,
 )
