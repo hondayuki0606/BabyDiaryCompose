@@ -24,6 +24,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                     com.example.babydiarycompose.model.Event(
                         searchList.size,
                         yearAndMonthAndDay = it.yearAndMonthAndDay,
+                        timeStamp = it.timeStamp,
                         time = it.time,
                         icon = it.imageUrl,
                         eventName = it.eventName,
@@ -69,6 +70,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                 result.add(
                     Event(
                         yearAndMonthAndDay = it.yearAndMonthAndDay ?: "",
+                        timeStamp = it.timeStamp,
                         time = it.time ?: "",
                         imageUrl = it.icon ?: 0,
                         eventName = it.eventName ?: "",

@@ -1,6 +1,5 @@
 package com.example.babydiarycompose.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -290,7 +289,7 @@ fun PreviewRecordingScreen() {
 @Composable
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
-        val event = Event("2024/11/11", "22", 1, "1111", "111")
+        val event = Event("2024/11/11", 1,"22", 1, "1111", "111")
         EventCard(event, selectedDate = "")
     }
 }
