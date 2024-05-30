@@ -57,6 +57,7 @@ import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -298,27 +299,34 @@ fun BreastMilkDialog(
                                     "左${leftCheckedState}"
                                 }
 
-                                val breastfeedingSelectionValue = when (breastfeedingInputSelection) {
-                                    "順序なし" -> {
-                                        " / "
+                                val breastfeedingSelectionValue =
+                                    when (breastfeedingInputSelection) {
+                                        "順序なし" -> {
+                                            " / "
+                                        }
+
+                                        "右から" -> {
+                                            " ← "
+                                        }
+
+                                        else -> {
+                                            " → "
+                                        }
                                     }
-                                    "右から" -> {
-                                        " ← "
-                                    }
-                                    else -> {
-                                        " → "
-                                    }
-                                }
                                 val eventDetail =
                                     if (rightValue.isNotEmpty() && leftValue.isNotEmpty()) {
                                         "$leftValue$breastfeedingSelectionValue$rightValue"
                                     } else {
                                         leftValue + breastfeedingSelectionValue + rightValue
                                     }
-                                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                                val localDate = LocalDate.parse(selectedDate, formatter)
-                                val zonedDateTime = localDate.atStartOfDay(ZoneOffset.ofHours(+9))
-                                val unixTime = zonedDateTime.toEpochSecond()
+                                val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
+                                val hourValue = String.format("%02d", hour)
+                                val minutesValue = String.format("%02d", minutes)
+                                val date = "$selectedDate $hourValue:$minutesValue"
+                                val localDateTime = LocalDateTime.parse(date, formatter)
+                                val unixTime =
+                                    localDateTime.atZone(ZoneOffset.ofHours(+9)).toEpochSecond()
+
                                 val eventList = arrayListOf(
                                     Event(
                                         yearAndMonthAndDay = selectedDate,

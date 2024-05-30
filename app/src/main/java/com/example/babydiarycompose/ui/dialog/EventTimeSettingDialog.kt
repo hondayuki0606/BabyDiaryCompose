@@ -62,9 +62,9 @@ fun EventTimeSettingDialog(
     val currentDateTime = LocalDateTime.now()
     ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
     val hour = currentDateTime.hour
-    val minute = currentDateTime.minute
+    val minutes = currentDateTime.minute
     var hourState by remember { mutableStateOf(hour.toString()) }
-    var minutesState by remember { mutableStateOf(minute.toString()) }
+    var minutesState by remember { mutableStateOf(minutes.toString()) }
     val applicationContext = LocalContext.current
 
     val showBreastMilkDialog = remember { mutableStateOf(false) }
@@ -208,23 +208,27 @@ fun EventTimeSettingDialog(
                                     }
 
                                     else -> {
-                                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                                        val localDate = LocalDate.parse(selectedDate, formatter)
-                                        val zonedDateTime = localDate.atStartOfDay(ZoneOffset.ofHours(+9))
-                                        val unixTime = zonedDateTime.toEpochSecond()
+                                        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
+                                        val hourValue = String.format("%02d", hour)
+                                        val minutesValue = String.format("%02d", minutes)
+                                        val date = "$selectedDate $hourValue:$minutesValue"
+                                        val localDateTime = LocalDateTime.parse(date, formatter)
+                                        val unixTime =
+                                            localDateTime.atZone(ZoneOffset.ofHours(+9)).toEpochSecond()
+
                                         val eventList = arrayListOf(
                                             Event(
                                                 yearAndMonthAndDay = selectedDate,
                                                 timeStamp = unixTime,
-                                                "${hourState.toInt()}:${
+                                                time = "${hourState.toInt()}:${
                                                     String.format(
                                                         "%02d",
                                                         minutesState.toInt()
                                                     )
                                                 }",
-                                                resIcon,
-                                                eventName,
-                                                ""
+                                                imageUrl = resIcon,
+                                                eventName = eventName,
+                                                eventDetail = ""
                                             )
                                         )
                                         viewModel.addEventList(
