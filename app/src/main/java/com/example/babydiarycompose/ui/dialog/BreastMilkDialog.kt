@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,7 +25,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -56,9 +53,8 @@ import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -288,44 +284,18 @@ fun BreastMilkDialog(
                             .height(50.dp),
                         onClick = {
                             scope.launch {
-                                val rightValue = if (rightCheckedState == "なし") {
-                                    ""
-                                } else {
-                                    "右:${rightCheckedState}"
-                                }
-                                val leftValue = if (leftCheckedState == "なし") {
-                                    ""
-                                } else {
-                                    "左${leftCheckedState}"
-                                }
-
-                                val breastfeedingSelectionValue =
-                                    when (breastfeedingInputSelection) {
-                                        "順序なし" -> {
-                                            " / "
-                                        }
-
-                                        "右から" -> {
-                                            " ← "
-                                        }
-
-                                        else -> {
-                                            " → "
-                                        }
-                                    }
-                                val eventDetail =
-                                    if (rightValue.isNotEmpty() && leftValue.isNotEmpty()) {
-                                        "$leftValue$breastfeedingSelectionValue$rightValue"
-                                    } else {
-                                        leftValue + breastfeedingSelectionValue + rightValue
-                                    }
+                                val eventDetail = generateEventDetail(
+                                    rightCheckedState,
+                                    leftCheckedState,
+                                    breastfeedingInputSelection
+                                )
                                 val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
                                 val hourValue = String.format("%02d", hour)
                                 val minutesValue = String.format("%02d", minutes)
                                 val date = "$selectedDate $hourValue:$minutesValue"
                                 val localDateTime = LocalDateTime.parse(date, formatter)
                                 val unixTime =
-                                    localDateTime.atZone(ZoneOffset.ofHours(+9)).toEpochSecond()
+                                    localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
 
                                 val eventList = arrayListOf(
                                     Event(
@@ -369,6 +339,51 @@ fun BreastMilkDialog(
             }
         }
     }
+}
+
+/**
+ * 母乳ダイアログのイベント詳細を生成
+ */
+fun generateEventDetail(
+    rightCheckedState: String,
+    leftCheckedState: String,
+    breastfeedingInputSelection: String
+): String {
+    var eventDetail = ""
+    if (rightCheckedState == "なし" && leftCheckedState == "なし") {
+        return eventDetail
+    }
+    val rightValue = if (rightCheckedState == "なし") {
+        ""
+    } else {
+        "右:${rightCheckedState}"
+    }
+    val leftValue = if (leftCheckedState == "なし") {
+        ""
+    } else {
+        "左${leftCheckedState}"
+    }
+
+    val selectionValue =
+        when (breastfeedingInputSelection) {
+            "順序なし" -> {
+                " / "
+            }
+
+            "右から" -> {
+                " ← "
+            }
+
+            "左から" -> {
+                " → "
+            }
+
+            else -> {
+                ""
+            }
+        }
+    eventDetail = "$leftValue$selectionValue$rightValue"
+    return eventDetail
 }
 
 @Preview(showBackground = true)

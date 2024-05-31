@@ -39,9 +39,8 @@ import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -124,7 +123,8 @@ fun MilkDialog(
                                         val minutesValue = String.format("%02d", minutes)
                                         val date = "$selectedDate $hourValue:$minutesValue"
                                         val localDateTime = LocalDateTime.parse(date, formatter)
-                                        val unixTime = localDateTime.atZone(ZoneOffset.ofHours(+9)).toEpochSecond()
+                                        val unixTime =
+                                            localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
                                         val eventList = arrayListOf(
                                             Event(
                                                 yearAndMonthAndDay = selectedDate,
