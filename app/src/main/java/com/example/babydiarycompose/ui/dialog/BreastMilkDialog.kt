@@ -349,10 +349,12 @@ fun generateEventDetail(
     leftCheckedState: String,
     breastfeedingInputSelection: String
 ): String {
-    var eventDetail = ""
+
+    // 左右が未設定の場合
     if (rightCheckedState == "なし" && leftCheckedState == "なし") {
-        return eventDetail
+        return ""
     }
+
     val rightValue = if (rightCheckedState == "なし") {
         ""
     } else {
@@ -364,6 +366,15 @@ fun generateEventDetail(
         "左${leftCheckedState}"
     }
 
+    // 左右の片方しか値がない場合
+    if (rightValue.isEmpty()) {
+        return leftValue
+    }
+    if (leftValue.isEmpty()) {
+        return rightValue
+    }
+
+    // 左右の値がある場合
     val selectionValue =
         when (breastfeedingInputSelection) {
             "順序なし" -> {
@@ -382,8 +393,7 @@ fun generateEventDetail(
                 ""
             }
         }
-    eventDetail = "$leftValue$selectionValue$rightValue"
-    return eventDetail
+    return "$leftValue$selectionValue$rightValue"
 }
 
 @Preview(showBackground = true)
