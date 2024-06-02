@@ -45,6 +45,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.R
+import com.example.babydiarycompose.data.BreastMilkSelection
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
@@ -375,24 +376,18 @@ fun generateEventDetail(
     }
 
     // 左右の値がある場合
-    val selectionValue =
-        when (breastfeedingInputSelection) {
-            "順序なし" -> {
-                " / "
-            }
-
-            "右から" -> {
-                " ← "
-            }
-
-            "左から" -> {
-                " → "
-            }
-
-            else -> {
-                ""
-            }
+    var selectionValue = ""
+    when (breastfeedingInputSelection) {
+        BreastMilkSelection.NO_ORDER.text -> {
+            selectionValue = BreastMilkSelection.NO_ORDER.symbol
         }
+        BreastMilkSelection.FROM_RIGHT.text -> {
+            selectionValue = BreastMilkSelection.FROM_RIGHT.symbol
+        }
+        BreastMilkSelection.FROM_LEFT.text -> {
+            selectionValue = BreastMilkSelection.FROM_LEFT.symbol
+        }
+    }
     return "$leftValue$selectionValue$rightValue"
 }
 
