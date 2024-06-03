@@ -1,5 +1,7 @@
 package com.example.babydiarycompose.ui.dialog
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -342,6 +344,11 @@ fun BreastMilkDialog(
     }
 }
 
+const val FILE_NAME = "fileName"
+private fun setSharedPref(context: Context): SharedPreferences {
+    return context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
+}
+
 /**
  * 母乳ダイアログのイベント詳細を生成
  */
@@ -381,9 +388,11 @@ fun generateEventDetail(
         BreastMilkSelection.NO_ORDER.text -> {
             selectionValue = BreastMilkSelection.NO_ORDER.symbol
         }
+
         BreastMilkSelection.FROM_RIGHT.text -> {
             selectionValue = BreastMilkSelection.FROM_RIGHT.symbol
         }
+
         BreastMilkSelection.FROM_LEFT.text -> {
             selectionValue = BreastMilkSelection.FROM_LEFT.symbol
         }
