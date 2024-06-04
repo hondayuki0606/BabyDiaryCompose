@@ -79,6 +79,10 @@ fun VerticalDivider(
     )
 }
 
+const val FILE_NAME = "shared_prefs"
+const val RIGHT_VALUE = "RIGHT_VALUE"
+const val LEFT_VALUE = "LEFT_VALUE"
+
 @Composable
 fun BreastMilkDialog(
     eventName: String,
@@ -89,8 +93,12 @@ fun BreastMilkDialog(
     setShowDialog: (Boolean) -> Unit,
     resultValue: (Boolean) -> Unit
 ) {
+
     val viewModel: RecordingViewModel = hiltViewModel()
     val applicationContext = LocalContext.current
+    val prefs = getSharedPref(applicationContext)
+    val right = prefs.getString(RIGHT_VALUE, "なし")
+    val left = prefs.getString(LEFT_VALUE, "なし")
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             color = Color(0x00000000),
@@ -129,7 +137,7 @@ fun BreastMilkDialog(
                 for (minute in 1..120) {
                     minuteList.add("${minute}分")
                 }
-                var leftCheckedState by remember { mutableStateOf("なし") }
+                var leftCheckedState by remember { mutableStateOf(left) }
                 Column(
                     modifier = Modifier
                         .background(DialogBackDark)
@@ -197,7 +205,7 @@ fun BreastMilkDialog(
 
                     },
                 )
-                var rightCheckedState by remember { mutableStateOf("なし") }
+                var rightCheckedState by remember { mutableStateOf(right) }
                 Column(
                     modifier = Modifier
                         .background(DialogBackDark)
@@ -287,9 +295,10 @@ fun BreastMilkDialog(
                             .height(50.dp),
                         onClick = {
                             scope.launch {
+                                setSharePref(prefs, rightCheckedState, leftCheckedState)
                                 val eventDetail = generateEventDetail(
-                                    rightCheckedState,
-                                    leftCheckedState,
+                                    rightCheckedState ?: "なし",
+                                    leftCheckedState ?: "なし",
                                     breastfeedingInputSelection
                                 )
                                 val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
@@ -343,10 +352,29 @@ fun BreastMilkDialog(
         }
     }
 }
-
-const val FILE_NAME = "fileName"
-private fun setSharedPref(context: Context): SharedPreferences {
+/**
+ * SharedPreferencesを取得
+ * @param context: Context
+ * @return SharedPreferences
+ */
+private fun getSharedPref(context: Context): SharedPreferences {
     return context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
+}
+/**
+ * SharedPreferencesを設定
+ * @param prefs: SharedPreferences
+ * @param rightCheckedState: Context
+ * @param leftCheckedState: Context
+ */
+private fun setSharePref(
+    prefs: SharedPreferences,
+    rightCheckedState: String?,
+    leftCheckedState: String?
+) {
+    val edit = prefs.edit()
+    edit.putString(RIGHT_VALUE, rightCheckedState)
+    edit.putString(LEFT_VALUE, leftCheckedState)
+    edit.apply()
 }
 
 /**
