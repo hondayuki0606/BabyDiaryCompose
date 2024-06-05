@@ -18,7 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,7 +29,10 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -163,7 +169,10 @@ fun BreastMilkDialog(
                             color = Color.White
                         )
                     }
+                    val leftIndex = minuteList.indexOf(left)
+                    val scroll = rememberLazyListState(leftIndex)
                     LazyColumn(
+                        state = scroll,
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(DialogBackGray)
@@ -230,7 +239,10 @@ fun BreastMilkDialog(
                             color = Color.White
                         )
                     }
+                    val rightIndex = minuteList.indexOf(right)
+                    val scroll = rememberLazyListState(rightIndex)
                     LazyColumn(
+                        state = scroll,
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(DialogBackGray)
@@ -352,6 +364,34 @@ fun BreastMilkDialog(
         }
     }
 }
+
+@Composable
+fun rememberCurrentOffset(state: LazyListState): State<Int> {
+    val position = remember { derivedStateOf { state.firstVisibleItemIndex } }
+    val itemOffset = remember { derivedStateOf { state.firstVisibleItemScrollOffset } }
+//    val lastPosition = rememberPrevious(position.value)
+//    val lastItemOffset = rememberPrevious(itemOffset.value)
+    val lastPosition = remember { mutableStateOf(position.value) }
+    val lastItemOffset = remember { mutableStateOf(itemOffset.value) }
+    val currentOffset = remember { mutableStateOf(0) }
+
+    LaunchedEffect(position.value, itemOffset.value) {
+        if (lastPosition == null || position.value == 0) {
+            currentOffset.value = itemOffset.value
+        } else if (lastPosition.value == position.value) {
+            currentOffset.value += (itemOffset.value - (lastItemOffset.value ?: 0))
+//            currentOffset.value += (itemOffset.value - (lastItemOffset ?: 0))
+        } else if (lastPosition.value > position.value) {
+            currentOffset.value -=  (lastItemOffset.value ?: 0)
+//            currentOffset.value = currentOffset.value - (lastItemOffset ?: 0)
+        } else { // lastPosition.value < position.value
+            currentOffset.value += itemOffset.value
+        }
+    }
+
+    return currentOffset
+}
+
 /**
  * SharedPreferencesを取得
  * @param context: Context
@@ -360,6 +400,7 @@ fun BreastMilkDialog(
 private fun getSharedPref(context: Context): SharedPreferences {
     return context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
 }
+
 /**
  * SharedPreferencesを設定
  * @param prefs: SharedPreferences
