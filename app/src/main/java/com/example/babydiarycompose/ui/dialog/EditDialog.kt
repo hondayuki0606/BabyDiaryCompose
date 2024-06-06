@@ -27,9 +27,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.babydiarycompose.data.Event
 
 @Composable
-fun EventDetailDialog(
+fun EventEditDialog(
+    event: Event,
     selectedDate: String,
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,

@@ -44,9 +44,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.babydiarycompose.ui.dialog.EventDetailDialog
 import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.ui.dialog.EventEditDialog
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
@@ -213,21 +213,22 @@ fun RecordingScreen(
 
 @Composable
 fun EventCard(event: Event, selectedDate: String) {
-    val showDialog = remember { mutableStateOf(false) }
+    val editDialog = remember { mutableStateOf(false) }
     val volumeValue = remember { mutableStateOf("10ml") }
-    if (showDialog.value)
-        EventDetailDialog(
+    if (editDialog.value)
+        EventEditDialog(
+            event = event,
             volumeValue = { volumeValue.value = it },
             selectedDate = selectedDate,
             setShowDialog = {
-                showDialog.value = it
+                editDialog.value = it
             },
         )
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(
             modifier = Modifier.clickable {
-                showDialog.value = true
+                editDialog.value = true
             }) {
             Text(
                 color = Color.White,
@@ -289,7 +290,7 @@ fun PreviewRecordingScreen() {
 @Composable
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
-        val event = Event("2024/11/11", 1,"22", 1, "1111", "111")
+        val event = Event("2024/11/11", 1, "22", 1, "1111", "111")
         EventCard(event, selectedDate = "")
     }
 }
