@@ -113,7 +113,7 @@ fun EventEditDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "母乳",
+                        text = event.eventName,
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 24.sp,
@@ -124,7 +124,8 @@ fun EventEditDialog(
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
-                val data = selectedDate
+                val splits = selectedDate.split("/")
+                val data = "${splits[0]}年${splits[1]}月${splits[2]}日"
                 Text(
                     text = "日時 $data",
                     style = TextStyle(
@@ -148,92 +149,108 @@ fun EventEditDialog(
                             datePickerDialog.value = true
                         },
                 )
-                val leftTime = "5分"
-                Text(
-                    text = "左乳  $leftTime",
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    modifier = Modifier
-                        .constrainAs(breastMilkLeft) {
-                            top.linkTo(dateTime.bottom)
-                            bottom.linkTo(breastMilkRight.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .clickable(
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ) {
-                            breastfeedingDialog.value = true
-                        }
-                )
-                val rightTime = "なし"
-                Text(
-                    text = "右乳  $rightTime",
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 24.sp,
-                    ),
-                    modifier = Modifier
-                        .constrainAs(breastMilkRight) {
-                            top.linkTo(breastMilkLeft.bottom)
-                            bottom.linkTo(selectionEdit.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .clickable(
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ) {
-                            breastfeedingDialog.value = true
-                        }
-                )
+                if (event.eventName == "母乳") {
+                    if (event.eventDetail.contains("左")) {
+                        val leftTime = "5分"
+                        Text(
+                            text = "左乳  $leftTime",
+                            style = TextStyle(
+                                color = Color.White,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier
+                                .constrainAs(breastMilkLeft) {
+                                    top.linkTo(dateTime.bottom)
+                                    bottom.linkTo(breastMilkRight.top)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
+                                }
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() }
+                                ) {
+                                    breastfeedingDialog.value = true
+                                }
+                        )
+                    }
 
-                val sort = "左から"
-                Text(
-                    text = "順序  $sort",
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 24.sp,
-                    ),
-                    modifier = Modifier
-                        .constrainAs(selectionEdit) {
-                            top.linkTo(breastMilkRight.bottom)
-                            bottom.linkTo(volumeEdit.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .clickable(
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ) {
-                            breastfeedingDialog.value = true
-                        }
-                )
-
-                Text(
-                    text = "(量)  10ml",
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 24.sp,
-                    ),
-                    modifier = Modifier
-                        .constrainAs(volumeEdit) {
-                            top.linkTo(selectionEdit.bottom)
-                            bottom.linkTo(memoEdit.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .clickable(
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ) {
-                            quantityDialog.value = true
-                        }
-                )
+                    if (event.eventDetail.contains("右")) {
+                        val rightTime = "なし"
+                        Text(
+                            text = "右乳  $rightTime",
+                            style = TextStyle(
+                                color = Color.White,
+                                fontSize = 24.sp,
+                            ),
+                            modifier = Modifier
+                                .constrainAs(breastMilkRight) {
+                                    top.linkTo(breastMilkLeft.bottom)
+                                    bottom.linkTo(selectionEdit.top)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
+                                }
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() }
+                                ) {
+                                    breastfeedingDialog.value = true
+                                }
+                        )
+                    }
+                    var sort = ""
+                    if (event.eventDetail.contains("←")) {
+                        sort = "左から"
+                    }
+                    if (event.eventDetail.contains("→")) {
+                        sort = "右から"
+                    }
+                    if (event.eventDetail.contains("/")) {
+                        sort = "順序なし"
+                    }
+                    Text(
+                        text = "順序  $sort",
+                        style = TextStyle(
+                            color = Color.White,
+                            fontSize = 24.sp,
+                        ),
+                        modifier = Modifier
+                            .constrainAs(selectionEdit) {
+                                top.linkTo(breastMilkRight.bottom)
+                                bottom.linkTo(volumeEdit.top)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            }
+                            .clickable(
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() }
+                            ) {
+                                breastfeedingDialog.value = true
+                            }
+                    )
+                }
+                if (event.eventName == "ミルク") {
+                    Text(
+                        text = "(量)  10ml",
+                        style = TextStyle(
+                            color = Color.White,
+                            fontSize = 24.sp,
+                        ),
+                        modifier = Modifier
+                            .constrainAs(volumeEdit) {
+                                top.linkTo(selectionEdit.bottom)
+                                bottom.linkTo(memoEdit.top)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            }
+                            .clickable(
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() }
+                            ) {
+                                quantityDialog.value = true
+                            }
+                    )
+                }
                 val memo = ""
                 Text(
                     text = "メモ $memo",
