@@ -92,23 +92,16 @@ fun EventEditDialog(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            ConstraintLayout(
+            Column(
                 modifier = Modifier
                     .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
-                val (eventTitle, dateTime, breastMilkLeft, breastMilkRight, selectionEdit, volumeEdit, memoEdit, pictureEdit, closeButton) = createRefs()
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
-                        .background(DialogBackDark)
-                        .constrainAs(eventTitle) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(dateTime.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
+                        .background(DialogBackDark),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -136,12 +129,6 @@ fun EventEditDialog(
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
                         .background(DialogBackDark)
-                        .constrainAs(dateTime) {
-                            top.linkTo(eventTitle.bottom)
-                            bottom.linkTo(breastMilkLeft.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
@@ -149,9 +136,22 @@ fun EventEditDialog(
                             datePickerDialog.value = true
                         },
                 )
+
                 if (event.eventName == "母乳") {
                     if (event.eventDetail.contains("左")) {
-                        val leftTime = "5分"
+                        var sort = ""
+                        if (event.eventDetail.contains("←")) {
+                            sort = "←"
+                        }
+                        if (event.eventDetail.contains("→")) {
+                            sort = "→"
+                        }
+                        if (event.eventDetail.contains("/")) {
+                            sort = "/"
+                        }
+                        val eventDetail = event.eventDetail.split(sort)
+                        var result = eventDetail[0].filter { it.isDigit() }
+                        val leftTime = "${result}分"
                         Text(
                             text = "左乳  $leftTime",
                             style = TextStyle(
@@ -160,12 +160,6 @@ fun EventEditDialog(
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier
-                                .constrainAs(breastMilkLeft) {
-                                    top.linkTo(dateTime.bottom)
-                                    bottom.linkTo(breastMilkRight.top)
-                                    start.linkTo(parent.start)
-                                    end.linkTo(parent.end)
-                                }
                                 .clickable(
                                     indication = null,
                                     interactionSource = remember { MutableInteractionSource() }
@@ -176,7 +170,19 @@ fun EventEditDialog(
                     }
 
                     if (event.eventDetail.contains("右")) {
-                        val rightTime = "なし"
+                        var sort = ""
+                        if (event.eventDetail.contains("←")) {
+                            sort = "←"
+                        }
+                        if (event.eventDetail.contains("→")) {
+                            sort = "→"
+                        }
+                        if (event.eventDetail.contains("/")) {
+                            sort = "/"
+                        }
+                        val eventDetail = event.eventDetail.split(sort)
+                        val result = eventDetail[1].filter { it.isDigit() }
+                        val rightTime = "${result}分"
                         Text(
                             text = "右乳  $rightTime",
                             style = TextStyle(
@@ -184,12 +190,6 @@ fun EventEditDialog(
                                 fontSize = 24.sp,
                             ),
                             modifier = Modifier
-                                .constrainAs(breastMilkRight) {
-                                    top.linkTo(breastMilkLeft.bottom)
-                                    bottom.linkTo(selectionEdit.top)
-                                    start.linkTo(parent.start)
-                                    end.linkTo(parent.end)
-                                }
                                 .clickable(
                                     indication = null,
                                     interactionSource = remember { MutableInteractionSource() }
@@ -215,12 +215,6 @@ fun EventEditDialog(
                             fontSize = 24.sp,
                         ),
                         modifier = Modifier
-                            .constrainAs(selectionEdit) {
-                                top.linkTo(breastMilkRight.bottom)
-                                bottom.linkTo(volumeEdit.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
                             .clickable(
                                 indication = null,
                                 interactionSource = remember { MutableInteractionSource() }
@@ -231,18 +225,12 @@ fun EventEditDialog(
                 }
                 if (event.eventName == "ミルク") {
                     Text(
-                        text = "(量)  10ml",
+                        text = "(量)  ${event.eventDetail}",
                         style = TextStyle(
                             color = Color.White,
                             fontSize = 24.sp,
                         ),
                         modifier = Modifier
-                            .constrainAs(volumeEdit) {
-                                top.linkTo(selectionEdit.bottom)
-                                bottom.linkTo(memoEdit.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
                             .clickable(
                                 indication = null,
                                 interactionSource = remember { MutableInteractionSource() }
@@ -259,12 +247,6 @@ fun EventEditDialog(
                         fontSize = 24.sp,
                     ),
                     modifier = Modifier
-                        .constrainAs(memoEdit) {
-                            top.linkTo(volumeEdit.bottom)
-                            bottom.linkTo(pictureEdit.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
@@ -280,12 +262,6 @@ fun EventEditDialog(
                         fontSize = 24.sp,
                     ),
                     modifier = Modifier
-                        .constrainAs(pictureEdit) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(closeButton.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
@@ -297,13 +273,7 @@ fun EventEditDialog(
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp)
-                        .constrainAs(closeButton) {
-                            top.linkTo(pictureEdit.bottom)
-                            bottom.linkTo(parent.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
+                        .height(50.dp),
                     onClick = {
                         setShowDialog(false)
                     },
@@ -312,7 +282,7 @@ fun EventEditDialog(
                         contentColor = DialogBackGray
                     )
                 ) {
-                    Text(text = "閉じる")
+                    Text(text = "閉じる", color = Pink)
                 }
             }
         }
