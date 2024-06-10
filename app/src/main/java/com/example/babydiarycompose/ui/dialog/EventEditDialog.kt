@@ -102,16 +102,17 @@ fun EventEditDialog(
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
                         .background(DialogBackDark),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.Center,
                 ) {
                     Text(
                         text = event.eventName,
+                        textAlign = TextAlign.Center,
                         style = TextStyle(
                             color = Color.White,
-                            fontSize = 24.sp,
+                            fontSize = 20.sp,
                         ),
                         modifier = Modifier
+                            .background(DialogBackDark)
                             .wrapContentSize(Alignment.Center)
                     )
                 }
@@ -123,7 +124,7 @@ fun EventEditDialog(
                     text = "日時 $data",
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 24.sp,
+                        fontSize = 16.sp,
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,7 +135,7 @@ fun EventEditDialog(
                             interactionSource = remember { MutableInteractionSource() }
                         ) {
                             datePickerDialog.value = true
-                        },
+                        }
                 )
 
                 if (event.eventName == "母乳") {
@@ -150,16 +151,17 @@ fun EventEditDialog(
                             sort = "/"
                         }
                         val eventDetail = event.eventDetail.split(sort)
-                        var result = eventDetail[0].filter { it.isDigit() }
+                        val result = eventDetail[0].filter { it.isDigit() }
                         val leftTime = "${result}分"
                         Text(
                             text = "左乳  $leftTime",
                             style = TextStyle(
                                 color = Color.White,
-                                fontSize = 24.sp,
+                                fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier
+                                .background(DialogBackDark)
                                 .clickable(
                                     indication = null,
                                     interactionSource = remember { MutableInteractionSource() }
@@ -187,7 +189,7 @@ fun EventEditDialog(
                             text = "右乳  $rightTime",
                             style = TextStyle(
                                 color = Color.White,
-                                fontSize = 24.sp,
+                                fontSize = 16.sp,
                             ),
                             modifier = Modifier
                                 .clickable(
@@ -212,7 +214,7 @@ fun EventEditDialog(
                         text = "順序  $sort",
                         style = TextStyle(
                             color = Color.White,
-                            fontSize = 24.sp,
+                            fontSize = 16.sp,
                         ),
                         modifier = Modifier
                             .clickable(
@@ -228,9 +230,10 @@ fun EventEditDialog(
                         text = "(量)  ${event.eventDetail}",
                         style = TextStyle(
                             color = Color.White,
-                            fontSize = 24.sp,
+                            fontSize = 16.sp,
                         ),
                         modifier = Modifier
+                            .background(DialogBackDark)
                             .clickable(
                                 indication = null,
                                 interactionSource = remember { MutableInteractionSource() }
@@ -244,9 +247,10 @@ fun EventEditDialog(
                     text = "メモ $memo",
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 24.sp,
+                        fontSize = 16.sp,
                     ),
                     modifier = Modifier
+                        .background(DialogBackDark)
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
@@ -259,7 +263,7 @@ fun EventEditDialog(
                     text = "写真 $picture",
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 24.sp,
+                        fontSize = 16.sp,
                     ),
                     modifier = Modifier
                         .clickable(
@@ -283,6 +287,21 @@ fun EventEditDialog(
                     )
                 ) {
                     Text(text = "閉じる", color = Pink)
+                }
+                Spacer(modifier = Modifier.height(50.dp))
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    onClick = {
+                        setShowDialog(false)
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = DialogBackGray,
+                        contentColor = DialogBackGray
+                    )
+                ) {
+                    Text(text = "削除", color = Color.Red)
                 }
             }
         }
