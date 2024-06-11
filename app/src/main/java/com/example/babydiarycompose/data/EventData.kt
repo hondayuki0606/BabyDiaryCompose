@@ -1,6 +1,6 @@
 package com.example.babydiarycompose.data
 
-data class Event(
+data class EventData(
     val yearAndMonthAndDay: String,
     val timeStamp: Long?,
     val time: String,

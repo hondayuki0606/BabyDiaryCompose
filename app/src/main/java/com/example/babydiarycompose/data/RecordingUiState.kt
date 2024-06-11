@@ -5,6 +5,6 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class RecordingUiState(
-    var eventList: List<Event>,
+    var eventList: List<EventData>,
     val iconList: List<Icon>
 )

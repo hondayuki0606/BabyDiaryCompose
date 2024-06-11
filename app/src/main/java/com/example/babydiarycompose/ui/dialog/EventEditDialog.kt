@@ -32,15 +32,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.theme.DialogBackDark
 import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 
 @Composable
 fun EventEditDialog(
-    event: Event,
+    event: EventData,
     selectedDate: String,
     volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,

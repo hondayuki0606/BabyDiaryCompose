@@ -45,7 +45,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.dialog.EventEditDialog
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
@@ -212,7 +212,7 @@ fun RecordingScreen(
 }
 
 @Composable
-fun EventCard(event: Event, selectedDate: String) {
+fun EventCard(event: EventData, selectedDate: String) {
     val editDialog = remember { mutableStateOf(false) }
     val volumeValue = remember { mutableStateOf("10ml") }
     if (editDialog.value)
@@ -290,7 +290,7 @@ fun PreviewRecordingScreen() {
 @Composable
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
-        val event = Event("2024/11/11", 1, "22", 1, "1111", "111")
+        val event = EventData("2024/11/11", 1, "22", 1, "1111", "111")
         EventCard(event, selectedDate = "")
     }
 }

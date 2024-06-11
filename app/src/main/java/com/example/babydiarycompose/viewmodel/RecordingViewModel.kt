@@ -3,7 +3,7 @@ package com.example.babydiarycompose.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.babydiarycompose.R
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.data.RecordingUiState
 import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.repository.EventRepository
@@ -65,7 +65,7 @@ class RecordingViewModel @Inject constructor(
     )
     var uiState = _uiState.asStateFlow()
 
-    suspend fun addEventList(appContext: Context, eventList: List<Event>) {
+    suspend fun addEventList(appContext: Context, eventList: List<EventData>) {
         eventRepository.addEventList(appContext, eventList)
     }
 

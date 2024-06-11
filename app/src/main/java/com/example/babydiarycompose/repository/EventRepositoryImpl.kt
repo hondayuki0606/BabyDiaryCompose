@@ -1,7 +1,7 @@
 package com.example.babydiarycompose.repository
 
 import android.content.Context
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.database.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class EventRepositoryImpl @Inject constructor() : EventRepository {
     override suspend fun addEventList(
         applicationContext: Context,
-        eventList: List<Event>
+        eventList: List<EventData>
     ): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
@@ -38,8 +38,8 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
-    override suspend fun getAll(applicationContext: Context): List<Event> {
-        val result = arrayListOf<Event>()
+    override suspend fun getAll(applicationContext: Context): List<EventData> {
+        val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(applicationContext)
 //            val eventList = db.eventDao().getEvent(currentData)
@@ -61,14 +61,14 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     override suspend fun getEventList(
         applicationContext: Context,
         currentData: String
-    ): List<Event> {
-        val result = arrayListOf<Event>()
+    ): List<EventData> {
+        val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(applicationContext)
             val eventList = db.eventDao().getEvent(currentData)
             eventList.forEach {
                 result.add(
-                    Event(
+                    EventData(
                         yearAndMonthAndDay = it.yearAndMonthAndDay ?: "",
                         timeStamp = it.timeStamp,
                         time = it.time ?: "",

@@ -3,7 +3,7 @@ package com.example.babydiarycompose.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.data.GrowthCurveUiState
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,7 +44,7 @@ class GrowthCurveViewModel @Inject constructor(
     )
     var uiState = _uiState.asStateFlow()
 
-    fun addEventList(appContext: Context, eventList: List<Event>) {
+    fun addEventList(appContext: Context, eventList: List<EventData>) {
         viewModelScope.launch(Dispatchers.IO) {
             eventRepository.addEventList(appContext, eventList).let { result ->
                 if (result) {

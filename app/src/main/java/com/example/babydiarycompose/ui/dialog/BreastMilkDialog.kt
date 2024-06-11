@@ -49,7 +49,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.BreastMilkSelection
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackDark
@@ -317,7 +317,7 @@ fun BreastMilkDialog(
                                     localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
 
                                 val eventList = arrayListOf(
-                                    Event(
+                                    EventData(
                                         yearAndMonthAndDay = selectedDate,
                                         timeStamp = unixTime,
                                         time = "${hour}:${String.format("%02d", minutes)}",

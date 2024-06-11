@@ -1,10 +1,10 @@
 package com.example.babydiarycompose.repository
 
 import android.content.Context
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 
 interface EventRepository {
-    suspend fun getAll(applicationContext: Context): List<Event>
-    suspend fun getEventList(applicationContext: Context, currentData: String): List<Event>
-    suspend fun addEventList(applicationContext: Context, eventList: List<Event>): Boolean
+    suspend fun getAll(applicationContext: Context): List<EventData>
+    suspend fun getEventList(applicationContext: Context, currentData: String): List<EventData>
+    suspend fun addEventList(applicationContext: Context, eventList: List<EventData>): Boolean
 }

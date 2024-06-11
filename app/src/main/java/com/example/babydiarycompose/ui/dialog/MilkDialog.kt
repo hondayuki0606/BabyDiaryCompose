@@ -33,7 +33,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.babydiarycompose.data.Event
+import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
@@ -126,7 +126,7 @@ fun MilkDialog(
                                         val unixTime =
                                             localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
                                         val eventList = arrayListOf(
-                                            Event(
+                                            EventData(
                                                 yearAndMonthAndDay = selectedDate,
                                                 timeStamp = unixTime,
                                                 "$hour:${String.format("%02d", minutes)}",
