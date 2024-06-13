@@ -3,6 +3,7 @@ package com.example.babydiarycompose.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.babydiarycompose.R
+import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.data.RecordingUiState
 import com.example.babydiarycompose.data.Icon
@@ -21,8 +22,8 @@ class RecordingViewModel @Inject constructor(
         RecordingUiState(
             eventList = arrayListOf(),
             iconList = arrayListOf(
-                Icon("母乳", R.drawable.breast_milk),
-                Icon("ミルク", R.drawable.milk_icon),
+                Icon(Event.BREAST_MILK.event, R.drawable.breast_milk),
+                Icon(Event.MILK.event, R.drawable.milk_icon),
                 Icon("寝る", R.drawable.sleep_icon),
                 Icon("起きる", R.drawable.wake_up_icon),
                 Icon("おしっこ", R.drawable.pee_icon),

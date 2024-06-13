@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.theme.DialogBackDark
 import com.example.babydiarycompose.ui.theme.DialogBackGray
@@ -137,7 +138,7 @@ fun EventEditDialog(
                         }
                 )
 
-                if (event.eventName == "母乳") {
+                if (event.eventName == Event.BREAST_MILK.event) {
                     if (event.eventDetail.contains("左")) {
                         var sort = ""
                         if (event.eventDetail.contains("←")) {
@@ -224,7 +225,7 @@ fun EventEditDialog(
                             }
                     )
                 }
-                if (event.eventName == "ミルク") {
+                if (event.eventName == Event.MILK.event) {
                     Text(
                         text = "(量)  ${event.eventDetail}",
                         style = TextStyle(

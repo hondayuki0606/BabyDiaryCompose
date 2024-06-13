@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.example.babydiarycompose.data.Event
 
 @Composable
 fun QuantityDialog(
@@ -46,7 +47,7 @@ fun QuantityDialog(
                     .background(Color(0xFF272727))
                     .padding(10.dp),
                 color = Color.White,
-                text = "ミルク"
+                text = Event.MILK.event
             )
             LazyColumn(
                 modifier = Modifier

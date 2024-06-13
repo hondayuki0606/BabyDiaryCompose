@@ -38,6 +38,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.ListItemPicker
+import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackGray
@@ -197,11 +198,11 @@ fun EventTimeSettingDialog(
                         onClick = {
                             scope.launch {
                                 when (eventName) {
-                                    "母乳" -> {
+                                    Event.BREAST_MILK.event -> {
                                         showBreastMilkDialog.value = true
                                     }
 
-                                    "ミルク" -> {
+                                    Event.MILK.event -> {
                                         showMilkDialog.value = true
                                     }
 

@@ -33,6 +33,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackGray
@@ -83,7 +84,7 @@ fun MilkDialog(
                         }
                 ) {
                     Text(
-                        text = "ミルク",
+                        text = Event.MILK.event,
                         modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),
                         color = Color.White,
                         textAlign = TextAlign.Center,
