@@ -3,6 +3,7 @@ package com.example.babydiarycompose.repository
 import android.content.Context
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.database.AppDatabase
+import com.example.babydiarycompose.model.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,6 +70,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
             eventList.forEach {
                 result.add(
                     EventData(
+                        uid = it.uid,
                         yearAndMonthAndDay = it.yearAndMonthAndDay ?: "",
                         timeStamp = it.timeStamp,
                         time = it.time ?: "",
@@ -78,6 +80,16 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                     )
                 )
             }
+        }.join()
+        return result
+    }
+
+    override suspend fun deleteEvent(applicationContext: Context, uid: Int): Boolean {
+        var result = false
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(applicationContext)
+            db.eventDao().delete(uid)
+            result = true
         }.join()
         return result
     }

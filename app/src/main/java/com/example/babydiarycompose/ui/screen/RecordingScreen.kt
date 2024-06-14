@@ -290,7 +290,7 @@ fun PreviewRecordingScreen() {
 @Composable
 fun PreviewEventCard() {
     BabyDiaryComposeTheme {
-        val event = EventData("2024/11/11", 1, "22", 1, "1111", "111")
+        val event = EventData(null ,"2024/11/11", 1, "22", 1, "1111", "111")
         EventCard(event, selectedDate = "")
     }
 }

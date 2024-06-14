@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.data
 
 data class EventData(
+    val uid: Int? = null,
     val yearAndMonthAndDay: String,
     val timeStamp: Long?,
     val time: String,

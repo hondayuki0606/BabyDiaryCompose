@@ -128,6 +128,7 @@ fun MilkDialog(
                                             localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
                                         val eventList = arrayListOf(
                                             EventData(
+                                                uid = null,
                                                 yearAndMonthAndDay = selectedDate,
                                                 timeStamp = unixTime,
                                                 "$hour:${String.format("%02d", minutes)}",

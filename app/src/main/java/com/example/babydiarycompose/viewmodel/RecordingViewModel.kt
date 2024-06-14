@@ -79,4 +79,8 @@ class RecordingViewModel @Inject constructor(
             }
         }
     }
+
+    suspend fun deleteEvent(appContext: Context, uid: Int) {
+        eventRepository.deleteEvent(appContext, uid)
+    }
 }

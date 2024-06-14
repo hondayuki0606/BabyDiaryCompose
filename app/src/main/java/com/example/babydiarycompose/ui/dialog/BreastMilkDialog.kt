@@ -318,6 +318,7 @@ fun BreastMilkDialog(
 
                                 val eventList = arrayListOf(
                                     EventData(
+                                        uid = null,
                                         yearAndMonthAndDay = selectedDate,
                                         timeStamp = unixTime,
                                         time = "${hour}:${String.format("%02d", minutes)}",

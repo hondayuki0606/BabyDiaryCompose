@@ -17,6 +17,6 @@ interface EventDao {
     @Insert
     fun insertAll(vararg event: Event)
 
-    @Delete
-    fun delete(event: Event)
+    @Query("DELETE FROM event where event.uid = :uid ")
+    fun delete(uid: Int)
 }
