@@ -1,5 +1,6 @@
 package com.example.babydiarycompose.ui.screen
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -135,8 +136,65 @@ fun RecordingScreen(
                 .background(Color(0xFF272727))) { _ ->
 
             LazyColumn {
-                items(uiState.eventList) {
-                    EventCard(event = it, selectedDate = selectedDate)
+                items(uiState.eventList) { event ->
+                    val editDialog = remember { mutableStateOf(false) }
+                    val volumeValue = remember { mutableStateOf("10ml") }
+                    if (editDialog.value) {
+                        val scope = rememberCoroutineScope()
+                        val current = LocalContext.current
+                        EventEditDialog(
+                            event = event,
+                            volumeValue = { volumeValue.value = it },
+                            selectedDate = selectedDate,
+                            setShowDialog = {
+                                scope.launch {
+                                    editDialog.value = it
+                                    viewModel.getEventList(current, selectedDate)
+                                }
+                            }
+                        )
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(
+                            modifier = Modifier.clickable {
+                                editDialog.value = true
+                            }) {
+                            Text(
+                                color = Color.White,
+                                text = event.time,
+                                textAlign = TextAlign.End,
+                                modifier = Modifier.padding(start = 7.dp)
+                            )
+                            if (event.listItem) {
+                                Text(
+                                    color = Pink,
+                                    text = event.yearAndMonthAndDay,
+                                    fontSize = 8.sp
+                                )
+                            }
+                        }
+                        Image(
+                            painter = painterResource(event.imageUrl),
+                            contentDescription = "Contact profile picture",
+                            modifier = Modifier.padding(start = 7.dp)
+                        )
+                        Text(
+                            color = Color.White,
+                            text = event.eventName,
+                            modifier = Modifier.padding(start = 7.dp)
+                        )
+                        Text(
+                            color = Pink,
+                            text = event.eventDetail,
+                            modifier = Modifier.padding(start = 7.dp)
+                        )
+                    }
+//                    EventCard(
+//                        event = it,
+//                        selectedDate = selectedDate,
+//                        viewModel = viewModel
+//                    )
                 }
             }
         }
@@ -212,18 +270,28 @@ fun RecordingScreen(
 }
 
 @Composable
-fun EventCard(event: EventData, selectedDate: String) {
+fun EventCard(
+    event: EventData,
+    selectedDate: String,
+    viewModel: RecordingViewModel,
+) {
     val editDialog = remember { mutableStateOf(false) }
     val volumeValue = remember { mutableStateOf("10ml") }
-    if (editDialog.value)
+    if (editDialog.value) {
+        val scope = rememberCoroutineScope()
+        val current = LocalContext.current
         EventEditDialog(
             event = event,
             volumeValue = { volumeValue.value = it },
             selectedDate = selectedDate,
             setShowDialog = {
-                editDialog.value = it
-            },
+                scope.launch {
+                    editDialog.value = it
+                    viewModel.getEventList(current, selectedDate)
+                }
+            }
         )
+    }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(
@@ -286,11 +354,11 @@ fun PreviewRecordingScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewEventCard() {
-    BabyDiaryComposeTheme {
-        val event = EventData(null ,"2024/11/11", 1, "22", 1, "1111", "111")
-        EventCard(event, selectedDate = "")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewEventCard() {
+//    BabyDiaryComposeTheme {
+//        val event = EventData(null, "2024/11/11", 1, "22", 1, "1111", "111")
+//        EventCard(event, selectedDate = "")
+//    }
+//}
