@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Event(
-    @PrimaryKey val uid: Int,
+    @PrimaryKey(autoGenerate = true) val uid: Int = 0,
     @ColumnInfo(name = "year_and_month_and_day") val yearAndMonthAndDay: String?,
     @ColumnInfo(name = "time_stamp") val timeStamp: Long?,
     @ColumnInfo(name = "time") val time: String?,

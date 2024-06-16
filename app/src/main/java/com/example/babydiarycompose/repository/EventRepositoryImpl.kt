@@ -18,12 +18,10 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         CoroutineScope(Dispatchers.IO).launch {
             val db = AppDatabase.getDatabase(applicationContext)
             val eventDao = db.eventDao()
-            val searchList = eventDao.getAll()
             // データ生成
             eventList.forEach {
                 eventDao.insertAll(
-                    com.example.babydiarycompose.model.Event(
-                        searchList.size,
+                    Event(
                         yearAndMonthAndDay = it.yearAndMonthAndDay,
                         timeStamp = it.timeStamp,
                         time = it.time,
