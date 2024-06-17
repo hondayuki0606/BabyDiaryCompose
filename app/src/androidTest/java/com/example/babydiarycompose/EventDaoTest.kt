@@ -29,11 +29,19 @@ class EventDaoTest {
     @Test
     fun test_dummy() {
         // prepare
-        val event = Event(0, "2024/03/12", 1, "母乳", "5分")
+        val event = Event(
+            uid = 0,
+            yearAndMonthAndDay = "2024/03/12",
+            timeStamp = 1,
+            time = "5分",
+            icon = 0,
+            eventName = "母乳",
+            eventDetail = "母乳",
+        )
         eventDao.insertAll(event)
 
         // execute
-        val eventValue = eventDao.getAll(currentData)
+        val eventValue = eventDao.getAll()
 
         // verify
         assert(eventValue.size == 1)
