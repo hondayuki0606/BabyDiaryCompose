@@ -1,6 +1,5 @@
 package com.example.babydiarycompose.ui.screen
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,7 +66,7 @@ fun RecordingScreen(
     val times = (0..23).toList()
     var selectedDate by rememberSaveable { mutableStateOf("") }
     val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.recordingEventState.collectAsState()
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF9C4A4A))

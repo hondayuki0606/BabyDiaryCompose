@@ -18,7 +18,7 @@ import javax.inject.Inject
 class RecordingViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
-    private var _uiState = MutableStateFlow(
+    private var _recordingEventState = MutableStateFlow(
         RecordingUiState(
             eventList = arrayListOf(),
             iconList = arrayListOf(
@@ -64,7 +64,7 @@ class RecordingViewModel @Inject constructor(
             )
         )
     )
-    var uiState = _uiState.asStateFlow()
+    var recordingEventState = _recordingEventState.asStateFlow()
 
     suspend fun addEventList(appContext: Context, eventList: List<EventData>) {
         eventRepository.addEventList(appContext, eventList)
@@ -72,7 +72,7 @@ class RecordingViewModel @Inject constructor(
 
     suspend fun getEventList(appContext: Context, currentData: String) {
         eventRepository.getEventList(appContext, currentData).let { eventList ->
-            _uiState.update {
+            _recordingEventState.update {
                 it.copy(
                     eventList = eventList
                 )
