@@ -66,7 +66,9 @@ fun RecordingScreen(
     val times = (0..23).toList()
     var selectedDate by rememberSaveable { mutableStateOf("") }
     val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-    val uiState by viewModel.recordingEventState.collectAsState()
+    val eventUiState by viewModel.recordingEventUiState.collectAsState()
+    val footerUiState by viewModel.recordingFooterState.collectAsState()
+    viewModel.initController()
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF9C4A4A))
@@ -135,7 +137,7 @@ fun RecordingScreen(
                 .background(Color(0xFF272727))) { _ ->
 
             LazyColumn {
-                items(uiState.eventList) { event ->
+                items(eventUiState.eventList) { event ->
                     val editDialog = remember { mutableStateOf(false) }
                     val volumeValue = remember { mutableStateOf("10ml") }
                     if (editDialog.value) {
@@ -218,7 +220,7 @@ fun RecordingScreen(
                 }
                 .background(Color(0xFF272727))
         ) {
-            items(uiState.iconList) {
+            items(footerUiState.iconList) {
                 val eventTimeSettingDialog = remember { mutableStateOf(false) }
                 val eventName = remember { mutableStateOf("") }
                 val icon = remember { mutableIntStateOf(0) }

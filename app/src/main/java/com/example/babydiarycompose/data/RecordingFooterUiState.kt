@@ -3,6 +3,6 @@ package com.example.babydiarycompose.data
 import androidx.compose.runtime.Stable
 
 @Stable
-data class RecordingUiState(
-    var eventList: List<EventData>,
+data class RecordingFooterUiState(
+    val iconList: List<Icon>
 )
