@@ -149,8 +149,8 @@ fun RecordingScreen(
                             selectedDate = selectedDate,
                             setShowDialog = {
                                 scope.launch {
-                                    editDialog.value = it
                                     viewModel.getEventList(current, selectedDate)
+                                    editDialog.value = it
                                 }
                             }
                         )
