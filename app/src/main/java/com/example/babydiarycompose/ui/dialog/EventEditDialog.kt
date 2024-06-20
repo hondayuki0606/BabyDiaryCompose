@@ -5,9 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -36,13 +34,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.babydiarycompose.data.BreastMilkSelection
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.theme.DialogBackDark
 import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -148,16 +146,7 @@ fun EventEditDialog(
 
                 if (event.eventName == Event.BREAST_MILK.event) {
                     if (event.eventDetail.contains("左")) {
-                        var sort = ""
-                        if (event.eventDetail.contains("←")) {
-                            sort = "←"
-                        }
-                        if (event.eventDetail.contains("→")) {
-                            sort = "→"
-                        }
-                        if (event.eventDetail.contains("/")) {
-                            sort = "/"
-                        }
+                        val sort = getSortSymbol(event.eventDetail)
                         val eventDetail = event.eventDetail.split(sort)
                         val result = eventDetail[0].filter { it.isDigit() }
                         val leftTime = "${result}分"
@@ -180,16 +169,7 @@ fun EventEditDialog(
                     }
 
                     if (event.eventDetail.contains("右")) {
-                        var sort = ""
-                        if (event.eventDetail.contains("←")) {
-                            sort = "←"
-                        }
-                        if (event.eventDetail.contains("→")) {
-                            sort = "→"
-                        }
-                        if (event.eventDetail.contains("/")) {
-                            sort = "/"
-                        }
+                        val sort = getSortSymbol(event.eventDetail)
                         val eventDetail = event.eventDetail.split(sort)
                         val result = eventDetail[1].filter { it.isDigit() }
                         val rightTime = "${result}分"
@@ -319,5 +299,17 @@ fun EventEditDialog(
                 }
             }
         }
+    }
+}
+
+fun getSortSymbol(eventDetail: String): String {
+    return if (eventDetail.contains(BreastMilkSelection.FROM_RIGHT.symbol)) {
+        BreastMilkSelection.FROM_RIGHT.symbol
+    } else if (eventDetail.contains(BreastMilkSelection.FROM_LEFT.symbol)) {
+        BreastMilkSelection.FROM_LEFT.symbol
+    } else if (eventDetail.contains(BreastMilkSelection.NO_ORDER.symbol)) {
+        BreastMilkSelection.NO_ORDER.symbol
+    } else {
+        ""
     }
 }
