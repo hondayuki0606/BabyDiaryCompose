@@ -64,8 +64,8 @@ fun EventEditDialog(
     val breastfeedingDialog = remember { mutableStateOf(false) }
     if (breastfeedingDialog.value)
         EventTimeSettingDialog(
-            eventName = "",
-            resIcon = 0,
+            eventName = event.eventName,
+            resIcon = event.imageUrl,
             selectedDate = selectedDate,
             setShowDialog = {
                 breastfeedingDialog.value = it
@@ -188,16 +188,7 @@ fun EventEditDialog(
                                 }
                         )
                     }
-                    var sort = ""
-                    if (event.eventDetail.contains("←")) {
-                        sort = "左から"
-                    }
-                    if (event.eventDetail.contains("→")) {
-                        sort = "右から"
-                    }
-                    if (event.eventDetail.contains("/")) {
-                        sort = "順序なし"
-                    }
+                    val sort = getSortSymbol(event.eventDetail)
                     Text(
                         text = "順序  $sort",
                         style = TextStyle(
