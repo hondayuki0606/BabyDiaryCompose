@@ -64,8 +64,7 @@ fun EventEditDialog(
     val breastfeedingDialog = remember { mutableStateOf(false) }
     if (breastfeedingDialog.value)
         EventTimeSettingDialog(
-            eventName = event.eventName,
-            resIcon = event.imageUrl,
+            event = event,
             selectedDate = selectedDate,
             setShowDialog = {
                 breastfeedingDialog.value = it

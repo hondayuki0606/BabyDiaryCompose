@@ -52,8 +52,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun EventTimeSettingDialog(
-    eventName: String,
-    resIcon: Int,
+    event: EventData,
     selectedDate: String,
     setShowDialog: (Boolean) -> Unit
 ) {
@@ -68,8 +67,8 @@ fun EventTimeSettingDialog(
 
     val showBreastMilkDialog = remember { mutableStateOf(false) }
     if (showBreastMilkDialog.value)
-        BreastMilkDialog(eventName = eventName,
-            resIcon = resIcon,
+        BreastMilkDialog(eventName = event.eventName,
+            resIcon = event.imageUrl,
             selectedDate = selectedDate,
             hour = hourState.toInt(),
             minutes = minutesState.toInt(),
@@ -82,9 +81,9 @@ fun EventTimeSettingDialog(
         }
     val showMilkDialog = remember { mutableStateOf(false) }
     if (showMilkDialog.value)
-        MilkDialog(eventName = eventName,
+        MilkDialog(eventName = event.eventName,
             selectedDate = selectedDate,
-            resIcon = resIcon,
+            resIcon = event.imageUrl,
             hour = hourState.toInt(),
             minutes = minutesState.toInt(),
             setShowDialog = {
@@ -127,11 +126,11 @@ fun EventTimeSettingDialog(
                                 end = 10.dp,
                             ),
                         contentScale = ContentScale.Fit,
-                        painter = painterResource(resIcon),
+                        painter = painterResource(event.imageUrl),
                         contentDescription = "image"
                     )
                     Text(
-                        text = eventName,
+                        text = event.eventName,
                         style = TextStyle(
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold
@@ -145,7 +144,7 @@ fun EventTimeSettingDialog(
                                 end = 10.dp,
                             ),
                         contentScale = ContentScale.Fit,
-                        painter = painterResource(resIcon),
+                        painter = painterResource(event.imageUrl),
                         contentDescription = "image"
                     )
                 }
@@ -197,7 +196,7 @@ fun EventTimeSettingDialog(
                     Button(
                         onClick = {
                             scope.launch {
-                                when (eventName) {
+                                when (event.eventName) {
                                     Event.BREAST_MILK.event -> {
                                         showBreastMilkDialog.value = true
                                     }
@@ -225,8 +224,8 @@ fun EventTimeSettingDialog(
                                                         minutesState.toInt()
                                                     )
                                                 }",
-                                                imageUrl = resIcon,
-                                                eventName = eventName,
+                                                imageUrl = event.imageUrl,
+                                                eventName = event.eventName,
                                                 eventDetail = ""
                                             )
                                         )
@@ -271,18 +270,18 @@ fun EventTimeSettingDialog(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewBreastfeedingDialog() {
-    BabyDiaryComposeTheme {
-        val showDialog = remember { mutableStateOf(false) }
-        EventTimeSettingDialog(eventName = "",
-            resIcon = 0,
-            selectedDate = "",
-            setShowDialog = {
-                showDialog.value = it
-            }
-        )
-    }
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewBreastfeedingDialog() {
+//    BabyDiaryComposeTheme {
+//        val showDialog = remember { mutableStateOf(false) }
+//        EventTimeSettingDialog(eventName = "",
+//            resIcon = 0,
+//            selectedDate = "",
+//            setShowDialog = {
+//                showDialog.value = it
+//            }
+//        )
+//    }
+//}
