@@ -38,7 +38,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.ListItemPicker
-import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackGray
@@ -51,9 +50,8 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun EventTimeSettingDialog(
-    eventName: String,
-    resIcon: Int,
+fun BreastMilkEditDialog(
+    event: EventData,
     selectedDate: String,
     setShowDialog: (Boolean) -> Unit
 ) {
@@ -65,35 +63,6 @@ fun EventTimeSettingDialog(
     var hourState by remember { mutableStateOf(hour.toString()) }
     var minutesState by remember { mutableStateOf(minutes.toString()) }
     val applicationContext = LocalContext.current
-
-    val showBreastMilkDialog = remember { mutableStateOf(false) }
-    if (showBreastMilkDialog.value)
-        BreastMilkDialog(eventName = eventName,
-            resIcon = resIcon,
-            selectedDate = selectedDate,
-            hour = hourState.toInt(),
-            minutes = minutesState.toInt(),
-            setShowDialog = {
-                showBreastMilkDialog.value = it
-            }) {
-            if (it) {
-                setShowDialog(false)
-            }
-        }
-    val showMilkDialog = remember { mutableStateOf(false) }
-    if (showMilkDialog.value)
-        MilkDialog(eventName = eventName,
-            selectedDate = selectedDate,
-            resIcon = resIcon,
-            hour = hourState.toInt(),
-            minutes = minutesState.toInt(),
-            setShowDialog = {
-                showMilkDialog.value = it
-            }) {
-            if (it) {
-                setShowDialog(false)
-            }
-        }
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
@@ -127,11 +96,11 @@ fun EventTimeSettingDialog(
                                 end = 10.dp,
                             ),
                         contentScale = ContentScale.Fit,
-                        painter = painterResource(resIcon),
+                        painter = painterResource(event.imageUrl),
                         contentDescription = "image"
                     )
                     Text(
-                        text = eventName,
+                        text = event.eventName,
                         style = TextStyle(
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold
@@ -145,7 +114,7 @@ fun EventTimeSettingDialog(
                                 end = 10.dp,
                             ),
                         contentScale = ContentScale.Fit,
-                        painter = painterResource(resIcon),
+                        painter = painterResource(event.imageUrl),
                         contentDescription = "image"
                     )
                 }
@@ -197,23 +166,18 @@ fun EventTimeSettingDialog(
                     Button(
                         onClick = {
                             scope.launch {
-                                when (eventName) {
-                                    Event.BREAST_MILK.event -> {
-                                        showBreastMilkDialog.value = true
-                                    }
-
-                                    Event.MILK.event -> {
-                                        showMilkDialog.value = true
-                                    }
+                                when (event.eventName) {
 
                                     else -> {
-                                        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
+                                        val formatter =
+                                            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
                                         val hourValue = String.format("%02d", hour)
                                         val minutesValue = String.format("%02d", minutes)
                                         val date = "$selectedDate $hourValue:$minutesValue"
                                         val localDateTime = LocalDateTime.parse(date, formatter)
                                         val unixTime =
-                                            localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
+                                            localDateTime.atZone(ZoneId.systemDefault())
+                                                .toEpochSecond()
 
                                         val eventList = arrayListOf(
                                             EventData(
@@ -225,8 +189,8 @@ fun EventTimeSettingDialog(
                                                         minutesState.toInt()
                                                     )
                                                 }",
-                                                imageUrl = resIcon,
-                                                eventName = eventName,
+                                                imageUrl = event.imageUrl,
+                                                eventName = event.eventName,
                                                 eventDetail = ""
                                             )
                                         )
@@ -271,18 +235,17 @@ fun EventTimeSettingDialog(
         }
     }
 }
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewBreastfeedingDialog() {
-//    BabyDiaryComposeTheme {
-//        val showDialog = remember { mutableStateOf(false) }
-//        EventTimeSettingDialog(eventName = "",
-//            resIcon = 0,
-//            selectedDate = "",
-//            setShowDialog = {
-//                showDialog.value = it
-//            }
-//        )
-//    }
-//}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBreastfeedingDialog() {
+    BabyDiaryComposeTheme {
+        val showDialog = remember { mutableStateOf(false) }
+        BreastMilkEditDialog(event = EventData(0, "", 0, "", 0, "", ""),
+            selectedDate = "",
+            setShowDialog = {
+                showDialog.value = it
+            }
+        )
+    }
+}
