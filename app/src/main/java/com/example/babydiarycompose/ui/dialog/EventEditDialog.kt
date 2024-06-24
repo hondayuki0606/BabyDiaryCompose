@@ -63,12 +63,18 @@ fun EventEditDialog(
     // 母乳ダイアログ
     val breastfeedingDialog = remember { mutableStateOf(false) }
     if (breastfeedingDialog.value)
-        BreastMilkEditDialog(
-            event = event,
-            selectedDate = selectedDate,
+        BreastMilkDialog(
+            eventName = event.eventName,
+            selectedDate = event.yearAndMonthAndDay,
+            hour = 12,
+            minutes = 2,
+            resIcon = event.imageUrl,
             setShowDialog = {
                 breastfeedingDialog.value = it
-            }
+            },
+            resultValue = {
+                breastfeedingDialog.value = it
+            },
         )
     // 量ダイアログ
     val quantityDialog = remember { mutableStateOf(false) }
