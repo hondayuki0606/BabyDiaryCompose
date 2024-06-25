@@ -14,6 +14,9 @@ interface EventDao {
     @Query("SELECT * FROM event where event.year_and_month_and_day = :currentData ORDER BY event.time_stamp ASC")
     fun getEvent(currentData: String): List<Event>
 
+    @Query("UPDATE event SET event_detail = :eventDetail, year_and_month_and_day = '' WHERE uid = :uid")
+    fun updateEvent(eventDetail: String, uid: Int)
+
     @Insert
     fun insertAll(vararg event: Event)
 

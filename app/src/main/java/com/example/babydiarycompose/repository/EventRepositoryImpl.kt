@@ -37,6 +37,33 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
+    override suspend fun updateEventList(
+        applicationContext: Context,
+        eventList: List<EventData>
+    ): Boolean {
+        var result = false
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(applicationContext)
+            val eventDao = db.eventDao()
+            // データ生成
+            eventList.forEach {
+                eventDao.insertAll(
+                    Event(
+                        yearAndMonthAndDay = it.yearAndMonthAndDay,
+                        timeStamp = it.timeStamp,
+                        time = it.time,
+                        icon = it.imageUrl,
+                        eventName = it.eventName,
+                        eventDetail = it.eventDetail,
+                    ),
+                )
+            }
+            result = true
+
+        }.join()
+        return result
+    }
+
     override suspend fun getAll(applicationContext: Context): List<EventData> {
         val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {

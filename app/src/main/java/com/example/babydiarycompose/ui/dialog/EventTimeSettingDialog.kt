@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -40,7 +39,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.compose.ListItemPicker
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
-import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DialogBackGray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
@@ -68,18 +66,21 @@ fun EventTimeSettingDialog(
 
     val showBreastMilkDialog = remember { mutableStateOf(false) }
     if (showBreastMilkDialog.value)
-        BreastMilkDialog(eventName = eventName,
+        BreastMilkDialog(
+            eventName = eventName,
             resIcon = resIcon,
             selectedDate = selectedDate,
             hour = hourState.toInt(),
             minutes = minutesState.toInt(),
             setShowDialog = {
                 showBreastMilkDialog.value = it
-            }) {
-            if (it) {
-                setShowDialog(false)
-            }
-        }
+            },
+            resultValue = {
+                if (it) {
+                    setShowDialog(false)
+                }
+            },
+        )
     val showMilkDialog = remember { mutableStateOf(false) }
     if (showMilkDialog.value)
         MilkDialog(eventName = eventName,
@@ -207,13 +208,15 @@ fun EventTimeSettingDialog(
                                     }
 
                                     else -> {
-                                        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
+                                        val formatter =
+                                            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
                                         val hourValue = String.format("%02d", hour)
                                         val minutesValue = String.format("%02d", minutes)
                                         val date = "$selectedDate $hourValue:$minutesValue"
                                         val localDateTime = LocalDateTime.parse(date, formatter)
                                         val unixTime =
-                                            localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
+                                            localDateTime.atZone(ZoneId.systemDefault())
+                                                .toEpochSecond()
 
                                         val eventList = arrayListOf(
                                             EventData(

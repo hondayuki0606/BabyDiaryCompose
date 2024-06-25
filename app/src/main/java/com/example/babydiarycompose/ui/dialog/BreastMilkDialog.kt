@@ -92,7 +92,8 @@ fun BreastMilkDialog(
     minutes: Int,
     resIcon: Int,
     setShowDialog: (Boolean) -> Unit,
-    resultValue: (Boolean) -> Unit
+    resultValue: (Boolean) -> Unit,
+    editMode: Boolean = false,
 ) {
 
     val viewModel: RecordingViewModel = hiltViewModel()
@@ -327,7 +328,11 @@ fun BreastMilkDialog(
                                         eventDetail = eventDetail
                                     )
                                 )
-                                viewModel.addEventList(applicationContext, eventList)
+                                if(editMode){
+
+                                }else {
+                                    viewModel.addEventList(applicationContext, eventList)
+                                }
                                 setShowDialog(false)
                                 resultValue(true)
                             }
