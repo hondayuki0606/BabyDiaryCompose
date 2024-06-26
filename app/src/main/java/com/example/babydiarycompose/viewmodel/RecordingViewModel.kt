@@ -48,7 +48,7 @@ class RecordingViewModel @Inject constructor(
     }
 
     suspend fun updateEventList(appContext: Context, eventList: List<EventData>) {
-        eventRepository.addEventList(appContext, eventList)
+        eventRepository.updateEventList(appContext, eventList)
     }
 
     suspend fun getEventList(appContext: Context, currentData: String) {

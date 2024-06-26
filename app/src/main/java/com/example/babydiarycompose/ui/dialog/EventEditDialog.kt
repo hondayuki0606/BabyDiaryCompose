@@ -69,12 +69,14 @@ fun EventEditDialog(
             hour = 12,
             minutes = 2,
             resIcon = event.imageUrl,
+            uid = event.uid,
             setShowDialog = {
                 breastfeedingDialog.value = it
             },
             resultValue = {
                 breastfeedingDialog.value = it
             },
+            editMode = true
         )
     // 量ダイアログ
     val quantityDialog = remember { mutableStateOf(false) }

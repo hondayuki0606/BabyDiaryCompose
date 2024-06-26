@@ -91,6 +91,7 @@ fun BreastMilkDialog(
     hour: Int,
     minutes: Int,
     resIcon: Int,
+    uid: Int? = null,
     setShowDialog: (Boolean) -> Unit,
     resultValue: (Boolean) -> Unit,
     editMode: Boolean = false,
@@ -317,20 +318,34 @@ fun BreastMilkDialog(
                                 val unixTime =
                                     localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
 
-                                val eventList = arrayListOf(
-                                    EventData(
-                                        uid = null,
-                                        yearAndMonthAndDay = selectedDate,
-                                        timeStamp = unixTime,
-                                        time = "${hour}:${String.format("%02d", minutes)}",
-                                        imageUrl = resIcon,
-                                        eventName = eventName,
-                                        eventDetail = eventDetail
+                                val eventList = if (editMode) {
+                                    arrayListOf(
+                                        EventData(
+                                            uid = uid,
+                                            yearAndMonthAndDay = selectedDate,
+                                            timeStamp = unixTime,
+                                            time = "${hour}:${String.format("%02d", minutes)}",
+                                            imageUrl = resIcon,
+                                            eventName = eventName,
+                                            eventDetail = eventDetail
+                                        )
                                     )
-                                )
-                                if(editMode){
-
-                                }else {
+                                } else {
+                                    arrayListOf(
+                                        EventData(
+                                            uid = null,
+                                            yearAndMonthAndDay = selectedDate,
+                                            timeStamp = unixTime,
+                                            time = "${hour}:${String.format("%02d", minutes)}",
+                                            imageUrl = resIcon,
+                                            eventName = eventName,
+                                            eventDetail = eventDetail
+                                        )
+                                    )
+                                }
+                                if (editMode) {
+                                    viewModel.updateEventList(applicationContext, eventList)
+                                } else {
                                     viewModel.addEventList(applicationContext, eventList)
                                 }
                                 setShowDialog(false)

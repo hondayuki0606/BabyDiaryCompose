@@ -47,15 +47,14 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
             val eventDao = db.eventDao()
             // データ生成
             eventList.forEach {
-                eventDao.insertAll(
-                    Event(
-                        yearAndMonthAndDay = it.yearAndMonthAndDay,
-                        timeStamp = it.timeStamp,
-                        time = it.time,
-                        icon = it.imageUrl,
-                        eventName = it.eventName,
-                        eventDetail = it.eventDetail,
-                    ),
+                eventDao.updateEvent(
+                    yearAndMonthAndDay = it.yearAndMonthAndDay,
+                    timeStamp = it.timeStamp ?: 0,
+                    time = it.time,
+                    icon = it.imageUrl,
+                    eventName = it.eventName,
+                    eventDetail = it.eventDetail,
+                    uid = it.uid ?: 0
                 )
             }
             result = true
