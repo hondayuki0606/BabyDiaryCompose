@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.database.AppDatabase
 import com.example.babydiarycompose.model.Event
+import com.example.babydiarycompose.singleton.Database
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,11 +17,10 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     ): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
-            val db = AppDatabase.getDatabase(applicationContext)
-            val eventDao = db.eventDao()
+            val eventDao = AppDatabase.INSTANCE?.eventDao()
             // データ生成
             eventList.forEach {
-                eventDao.insertAll(
+                AppDatabase.INSTANCE?.eventDao()?.insertAll(
                     Event(
                         yearAndMonthAndDay = it.yearAndMonthAndDay,
                         timeStamp = it.timeStamp,
@@ -43,11 +43,9 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     ): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
-            val db = AppDatabase.getDatabase(applicationContext)
-            val eventDao = db.eventDao()
             // データ生成
             eventList.forEach {
-                eventDao.updateEvent(
+                AppDatabase.INSTANCE?.eventDao()?.updateEvent(
                     yearAndMonthAndDay = it.yearAndMonthAndDay,
                     timeStamp = it.timeStamp ?: 0,
                     time = it.time,
