@@ -1,15 +1,35 @@
 package com.example.babydiarycompose.singleton
 
 import android.content.Context
-import androidx.room.RoomDatabase
+import androidx.room.Room
 import com.example.babydiarycompose.database.AppDatabase
 
-object Database {
-     var db: RoomDatabase? = null
+open class SingletonHolder<T, A>(creator: (A) -> T) {
+    companion object : SingletonHolder<AppDatabase, Context>({
+        Room.databaseBuilder(it.applicationContext, AppDatabase::class.java, "room-sample.db")
+            .build()
+    })
 
-    fun createDB(applicationContext: Context) {
-//        CoroutineScope(Dispatchers.IO).launch {
-            db = AppDatabase.getDatabase(applicationContext)
-//        }
+    private var creator: ((A) -> T)? = creator
+    @Volatile
+    private var instance: T? = null
+
+    fun getInstance(arg: A): T {
+        val i = instance
+        if (i != null) {
+            return i
+        }
+
+        return synchronized(this) {
+            val i2 = instance
+            if (i2 != null) {
+                i2
+            } else {
+                val created = creator!!(arg)
+                instance = created
+                creator = null
+                created
+            }
+        }
     }
 }
