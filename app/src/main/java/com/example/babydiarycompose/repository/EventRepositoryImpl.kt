@@ -12,14 +12,14 @@ import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor() : EventRepository {
     override suspend fun addEventList(
-        applicationContext: Context,
+        appContext: Context,
         eventList: List<EventData>
     ): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
             eventList.forEach {
-                SingletonHolder.getInstance(applicationContext).eventDao().insertAll(
+                SingletonHolder.getInstance(appContext).eventDao().insertAll(
                     Event(
                         yearAndMonthAndDay = it.yearAndMonthAndDay,
                         timeStamp = it.timeStamp,
@@ -37,14 +37,14 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     }
 
     override suspend fun updateEventList(
-        applicationContext: Context,
+        appContext: Context,
         eventList: List<EventData>
     ): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
             eventList.forEach {
-                SingletonHolder.getInstance(applicationContext).eventDao().updateEvent(
+                SingletonHolder.getInstance(appContext).eventDao().updateEvent(
                     yearAndMonthAndDay = it.yearAndMonthAndDay,
                     timeStamp = it.timeStamp ?: 0,
                     time = it.time,
@@ -105,11 +105,10 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
-    override suspend fun deleteEvent(applicationContext: Context, uid: Int): Boolean {
+    override suspend fun deleteEvent(applContext: Context, uid: Int): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
-            val db = AppDatabase.getDatabase(applicationContext)
-            db.eventDao().delete(uid)
+            AppDatabase.getDatabase(applContext).eventDao().delete(uid)
             result = true
         }.join()
         return result
