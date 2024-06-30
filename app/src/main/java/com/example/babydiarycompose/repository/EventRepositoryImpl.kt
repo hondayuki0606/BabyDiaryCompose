@@ -1,16 +1,23 @@
 package com.example.babydiarycompose.repository
 
 import android.content.Context
+import com.example.babydiarycompose.dao.EventDao
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.database.AppDatabase
 import com.example.babydiarycompose.model.Event
-import com.example.babydiarycompose.singleton.SingletonHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor() : EventRepository {
+
+    private var eventDao: EventDao? = null
+
+    override suspend fun init(context: Context) {
+        eventDao = AppDatabase.getDatabase(context).eventDao()
+    }
+
     override suspend fun addEventList(
         appContext: Context,
         eventList: List<EventData>
@@ -19,7 +26,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
             eventList.forEach {
-                SingletonHolder.getInstance(appContext).eventDao().insertAll(
+                eventDao?.insertAll(
                     Event(
                         yearAndMonthAndDay = it.yearAndMonthAndDay,
                         timeStamp = it.timeStamp,
@@ -44,7 +51,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
             eventList.forEach {
-                SingletonHolder.getInstance(appContext).eventDao().updateEvent(
+                eventDao?.updateEvent(
                     yearAndMonthAndDay = it.yearAndMonthAndDay,
                     timeStamp = it.timeStamp ?: 0,
                     time = it.time,
@@ -86,9 +93,8 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     ): List<EventData> {
         val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {
-            val eventList =
-                SingletonHolder.getInstance(applicationContext).eventDao().getEvent(currentData)
-            eventList.forEach {
+            val eventList = eventDao?.getEvent(currentData)
+            eventList?.forEach {
                 result.add(
                     EventData(
                         uid = it.uid,
@@ -108,7 +114,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     override suspend fun deleteEvent(applContext: Context, uid: Int): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
-            AppDatabase.getDatabase(applContext).eventDao().delete(uid)
+            eventDao?.delete(uid)
             result = true
         }.join()
         return result
