@@ -125,7 +125,9 @@ fun MilkDialog(
                                         val date = "$selectedDate $hourValue:$minutesValue"
                                         val localDateTime = LocalDateTime.parse(date, formatter)
                                         val unixTime =
-                                            localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
+                                            localDateTime
+                                                .atZone(ZoneId.systemDefault())
+                                                .toEpochSecond()
                                         val eventList = arrayListOf(
                                             EventData(
                                                 uid = null,
@@ -137,13 +139,14 @@ fun MilkDialog(
                                                 ml
                                             )
                                         )
-                                        viewModel.addEventList(applicationContext, eventList)
+                                        viewModel.addEventList(eventList)
                                         setShowDialog(false)
                                         resultValue(true)
                                     }
                                 }
                         ) {
-                            Text(text = ml,
+                            Text(
+                                text = ml,
                                 color = Color.White,
                                 fontSize = 14.sp,
                                 modifier = Modifier

@@ -51,6 +51,7 @@ import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -62,13 +63,16 @@ fun RecordingScreen(
     leftArrowValue: (Boolean) -> Unit,
     currentDateValue: (Int) -> Unit,
 ) {
-    val current = LocalContext.current
+    val context = LocalContext.current
     val times = (0..23).toList()
     var selectedDate by rememberSaveable { mutableStateOf("") }
     val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
     val eventUiState by viewModel.recordingEventUiState.collectAsState()
     val footerUiState by viewModel.recordingFooterState.collectAsState()
     viewModel.initController()
+    runBlocking {
+        viewModel.initDao(context)
+    }
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF9C4A4A))
@@ -119,7 +123,7 @@ fun RecordingScreen(
                 currentDateValue(currentDay)
                 selectedDate =
                     myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
-                viewModel.getEventList(current, selectedDate)
+                viewModel.getEventList(selectedDate)
             }
         }
         HorizontalPager(
@@ -142,14 +146,13 @@ fun RecordingScreen(
                     val volumeValue = remember { mutableStateOf("10ml") }
                     if (editDialog.value) {
                         val scope = rememberCoroutineScope()
-                        val current = LocalContext.current
                         EventEditDialog(
                             event = event,
                             volumeValue = { volumeValue.value = it },
                             selectedDate = selectedDate,
                             setShowDialog = {
                                 scope.launch {
-                                    viewModel.getEventList(current, selectedDate)
+                                    viewModel.getEventList(selectedDate)
                                     editDialog.value = it
                                 }
                             }
@@ -232,7 +235,7 @@ fun RecordingScreen(
                         setShowDialog = {
                             scope.launch {
                                 eventTimeSettingDialog.value = it
-                                viewModel.getEventList(current, selectedDate)
+                                viewModel.getEventList(selectedDate)
                             }
                         }
                     )
@@ -288,7 +291,7 @@ fun EventCard(
             setShowDialog = {
                 scope.launch {
                     editDialog.value = it
-                    viewModel.getEventList(current, selectedDate)
+                    viewModel.getEventList(selectedDate)
                 }
             }
         )

@@ -22,7 +22,7 @@ class SummaryViewModel @Inject constructor(
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(
         SummaryUiState(
-            datumList =  mutableListOf(
+            datumList = mutableListOf(
                 Datum(listOf(Item("a", 1), Item("b", 1), Item("b", 24)), "2/11"),
                 Datum(listOf(Item("a", 1), Item("a", 21), Item("a", 23)), "2/12"),
                 Datum(listOf(Item("a", 2), Item("a", 3)), "2/13"),
@@ -38,7 +38,7 @@ class SummaryViewModel @Inject constructor(
 
     fun addEventList(appContext: Context, eventList: List<EventData>) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.addEventList(appContext, eventList).let { result ->
+            eventRepository.addEventList(eventList).let { result ->
 //                if (result) {
 //                    getEventList(appContext)
 //                }
@@ -48,7 +48,7 @@ class SummaryViewModel @Inject constructor(
 
     fun getEventList(appContext: Context, currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getEventList(appContext, currentData).let { eventList ->
+            eventRepository.getEventList(currentData).let { eventList ->
                 val tmp = mutableListOf(
                     Datum(listOf(Item("a", 1), Item("b", 1), Item("b", 24)), "2/11"),
                     Datum(listOf(Item("a", 1), Item("a", 21), Item("a", 23)), "2/12"),

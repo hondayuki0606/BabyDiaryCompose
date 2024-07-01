@@ -283,7 +283,7 @@ fun EventEditDialog(
                     onClick = {
                         scope.launch {
                             if (event.uid != null) {
-                                viewModel.deleteEvent(applicationContext, event.uid)
+                                viewModel.deleteEvent( event.uid)
                             }
                             setShowDialog(false)
                         }

@@ -1,6 +1,5 @@
 package com.example.babydiarycompose.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.data.EventData
@@ -44,20 +43,19 @@ class GrowthCurveViewModel @Inject constructor(
     )
     var uiState = _uiState.asStateFlow()
 
-    fun addEventList(appContext: Context, eventList: List<EventData>) {
+    fun addEventList(eventList: List<EventData>) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.addEventList(appContext, eventList).let { result ->
+            eventRepository.addEventList(eventList).let { result ->
                 if (result) {
-                    getEventList(appContext)
+                    getEventList()
                 }
             }
         }
     }
 
-    fun getEventList(appContext: Context) {
+    fun getEventList() {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getAll(appContext).let { eventList ->
-
+            eventRepository.getAll().let { eventList ->
                 _uiState.update {
                     it.copy(
 
@@ -67,9 +65,9 @@ class GrowthCurveViewModel @Inject constructor(
         }
     }
 
-    fun getEventList(appContext: Context, currentData: String) {
+    fun getEventList(currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getEventList(appContext, currentData).let { eventList ->
+            eventRepository.getEventList(currentData).let { eventList ->
                 _uiState.update {
                     it.copy(
                     )

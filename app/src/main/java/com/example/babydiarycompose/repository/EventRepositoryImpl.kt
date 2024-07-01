@@ -18,10 +18,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         eventDao = AppDatabase.getDatabase(context).eventDao()
     }
 
-    override suspend fun addEventList(
-        appContext: Context,
-        eventList: List<EventData>
-    ): Boolean {
+    override suspend fun addEventList(eventList: List<EventData>): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
@@ -43,10 +40,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
-    override suspend fun updateEventList(
-        appContext: Context,
-        eventList: List<EventData>
-    ): Boolean {
+    override suspend fun updateEventList(eventList: List<EventData>): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
@@ -67,10 +61,10 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
-    override suspend fun getAll(applicationContext: Context): List<EventData> {
+    override suspend fun getAll(): List<EventData> {
         val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {
-            val db = AppDatabase.getDatabase(applicationContext)
+//            val db = AppDatabase.getDatabase(applicationContext)
 //            val eventList = db.eventDao().getEvent(currentData)
 //            eventList.forEach {
 //                result.add(
@@ -87,10 +81,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
-    override suspend fun getEventList(
-        applicationContext: Context,
-        currentData: String
-    ): List<EventData> {
+    override suspend fun getEventList(currentData: String): List<EventData> {
         val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {
             val eventList = eventDao?.getEvent(currentData)
@@ -111,7 +102,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
-    override suspend fun deleteEvent(applContext: Context, uid: Int): Boolean {
+    override suspend fun deleteEvent(uid: Int): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
             eventDao?.delete(uid)

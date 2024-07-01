@@ -234,7 +234,6 @@ fun EventTimeSettingDialog(
                                             )
                                         )
                                         viewModel.addEventList(
-                                            applicationContext,
                                             eventList
                                         )
                                         setShowDialog(false)

@@ -98,7 +98,10 @@ fun BreastMilkDialog(
 ) {
 
     val viewModel: RecordingViewModel = hiltViewModel()
+
     val applicationContext = LocalContext.current
+    viewModel.initController()
+    viewModel.initController()
     val prefs = getSharedPref(applicationContext)
     val right = prefs.getString(RIGHT_VALUE, "なし")
     val left = prefs.getString(LEFT_VALUE, "なし")
@@ -344,9 +347,9 @@ fun BreastMilkDialog(
                                     )
                                 }
                                 if (editMode) {
-                                    viewModel.updateEventList(applicationContext, eventList)
+                                    viewModel.updateEventList(eventList)
                                 } else {
-                                    viewModel.addEventList(applicationContext, eventList)
+                                    viewModel.addEventList(eventList)
                                 }
                                 setShowDialog(false)
                                 resultValue(true)

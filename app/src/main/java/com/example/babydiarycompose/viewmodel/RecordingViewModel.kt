@@ -10,6 +10,7 @@ import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.data.RecordingFooterUiState
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -43,16 +44,20 @@ class RecordingViewModel @Inject constructor(
         }
     }
 
-    suspend fun addEventList(appContext: Context, eventList: List<EventData>) {
-        eventRepository.addEventList(appContext, eventList)
+   suspend fun initDao(context: Context) {
+        eventRepository.init(context)
     }
 
-    suspend fun updateEventList(appContext: Context, eventList: List<EventData>) {
-        eventRepository.updateEventList(appContext, eventList)
+    suspend fun addEventList(eventList: List<EventData>) {
+        eventRepository.addEventList(eventList)
     }
 
-    suspend fun getEventList(appContext: Context, currentData: String) {
-        eventRepository.getEventList(appContext, currentData).let { eventList ->
+    suspend fun updateEventList(eventList: List<EventData>) {
+        eventRepository.updateEventList(eventList)
+    }
+
+    suspend fun getEventList(currentData: String) {
+        eventRepository.getEventList(currentData).let { eventList ->
             _recordingEventUiState.update {
                 it.copy(
                     eventList = eventList
@@ -61,8 +66,8 @@ class RecordingViewModel @Inject constructor(
         }
     }
 
-    suspend fun deleteEvent(appContext: Context, uid: Int) {
-        eventRepository.deleteEvent(appContext, uid)
+    suspend fun deleteEvent(uid: Int) {
+        eventRepository.deleteEvent(uid)
     }
 
     private fun makeIconList(): ArrayList<Icon> {
