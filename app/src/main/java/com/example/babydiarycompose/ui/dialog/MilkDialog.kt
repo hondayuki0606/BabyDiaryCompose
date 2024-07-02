@@ -55,7 +55,6 @@ fun MilkDialog(
     resultValue: (Boolean) -> Unit
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
-    val applicationContext = LocalContext.current
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             color = Color(0x00000000),

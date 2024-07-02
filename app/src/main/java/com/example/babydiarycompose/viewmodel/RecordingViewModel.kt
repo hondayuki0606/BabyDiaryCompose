@@ -10,7 +10,6 @@ import com.example.babydiarycompose.data.Icon
 import com.example.babydiarycompose.data.RecordingFooterUiState
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
