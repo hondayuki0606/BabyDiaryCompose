@@ -51,8 +51,10 @@ fun MilkDialog(
     hour: Int,
     minutes: Int,
     resIcon: Int,
+    uid: Int? = null,
     setShowDialog: (Boolean) -> Unit,
-    resultValue: (Boolean) -> Unit
+    resultValue: (Boolean) -> Unit,
+    editMode: Boolean = false,
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
     Dialog(onDismissRequest = { setShowDialog(false) }) {
@@ -127,18 +129,36 @@ fun MilkDialog(
                                             localDateTime
                                                 .atZone(ZoneId.systemDefault())
                                                 .toEpochSecond()
-                                        val eventList = arrayListOf(
-                                            EventData(
-                                                uid = null,
-                                                yearAndMonthAndDay = selectedDate,
-                                                timeStamp = unixTime,
-                                                "$hour:${String.format("%02d", minutes)}",
-                                                resIcon,
-                                                eventName,
-                                                ml
+                                        val eventList = if (editMode) {
+                                            arrayListOf(
+                                                EventData(
+                                                    uid = uid,
+                                                    yearAndMonthAndDay = selectedDate,
+                                                    timeStamp = unixTime,
+                                                    time = "${hour}:${String.format("%02d", minutes)}",
+                                                    imageUrl = resIcon,
+                                                    eventName = eventName,
+                                                    eventDetail = ml
+                                                )
                                             )
-                                        )
-                                        viewModel.addEventList(eventList)
+                                        } else {
+                                            arrayListOf(
+                                                EventData(
+                                                    uid = null,
+                                                    yearAndMonthAndDay = selectedDate,
+                                                    timeStamp = unixTime,
+                                                    time = "${hour}:${String.format("%02d", minutes)}",
+                                                    imageUrl = resIcon,
+                                                    eventName = eventName,
+                                                    eventDetail = ml
+                                                )
+                                            )
+                                        }
+                                        if (editMode) {
+                                            viewModel.updateEventList(eventList)
+                                        } else {
+                                            viewModel.addEventList(eventList)
+                                        }
                                         setShowDialog(false)
                                         resultValue(true)
                                     }

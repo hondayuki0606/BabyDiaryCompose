@@ -83,18 +83,21 @@ fun EventTimeSettingDialog(
         )
     val showMilkDialog = remember { mutableStateOf(false) }
     if (showMilkDialog.value)
-        MilkDialog(eventName = eventName,
+        MilkDialog(
+            eventName = eventName,
             selectedDate = selectedDate,
             resIcon = resIcon,
             hour = hourState.toInt(),
             minutes = minutesState.toInt(),
             setShowDialog = {
                 showMilkDialog.value = it
-            }) {
-            if (it) {
-                setShowDialog(false)
-            }
-        }
+            },
+            resultValue = {
+                if (it) {
+                    setShowDialog(false)
+                }
+            },
+        )
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(

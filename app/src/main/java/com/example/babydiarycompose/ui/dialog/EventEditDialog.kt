@@ -51,7 +51,6 @@ fun EventEditDialog(
     setShowDialog: (Boolean) -> Unit,
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
-    val applicationContext = LocalContext.current
     val datePickerDialog = remember { mutableStateOf(false) }
     // 日時ダイアログ
     if (datePickerDialog.value)
@@ -71,22 +70,32 @@ fun EventEditDialog(
             resIcon = event.imageUrl,
             uid = event.uid,
             setShowDialog = {
-                breastfeedingDialog.value = it
+//                breastfeedingDialog.value = it
             },
             resultValue = {
-                breastfeedingDialog.value = it
+                breastfeedingDialog.value = !it
+                setShowDialog(false)
             },
             editMode = true
         )
-    // 量ダイアログ
-    val quantityDialog = remember { mutableStateOf(false) }
-    val quantityDialogValue = remember { mutableStateOf(volumeValue) }
-    if (quantityDialog.value)
-        QuantityDialog(
-            value = { },
+    // ミルクダイアログ
+    val milkDialog = remember { mutableStateOf(false) }
+    if (milkDialog.value)
+        MilkDialog(
+            eventName = event.eventName,
+            selectedDate = selectedDate,
+            hour = 12,
+            minutes = 2,
+            resIcon = event.imageUrl,
+            uid = event.uid,
             setShowDialog = {
-                quantityDialog.value = it
-            }
+//                milkDialog.value = it
+            },
+            resultValue = {
+                milkDialog.value = !it
+                setShowDialog(false)
+            },
+            editMode = true
         )
     // メモダイアログ
     val memoDialog = remember { mutableStateOf(false) }
@@ -224,7 +233,7 @@ fun EventEditDialog(
                                 indication = null,
                                 interactionSource = remember { MutableInteractionSource() }
                             ) {
-                                quantityDialog.value = true
+                                milkDialog.value = true
                             }
                     )
                 }
