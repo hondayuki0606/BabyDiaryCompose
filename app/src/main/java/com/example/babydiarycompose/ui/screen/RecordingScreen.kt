@@ -142,64 +142,12 @@ fun RecordingScreen(
 
             LazyColumn {
                 items(eventUiState.eventList) { event ->
-                    val editDialog = remember { mutableStateOf(false) }
-                    val volumeValue = remember { mutableStateOf("10ml") }
-                    if (editDialog.value) {
-                        val scope = rememberCoroutineScope()
-                        EventEditDialog(
-                            event = event,
-                            volumeValue = { volumeValue.value = it },
-                            selectedDate = selectedDate,
-                            setShowDialog = {
-                                scope.launch {
-                                    viewModel.getEventList(selectedDate)
-                                    editDialog.value = it
-                                }
-                            }
-                        )
-                    }
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Column(
-                            modifier = Modifier.clickable {
-                                editDialog.value = true
-                            }) {
-                            Text(
-                                color = Color.White,
-                                text = event.time,
-                                textAlign = TextAlign.End,
-                                modifier = Modifier.padding(start = 7.dp)
-                            )
-                            if (event.listItem) {
-                                Text(
-                                    color = Pink,
-                                    text = event.yearAndMonthAndDay,
-                                    fontSize = 8.sp
-                                )
-                            }
-                        }
-                        Image(
-                            painter = painterResource(event.imageUrl),
-                            contentDescription = "Contact profile picture",
-                            modifier = Modifier.padding(start = 7.dp)
-                        )
-                        Text(
-                            color = Color.White,
-                            text = event.eventName,
-                            modifier = Modifier.padding(start = 7.dp)
-                        )
-                        Text(
-                            color = Pink,
-                            text = event.eventDetail,
-                            modifier = Modifier.padding(start = 7.dp)
-                        )
-                    }
-//                    EventCard(
-//                        event = it,
-//                        selectedDate = selectedDate,
-//                        viewModel = viewModel
-//                    )
-                }
+                    EventCard(
+                        event = event,
+                        selectedDate = selectedDate,
+                        viewModel = viewModel
+                    )
+                                    }
             }
         }
         HorizontalDivider(modifier = Modifier
@@ -280,23 +228,19 @@ fun EventCard(
     viewModel: RecordingViewModel,
 ) {
     val editDialog = remember { mutableStateOf(false) }
-    val volumeValue = remember { mutableStateOf("10ml") }
     if (editDialog.value) {
         val scope = rememberCoroutineScope()
-        val current = LocalContext.current
         EventEditDialog(
             event = event,
-            volumeValue = { volumeValue.value = it },
             selectedDate = selectedDate,
             setShowDialog = {
                 scope.launch {
-                    editDialog.value = it
                     viewModel.getEventList(selectedDate)
+                    editDialog.value = it
                 }
             }
         )
     }
-
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(
             modifier = Modifier.clickable {

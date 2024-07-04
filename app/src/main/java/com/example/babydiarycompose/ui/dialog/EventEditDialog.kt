@@ -26,7 +26,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +46,6 @@ import kotlinx.coroutines.launch
 fun EventEditDialog(
     event: EventData,
     selectedDate: String,
-    volumeValue: (String) -> Unit,
     setShowDialog: (Boolean) -> Unit,
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
@@ -70,7 +68,6 @@ fun EventEditDialog(
             resIcon = event.imageUrl,
             uid = event.uid,
             setShowDialog = {
-//                breastfeedingDialog.value = it
             },
             resultValue = {
                 breastfeedingDialog.value = !it
@@ -89,7 +86,6 @@ fun EventEditDialog(
             resIcon = event.imageUrl,
             uid = event.uid,
             setShowDialog = {
-//                milkDialog.value = it
             },
             resultValue = {
                 milkDialog.value = !it
