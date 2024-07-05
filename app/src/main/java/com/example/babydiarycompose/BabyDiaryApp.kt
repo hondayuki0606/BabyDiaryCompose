@@ -61,10 +61,10 @@ fun BabyDiaryApp() {
     BabyDiaryComposeTheme {
         val navController = rememberNavController()
         var isDisplayedNavigationBar by rememberSaveable { mutableStateOf(true) }
-        var isDisplayedTopBarTitle by rememberSaveable { mutableStateOf(true) }
+        val isDisplayedTopBarTitle by rememberSaveable { mutableStateOf(true) }
         var isDisplayedRightArrow by rememberSaveable { mutableStateOf(false) }
         var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
-        val items = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
+        val bottomItems = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
         var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
         var currentData by rememberSaveable { mutableStateOf("") }
         val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd(E)")
@@ -128,7 +128,7 @@ fun BabyDiaryApp() {
             bottomBar = {
                 if (isDisplayedNavigationBar) {
                     NavigationBar(containerColor = Color(0xFF1c1c1c)) {
-                        items.forEachIndexed { index, item ->
+                        bottomItems.forEachIndexed { index, item ->
                             NavigationBarItem(
                                 colors = NavigationBarItemDefaults.colors(
                                     selectedIconColor = Pink,
@@ -203,7 +203,7 @@ fun BabyDiaryApp() {
                                                     else ->
                                                         Icons.Default.Menu
                                                 },
-                                                contentDescription = items[selectedItemIndex]
+                                                contentDescription = bottomItems[selectedItemIndex]
                                             )
                                         }
                                     }

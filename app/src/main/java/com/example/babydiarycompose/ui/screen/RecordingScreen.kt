@@ -147,7 +147,7 @@ fun RecordingScreen(
                         selectedDate = selectedDate,
                         viewModel = viewModel
                     )
-                                    }
+                }
             }
         }
         HorizontalDivider(modifier = Modifier
@@ -241,11 +241,14 @@ fun EventCard(
             }
         )
     }
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Column(
-            modifier = Modifier.clickable {
+    Row(verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable(
+            onClick = {
                 editDialog.value = true
-            }) {
+            }
+        )
+    ) {
+        Column {
             Text(
                 color = Color.White,
                 text = event.time,
