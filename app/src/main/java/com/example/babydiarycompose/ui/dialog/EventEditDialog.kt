@@ -52,11 +52,21 @@ fun EventEditDialog(
     val datePickerDialog = remember { mutableStateOf(false) }
     // 日時ダイアログ
     if (datePickerDialog.value)
-        DatePickerDialog(value = "", setShowDialog = {
-            datePickerDialog.value = it
-        }) {
-            Log.i("datePickerDialog", "showDialog : $it")
-        }
+        DatePickerDialog(
+            eventName = event.eventName,
+            selectedDate = event.yearAndMonthAndDay,
+            hour = 12,
+            minutes = 2,
+            resIcon = event.imageUrl,
+            uid = event.uid,
+            setShowDialog = {
+            },
+            resultValue = {
+                datePickerDialog.value = !it
+                setShowDialog(false)
+            },
+            editMode = true
+        )
     // 母乳ダイアログ
     val breastfeedingDialog = remember { mutableStateOf(false) }
     if (breastfeedingDialog.value)
@@ -288,7 +298,7 @@ fun EventEditDialog(
                     onClick = {
                         scope.launch {
                             if (event.uid != null) {
-                                viewModel.deleteEvent( event.uid)
+                                viewModel.deleteEvent(event.uid)
                             }
                             setShowDialog(false)
                         }
