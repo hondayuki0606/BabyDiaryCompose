@@ -109,15 +109,17 @@ fun RecordingScreen(
 
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { page ->
-                if (page == 0) {
-                    leftArrowValue(false)
-                } else {
-                    leftArrowValue(true)
-                }
-                if (page == oneYear - 1) {
-                    rightArrowValue(false)
-                } else {
-                    rightArrowValue(true)
+                when (page) {
+                    0 -> {
+                        leftArrowValue(false)
+                    }
+                    oneYear - 1 -> {
+                        rightArrowValue(false)
+                    }
+                    else -> {
+                        leftArrowValue(true)
+                        rightArrowValue(true)
+                    }
                 }
                 val currentDay = oneYear - page - 1
                 currentDateValue(currentDay)
