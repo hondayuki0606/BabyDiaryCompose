@@ -62,7 +62,6 @@ fun EventTimeSettingDialog(
     val minutes = currentDateTime.minute
     var hourState by remember { mutableStateOf(hour.toString()) }
     var minutesState by remember { mutableStateOf(minutes.toString()) }
-    val applicationContext = LocalContext.current
 
     val showBreastMilkDialog = remember { mutableStateOf(false) }
     if (showBreastMilkDialog.value)

@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -31,13 +33,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.R
+import com.example.babydiarycompose.compose.ListItemPicker
+import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.button.ToggleButton
 import com.example.babydiarycompose.ui.theme.DialogBackDark
@@ -47,6 +54,7 @@ import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -62,236 +70,165 @@ fun DatePickerDialog(
     editMode: Boolean = false
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
+    val currentDateTime = LocalDateTime.now()
+    ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
+    val hour = currentDateTime.hour
+    val minutes = currentDateTime.minute
+    var hourState by remember { mutableStateOf(hour.toString()) }
+    var minutesState by remember { mutableStateOf(minutes.toString()) }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = Color.White
+            color = Color(0x00000000),
+            shape = RoundedCornerShape(4.dp),
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
         ) {
             ConstraintLayout(
                 modifier = Modifier
                     .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
-                val (eventTitle, leftScroll, verticalDivider, rightScroll, toggleButton, buttonArea) = createRefs()
-                Box(
-                    contentAlignment = Alignment.Center,
+                val (eventTitle, picker, buttonArea) = createRefs()
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
-                        .background(DialogBackDark)
+                        .background(DialogBackGray)
                         .constrainAs(eventTitle) {
                             top.linkTo(parent.top)
-                            bottom.linkTo(verticalDivider.top)
+                            bottom.linkTo(picker.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
-                        }
+                        },
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Image(
+                        modifier = Modifier
+                            .padding(
+                                start = 10.dp,
+                                end = 10.dp,
+                            ),
+                        contentScale = ContentScale.Fit,
+                        painter = painterResource(resIcon),
+                        contentDescription = "image"
+                    )
                     Text(
-                        text = "日時",
-                        modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
+                        text = eventName,
+                        style = TextStyle(
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = Color.White
+                    )
+                    Image(
+                        modifier = Modifier
+                            .padding(
+                                start = 10.dp,
+                                end = 10.dp,
+                            ),
+                        contentScale = ContentScale.Fit,
+                        painter = painterResource(resIcon),
+                        contentDescription = "image"
                     )
                 }
-                val hourList = arrayListOf<String>()
-                for (hour in 0..23) {
-                    hourList.add("$hour")
-                }
-                val minuteList = arrayListOf<String>()
-                for (minute in 0..59) {
-                    minuteList.add("$minute")
-                }
-                val left = ""
-                var leftCheckedState by remember { mutableStateOf(left) }
-                Column(
-                    modifier = Modifier
-                        .background(DialogBackDark)
-                        .fillMaxWidth(.5f)
-                        .constrainAs(leftScroll) {
-                            top.linkTo(eventTitle.bottom)
-                            bottom.linkTo(toggleButton.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(verticalDivider.start)
-                            height = Dimension.fillToConstraints
-                            width = Dimension.fillToConstraints
-
-                        },
-                ) {
-                    val leftIndex = minuteList.indexOf(left)
-                    val scroll = rememberLazyListState(leftIndex)
-                    LazyColumn(
-                        state = scroll,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(DialogBackGray)
-                    ) {
-                        items(hourList) { itemName ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 10.dp, end = 10.dp)
-                                    .clickable(
-                                        onClick = {
-                                            leftCheckedState = itemName
-                                        }
-                                    ),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                            ) {
-                                Text(text = itemName, color = Color.White)
-                                if (leftCheckedState == itemName) {
-                                    Image(
-                                        contentScale = ContentScale.Fit,
-                                        painter = painterResource(R.drawable.check_mark),
-                                        contentDescription = "image"
-                                    )
-                                } else {
-                                    Text(text = "")
-                                }
-                            }
-                        }
-                    }
-                }
-                VerticalDivider(
-                    thickness = 2.dp, color = Color.White,
-                    modifier = Modifier.constrainAs(verticalDivider) {
-                        top.linkTo(eventTitle.bottom)
-                        bottom.linkTo(toggleButton.top)
-                        start.linkTo(leftScroll.end)
-                        end.linkTo(rightScroll.start)
-                        height = Dimension.fillToConstraints
-
-                    },
-                )
-                val right = ""
-                var rightCheckedState by remember { mutableStateOf(right) }
-                Column(
-                    modifier = Modifier
-                        .background(DialogBackDark)
-                        .fillMaxWidth(.5f)
-                        .constrainAs(rightScroll) {
-                            top.linkTo(eventTitle.bottom)
-                            bottom.linkTo(toggleButton.top)
-                            start.linkTo(verticalDivider.end)
-                            end.linkTo(parent.end)
-                            height = Dimension.fillToConstraints
-                            width = Dimension.fillToConstraints
-                        },
-                ) {
-                    val rightIndex = minuteList.indexOf(right)
-                    val scroll = rememberLazyListState(rightIndex)
-                    LazyColumn(
-                        state = scroll,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(DialogBackGray)
-                    ) {
-                        items(minuteList) { itemName ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 10.dp, end = 10.dp)
-                                    .clickable(
-                                        onClick = {
-                                            rightCheckedState = itemName
-                                        }
-                                    ),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                            ) {
-                                Text(text = itemName, color = Color.White)
-                                if (rightCheckedState == itemName) {
-                                    Image(
-                                        contentScale = ContentScale.Fit,
-                                        painter = painterResource(R.drawable.check_mark),
-                                        contentDescription = "image"
-                                    )
-                                } else {
-                                    Text(text = "")
-                                }
-                            }
-                        }
-                    }
-                }
-                var breastfeedingInputSelection by remember { mutableStateOf("順序なし") }
-                ToggleButton(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp)
-                        .constrainAs(toggleButton) {
-                            top.linkTo(rightScroll.bottom)
+                        .background(DialogBackGray)
+                        .constrainAs(picker) {
+                            top.linkTo(eventTitle.bottom)
                             bottom.linkTo(buttonArea.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
+                            width = Dimension.fillToConstraints
                         },
-                    currentSelection = breastfeedingInputSelection,
-                    toggleStates = listOf("順序なし", "左から", "右から"),
-                    onToggleChange = {
-                        breastfeedingInputSelection = it
-                    }
-                )
-                val scope = rememberCoroutineScope()
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .constrainAs(buttonArea) {
-                            top.linkTo(toggleButton.bottom)
-                            bottom.linkTo(parent.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    val hourArrayListOf = arrayListOf<String>()
+                    for (hourElement in 0..23) {
+                        hourArrayListOf.add(hourElement.toString())
+                    }
+                    val minuteArrayListOf = arrayListOf<String>()
+                    for (minuteElement in 0..59) {
+                        minuteArrayListOf.add(minuteElement.toString())
+                    }
+                    ListItemPicker(
+                        value = hourState,
+                        onValueChange = { hourState = it },
+                        list = hourArrayListOf,
+                        dividersColor = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    ListItemPicker(
+                        value = minutesState,
+                        onValueChange = { minutesState = it },
+                        list = minuteArrayListOf,
+                        dividersColor = Color.Gray
+                    )
+                }
+                val scope = rememberCoroutineScope()
+                Column(modifier = Modifier
+                    .constrainAs(buttonArea) {
+                        top.linkTo(picker.bottom)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }) {
                     Button(
+                        onClick = {
+                            scope.launch {
+                                when (eventName) {
+                                    Event.BREAST_MILK.event -> {
+                                        setShowDialog(true)
+                                    }
+
+                                    Event.MILK.event -> {
+                                        setShowDialog(true)
+                                    }
+
+                                    else -> {
+                                        val formatter =
+                                            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
+                                        val hourValue = String.format("%02d", hour)
+                                        val minutesValue = String.format("%02d", minutes)
+                                        val date = "$selectedDate $hourValue:$minutesValue"
+                                        val localDateTime = LocalDateTime.parse(date, formatter)
+                                        val unixTime =
+                                            localDateTime.atZone(ZoneId.systemDefault())
+                                                .toEpochSecond()
+
+                                        val eventList = arrayListOf(
+                                            EventData(
+                                                yearAndMonthAndDay = selectedDate,
+                                                timeStamp = unixTime,
+                                                time = "${hourState.toInt()}:${
+                                                    String.format(
+                                                        "%02d",
+                                                        minutesState.toInt()
+                                                    )
+                                                }",
+                                                imageUrl = resIcon,
+                                                eventName = eventName,
+                                                eventDetail = ""
+                                            )
+                                        )
+                                        viewModel.addEventList(
+                                            eventList
+                                        )
+                                        setShowDialog(false)
+                                    }
+                                }
+                            }
+
+                        },
+                        shape = RoundedCornerShape(50.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
-                        onClick = {
-                            scope.launch {
-                                val eventDetail = generateEventDetail(
-                                    rightCheckedState ?: "なし",
-                                    leftCheckedState ?: "なし",
-                                    breastfeedingInputSelection
-                                )
-                                val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
-                                val hourValue = String.format("%02d", hour)
-                                val minutesValue = String.format("%02d", minutes)
-                                val date = "$selectedDate $hourValue:$minutesValue"
-                                val localDateTime = LocalDateTime.parse(date, formatter)
-                                val unixTime =
-                                    localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
-
-                                val eventList = if (editMode) {
-                                    arrayListOf(
-                                        EventData(
-                                            uid = uid,
-                                            yearAndMonthAndDay = selectedDate,
-                                            timeStamp = unixTime,
-                                            time = "${hour}:${String.format("%02d", minutes)}",
-                                            imageUrl = resIcon,
-                                            eventName = eventName,
-                                            eventDetail = eventDetail
-                                        )
-                                    )
-                                } else {
-                                    arrayListOf(
-                                        EventData(
-                                            uid = null,
-                                            yearAndMonthAndDay = selectedDate,
-                                            timeStamp = unixTime,
-                                            time = "${hour}:${String.format("%02d", minutes)}",
-                                            imageUrl = resIcon,
-                                            eventName = eventName,
-                                            eventDetail = eventDetail
-                                        )
-                                    )
-                                }
-                                if (editMode) {
-                                    viewModel.updateEventList(eventList)
-                                } else {
-                                    viewModel.addEventList(eventList)
-                                }
-                                setShowDialog(false)
-                                resultValue(true)
-                            }
-                        },
                         colors = ButtonDefaults.textButtonColors(
                             containerColor = DialogBackGray,
                             contentColor = DialogBackGray
@@ -306,7 +243,6 @@ fun DatePickerDialog(
                             .height(50.dp),
                         onClick = {
                             setShowDialog(false)
-                            resultValue(true)
                         },
                         colors = ButtonDefaults.textButtonColors(
                             containerColor = DialogBackGray,
