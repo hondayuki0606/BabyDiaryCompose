@@ -49,10 +49,10 @@ fun EventEditDialog(
     setShowDialog: (Boolean) -> Unit,
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
-    val datePickerDialog = remember { mutableStateOf(false) }
+    val dateUpdateDialog = remember { mutableStateOf(false) }
     // 日時ダイアログ
-    if (datePickerDialog.value)
-        DatePickerDialog(
+    if (dateUpdateDialog.value)
+        DateUpdateDialog(
             eventName = event.eventName,
             selectedDate = event.yearAndMonthAndDay,
             hour = 12,
@@ -62,7 +62,7 @@ fun EventEditDialog(
             setShowDialog = {
             },
             resultValue = {
-                datePickerDialog.value = !it
+                dateUpdateDialog.value = !it
                 setShowDialog(false)
             },
             editMode = true
@@ -162,7 +162,7 @@ fun EventEditDialog(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
                         ) {
-                            datePickerDialog.value = true
+                            dateUpdateDialog.value = true
                         }
                 )
 
