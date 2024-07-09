@@ -61,10 +61,9 @@ fun DateUpdateDialog(
     editMode: Boolean = false
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
-    val currentDateTime = LocalDateTime.now()
-    ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
-    val hour = currentDateTime.hour
-    val minutes = currentDateTime.minute
+    val split = selectedDate.split("/")
+    val hour = split[0]
+    val minutes = split[1]
     var hourState by remember { mutableStateOf(hour.toString()) }
     var minutesState by remember { mutableStateOf(minutes.toString()) }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
