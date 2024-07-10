@@ -52,8 +52,7 @@ import java.time.format.DateTimeFormatter
 fun DateUpdateDialog(
     eventName: String,
     selectedDate: String,
-    hour: Int,
-    minutes: Int,
+    time: String,
     resIcon: Int,
     uid: Int? = null,
     setShowDialog: (Boolean) -> Unit,
@@ -61,11 +60,11 @@ fun DateUpdateDialog(
     editMode: Boolean = false
 ) {
     val viewModel: RecordingViewModel = hiltViewModel()
-    val split = selectedDate.split("/")
+    val split = time.split(":")
     val hour = split[0]
     val minutes = split[1]
-    var hourState by remember { mutableStateOf(hour.toString()) }
-    var minutesState by remember { mutableStateOf(minutes.toString()) }
+    var hourState by remember { mutableStateOf(hour) }
+    var minutesState by remember { mutableStateOf(minutes) }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             color = Color(0x00000000),
@@ -209,7 +208,7 @@ fun DateUpdateDialog(
                                         viewModel.addEventList(
                                             eventList
                                         )
-                                        setShowDialog(false)
+                                        resultValue(true)
                                     }
                                 }
                             }
@@ -232,7 +231,7 @@ fun DateUpdateDialog(
                             .fillMaxWidth()
                             .height(50.dp),
                         onClick = {
-                            setShowDialog(false)
+                            resultValue(false)
                         },
                         colors = ButtonDefaults.textButtonColors(
                             containerColor = DialogBackGray,

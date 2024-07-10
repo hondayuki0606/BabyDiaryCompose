@@ -55,8 +55,7 @@ fun EventEditDialog(
         DateUpdateDialog(
             eventName = event.eventName,
             selectedDate = event.yearAndMonthAndDay,
-            hour = 12,
-            minutes = 2,
+            time = event.time,
             resIcon = event.imageUrl,
             uid = event.uid,
             setShowDialog = {
