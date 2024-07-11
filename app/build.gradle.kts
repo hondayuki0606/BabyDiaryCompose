@@ -144,6 +144,20 @@ dependencies {
     androidTestImplementation("io.mockk:mockk-agent:1.13.5")
     implementation("com.google.accompanist:accompanist-webview:0.28.0")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    /**
+     * Swagger Annotations
+     * Swagger Models
+     * Jakarta Annotations API
+     */
+    compileOnly("io.swagger.core.v3:swagger-annotations:2.2.4")
+    compileOnly("io.swagger.core.v3:swagger-models:2.2.4")
+    compileOnly("jakarta.annotation:jakarta.annotation-api:2.1.1")
+
+    /**
+     * Spring Boot Starter Validation
+     */
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
 //dependencies {
