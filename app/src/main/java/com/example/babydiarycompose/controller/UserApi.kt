@@ -13,14 +13,13 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.apis
+package com.example.api.controller
 
 import java.io.IOException
 import okhttp3.OkHttpClient
 import okhttp3.HttpUrl
 
-import org.openapitools.client.models.ModelApiResponse
-import org.openapitools.client.models.Pet
+import com.example.api.models.User
 
 import com.squareup.moshi.Json
 
@@ -38,7 +37,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -47,9 +46,9 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
-     * Add a new pet to the store
-     * 
-     * @param body Pet object that needs to be added to the store
+     * Create user
+     * This can only be done by the logged in user.
+     * @param body Created user object
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -58,8 +57,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun addPet(body: Pet) : Unit {
-        val localVarResponse = addPetWithHttpInfo(body = body)
+    fun createUser(body: User) : Unit {
+        val localVarResponse = createUserWithHttpInfo(body = body)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -77,49 +76,47 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
-     * Add a new pet to the store
-     * 
-     * @param body Pet object that needs to be added to the store
+     * Create user
+     * This can only be done by the logged in user.
+     * @param body Created user object
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun addPetWithHttpInfo(body: Pet) : ApiResponse<Unit?> {
-        val localVariableConfig = addPetRequestConfig(body = body)
+    fun createUserWithHttpInfo(body: User) : ApiResponse<Unit?> {
+        val localVariableConfig = createUserRequestConfig(body = body)
 
-        return request<Pet, Unit>(
+        return request<User, Unit>(
             localVariableConfig
         )
     }
 
     /**
-     * To obtain the request config of the operation addPet
+     * To obtain the request config of the operation createUser
      *
-     * @param body Pet object that needs to be added to the store
+     * @param body Created user object
      * @return RequestConfig
      */
-    fun addPetRequestConfig(body: Pet) : RequestConfig<Pet> {
+    fun createUserRequestConfig(body: User) : RequestConfig<User> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Content-Type"] = "application/json"
         
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet",
+            path = "/user",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = true,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
 
     /**
-     * Deletes a pet
+     * Creates list of users with given input array
      * 
-     * @param petId Pet id to delete
-     * @param apiKey  (optional)
+     * @param body List of user object
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -128,8 +125,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null) : Unit {
-        val localVarResponse = deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
+    fun createUsersWithArrayInput(body: kotlin.collections.List<User>) : Unit {
+        val localVarResponse = createUsersWithArrayInputWithHttpInfo(body = body)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -147,17 +144,152 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
-     * Deletes a pet
+     * Creates list of users with given input array
      * 
-     * @param petId Pet id to delete
-     * @param apiKey  (optional)
+     * @param body List of user object
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : ApiResponse<Unit?> {
-        val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
+    fun createUsersWithArrayInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiResponse<Unit?> {
+        val localVariableConfig = createUsersWithArrayInputRequestConfig(body = body)
+
+        return request<kotlin.collections.List<User>, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation createUsersWithArrayInput
+     *
+     * @param body List of user object
+     * @return RequestConfig
+     */
+    fun createUsersWithArrayInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+        val localVariableBody = body
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/user/createWithArray",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun createUsersWithListInput(body: kotlin.collections.List<User>) : Unit {
+        val localVarResponse = createUsersWithListInputWithHttpInfo(body = body)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun createUsersWithListInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiResponse<Unit?> {
+        val localVariableConfig = createUsersWithListInputRequestConfig(body = body)
+
+        return request<kotlin.collections.List<User>, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation createUsersWithListInput
+     *
+     * @param body List of user object
+     * @return RequestConfig
+     */
+    fun createUsersWithListInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+        val localVariableBody = body
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/user/createWithList",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param username The name that needs to be deleted
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun deleteUser(username: kotlin.String) : Unit {
+        val localVarResponse = deleteUserWithHttpInfo(username = username)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param username The name that needs to be deleted
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun deleteUserWithHttpInfo(username: kotlin.String) : ApiResponse<Unit?> {
+        val localVariableConfig = deleteUserRequestConfig(username = username)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -165,42 +297,31 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
-     * To obtain the request config of the operation deletePet
+     * To obtain the request config of the operation deleteUser
      *
-     * @param petId Pet id to delete
-     * @param apiKey  (optional)
+     * @param username The name that needs to be deleted
      * @return RequestConfig
      */
-    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String?) : RequestConfig<Unit> {
+    fun deleteUserRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = true,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
 
     /**
-     * enum for parameter status
-     */
-     enum class StatusFindPetsByStatus(val value: kotlin.String) {
-         @Json(name = "available") available("available"),
-         @Json(name = "pending") pending("pending"),
-         @Json(name = "sold") sold("sold")
-     }
-
-    /**
-     * Finds Pets by status
-     * Multiple status values can be provided with comma separated strings
-     * @param status Status values that need to be considered for filter
-     * @return kotlin.collections.List<Pet>
+     * Get user by user name
+     * 
+     * @param username The name that needs to be fetched. Use user1 for testing. 
+     * @return User
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -209,11 +330,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : kotlin.collections.List<Pet> {
-        val localVarResponse = findPetsByStatusWithHttpInfo(status = status)
+    fun getUserByName(username: kotlin.String) : User {
+        val localVarResponse = getUserByNameWithHttpInfo(username = username)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as User
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -228,178 +349,30 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
-     * Finds Pets by status
-     * Multiple status values can be provided with comma separated strings
-     * @param status Status values that need to be considered for filter
-     * @return ApiResponse<kotlin.collections.List<Pet>?>
+     * Get user by user name
+     * 
+     * @param username The name that needs to be fetched. Use user1 for testing. 
+     * @return ApiResponse<User?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> {
-        val localVariableConfig = findPetsByStatusRequestConfig(status = status)
+    fun getUserByNameWithHttpInfo(username: kotlin.String) : ApiResponse<User?> {
+        val localVariableConfig = getUserByNameRequestConfig(username = username)
 
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return request<Unit, User>(
             localVariableConfig
         )
     }
 
     /**
-     * To obtain the request config of the operation findPetsByStatus
+     * To obtain the request config of the operation getUserByName
      *
-     * @param status Status values that need to be considered for filter
+     * @param username The name that needs to be fetched. Use user1 for testing. 
      * @return RequestConfig
      */
-    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<StatusFindPetsByStatus>) : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
-            .apply {
-                put("status", toMultiValue(status.toList(), "csv"))
-            }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
-
-        return RequestConfig(
-            method = RequestMethod.GET,
-            path = "/pet/findByStatus",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = true,
-            body = localVariableBody
-        )
-    }
-
-    /**
-     * Finds Pets by tags
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @param tags Tags to filter by
-     * @return kotlin.collections.List<Pet>
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     * @throws UnsupportedOperationException If the API returns an informational or redirection response
-     * @throws ClientException If the API returns a client error response
-     * @throws ServerException If the API returns a server error response
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
-        val localVarResponse = findPetsByTagsWithHttpInfo(tags = tags)
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-     * Finds Pets by tags
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @param tags Tags to filter by
-     * @return ApiResponse<kotlin.collections.List<Pet>?>
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>) : ApiResponse<kotlin.collections.List<Pet>?> {
-        val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
-
-        return request<Unit, kotlin.collections.List<Pet>>(
-            localVariableConfig
-        )
-    }
-
-    /**
-     * To obtain the request config of the operation findPetsByTags
-     *
-     * @param tags Tags to filter by
-     * @return RequestConfig
-     */
-    fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
-            .apply {
-                put("tags", toMultiValue(tags.toList(), "csv"))
-            }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
-
-        return RequestConfig(
-            method = RequestMethod.GET,
-            path = "/pet/findByTags",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = true,
-            body = localVariableBody
-        )
-    }
-
-    /**
-     * Find pet by ID
-     * Returns a single pet
-     * @param petId ID of pet to return
-     * @return Pet
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     * @throws UnsupportedOperationException If the API returns an informational or redirection response
-     * @throws ClientException If the API returns a client error response
-     * @throws ServerException If the API returns a server error response
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getPetById(petId: kotlin.Long) : Pet {
-        val localVarResponse = getPetByIdWithHttpInfo(petId = petId)
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as Pet
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-     * Find pet by ID
-     * Returns a single pet
-     * @param petId ID of pet to return
-     * @return ApiResponse<Pet?>
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class)
-    fun getPetByIdWithHttpInfo(petId: kotlin.Long) : ApiResponse<Pet?> {
-        val localVariableConfig = getPetByIdRequestConfig(petId = petId)
-
-        return request<Unit, Pet>(
-            localVariableConfig
-        )
-    }
-
-    /**
-     * To obtain the request config of the operation getPetById
-     *
-     * @param petId ID of pet to return
-     * @return RequestConfig
-     */
-    fun getPetByIdRequestConfig(petId: kotlin.Long) : RequestConfig<Unit> {
+    fun getUserByNameRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -407,18 +380,95 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = true,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }
 
     /**
-     * Update an existing pet
+     * Logs user into the system
      * 
-     * @param body Pet object that needs to be added to the store
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return kotlin.String
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
+        val localVarResponse = loginUserWithHttpInfo(username = username, password = password)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * Logs user into the system
+     * 
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return ApiResponse<kotlin.String?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : ApiResponse<kotlin.String?> {
+        val localVariableConfig = loginUserRequestConfig(username = username, password = password)
+
+        return request<Unit, kotlin.String>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation loginUser
+     *
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return RequestConfig
+     */
+    fun loginUserRequestConfig(username: kotlin.String, password: kotlin.String) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("username", listOf(username.toString()))
+                put("password", listOf(password.toString()))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/user/login",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * Logs out current logged in user session
+     * 
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -427,8 +477,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePet(body: Pet) : Unit {
-        val localVarResponse = updatePetWithHttpInfo(body = body)
+    fun logoutUser() : Unit {
+        val localVarResponse = logoutUserWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -446,195 +496,108 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     }
 
     /**
-     * Update an existing pet
+     * Logs out current logged in user session
      * 
-     * @param body Pet object that needs to be added to the store
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun updatePetWithHttpInfo(body: Pet) : ApiResponse<Unit?> {
-        val localVariableConfig = updatePetRequestConfig(body = body)
+    fun logoutUserWithHttpInfo() : ApiResponse<Unit?> {
+        val localVariableConfig = logoutUserRequestConfig()
 
-        return request<Pet, Unit>(
+        return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
     /**
-     * To obtain the request config of the operation updatePet
+     * To obtain the request config of the operation logoutUser
      *
-     * @param body Pet object that needs to be added to the store
      * @return RequestConfig
      */
-    fun updatePetRequestConfig(body: Pet) : RequestConfig<Pet> {
+    fun logoutUserRequestConfig() : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/user/logout",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateUser(username: kotlin.String, body: User) : Unit {
+        val localVarResponse = updateUserWithHttpInfo(username = username, body = body)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateUserWithHttpInfo(username: kotlin.String, body: User) : ApiResponse<Unit?> {
+        val localVariableConfig = updateUserRequestConfig(username = username, body = body)
+
+        return request<User, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updateUser
+     *
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     * @return RequestConfig
+     */
+    fun updateUserRequestConfig(username: kotlin.String, body: User) : RequestConfig<User> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Content-Type"] = "application/json"
         
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/pet",
+            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = true,
-            body = localVariableBody
-        )
-    }
-
-    /**
-     * Updates a pet in the store with form data
-     * 
-     * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet (optional)
-     * @param status Updated status of the pet (optional)
-     * @return void
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     * @throws UnsupportedOperationException If the API returns an informational or redirection response
-     * @throws ClientException If the API returns a client error response
-     * @throws ServerException If the API returns a server error response
-     */
-    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : Unit {
-        val localVarResponse = updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-     * Updates a pet in the store with form data
-     * 
-     * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet (optional)
-     * @param status Updated status of the pet (optional)
-     * @return ApiResponse<Unit?>
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     */
-    @Throws(IllegalStateException::class, IOException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : ApiResponse<Unit?> {
-        val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
-
-        return request<Map<String, PartConfig<*>>, Unit>(
-            localVariableConfig
-        )
-    }
-
-    /**
-     * To obtain the request config of the operation updatePetWithForm
-     *
-     * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet (optional)
-     * @param status Updated status of the pet (optional)
-     * @return RequestConfig
-     */
-    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
-        val localVariableBody = mapOf(
-            "name" to PartConfig(body = name, headers = mutableMapOf()),
-            "status" to PartConfig(body = status, headers = mutableMapOf()),)
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
-        
-        return RequestConfig(
-            method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = true,
-            body = localVariableBody
-        )
-    }
-
-    /**
-     * uploads an image
-     * 
-     * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
-     * @return ModelApiResponse
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     * @throws UnsupportedOperationException If the API returns an informational or redirection response
-     * @throws ClientException If the API returns a client error response
-     * @throws ServerException If the API returns a server error response
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : ModelApiResponse {
-        val localVarResponse = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as ModelApiResponse
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-     * uploads an image
-     * 
-     * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
-     * @return ApiResponse<ModelApiResponse?>
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse<ModelApiResponse?> {
-        val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
-
-        return request<Map<String, PartConfig<*>>, ModelApiResponse>(
-            localVariableConfig
-        )
-    }
-
-    /**
-     * To obtain the request config of the operation uploadFile
-     *
-     * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
-     * @return RequestConfig
-     */
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
-        val localVariableBody = mapOf(
-            "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
-            "file" to PartConfig(body = file, headers = mutableMapOf()),)
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
-        localVariableHeaders["Accept"] = "application/json"
-
-        return RequestConfig(
-            method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = true,
+            requiresAuthentication = false,
             body = localVariableBody
         )
     }

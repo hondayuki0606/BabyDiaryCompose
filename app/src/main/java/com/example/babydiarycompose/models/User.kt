@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package com.example.babydiarycompose.models
 
 
 import com.squareup.moshi.Json
