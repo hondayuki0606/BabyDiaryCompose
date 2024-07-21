@@ -157,6 +157,12 @@ dependencies {
     /**
      * Spring Boot Starter Validation
      */
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 //    implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
