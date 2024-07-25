@@ -1,7 +1,8 @@
 #java -jar openapi-generator-cli.jar generate -g kotlin --additional-properties=prependFormOrBodyParameters=true -o out -i yaml/pet.yaml
 #java -jar openapi-generator-cli.jar generate -g kotlin --additional-properties=prependFormOrBodyParameters=true -o out -i yaml/store.yaml
 #java -jar openapi-generator-cli.jar generate -g kotlin --additional-properties=prependFormOrBodyParameters=true -o out -i 
-java -jar openapi-generator-cli.jar generate -i yaml/user.yaml -g kotlin -o out --group-id com.example --api-package com.example.babydiarycompose.api --model-package com.example.babydiarycompose.models
+java -jar openapi-generator-cli.jar generate -i yaml/test2.yaml -g kotlin -o out --package-name com.example.babydiarycompose --group-id com.example --api-package com.example.babydiarycompose.api --model-package com.example.babydiarycompose.models
+#java -jar openapi-generator-cli.jar generate -i yaml/user.yaml -g kotlin -o out --package-name com.example.babydiarycompose --group-id com.example --api-package com.example.babydiarycompose.api --model-package com.example.babydiarycompose.models
 
 #java -jar openapi-generator-cli.jar generate \
 #  -i yaml/user.yaml  \
@@ -15,4 +16,5 @@ java -jar openapi-generator-cli.jar generate -i yaml/user.yaml -g kotlin -o out 
 #  --model-package com.example.api.model
 cp -r out/src/main/kotlin/com/example/babydiarycompose/api ../../app/src/main/java/com/example/babydiarycompose/
 cp -r out/src/main/kotlin/com/example/babydiarycompose/models ../../app/src/main/java/com/example/babydiarycompose/
+cp -r out/src/main/kotlin/com/example/babydiarycompose/infrastructure ../../app/src/main/java/com/example/babydiarycompose/
 rm -r ./out
