@@ -23,19 +23,19 @@ import com.example.babydiarycompose.models.User
 
 import com.squareup.moshi.Json
 
-import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiResponse
-import org.openapitools.client.infrastructure.ClientException
-import org.openapitools.client.infrastructure.ClientError
-import org.openapitools.client.infrastructure.ServerException
-import org.openapitools.client.infrastructure.ServerError
-import org.openapitools.client.infrastructure.MultiValueMap
-import org.openapitools.client.infrastructure.PartConfig
-import org.openapitools.client.infrastructure.RequestConfig
-import org.openapitools.client.infrastructure.RequestMethod
-import org.openapitools.client.infrastructure.ResponseType
-import org.openapitools.client.infrastructure.Success
-import org.openapitools.client.infrastructure.toMultiValue
+import com.example.babydiarycompose.infrastructure.ApiClient
+import com.example.babydiarycompose.infrastructure.ApiResponse
+import com.example.babydiarycompose.infrastructure.ClientException
+import com.example.babydiarycompose.infrastructure.ClientError
+import com.example.babydiarycompose.infrastructure.ServerException
+import com.example.babydiarycompose.infrastructure.ServerError
+import com.example.babydiarycompose.infrastructure.MultiValueMap
+import com.example.babydiarycompose.infrastructure.PartConfig
+import com.example.babydiarycompose.infrastructure.RequestConfig
+import com.example.babydiarycompose.infrastructure.RequestMethod
+import com.example.babydiarycompose.infrastructure.ResponseType
+import com.example.babydiarycompose.infrastructure.Success
+import com.example.babydiarycompose.infrastructure.toMultiValue
 
 class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
