@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.data.GrowthCurveUiState
+import com.example.babydiarycompose.models.User
 import com.example.babydiarycompose.repository.EventRepository
+import com.example.babydiarycompose.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
-    private val eventRepository: EventRepository
+    private val eventRepository: EventRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(
         GrowthCurveUiState(
@@ -50,6 +53,14 @@ class MenuViewModel @Inject constructor(
 //                if (result) {
 //                    getEventList(appContext)
 //                }
+            }
+        }
+    }
+
+    fun createUser(appContext: Context, eventList: List<EventData>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.createUser(User(0)).let { result ->
+
             }
         }
     }

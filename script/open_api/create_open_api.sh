@@ -1,7 +1,15 @@
+#!/bin/bash
 #java -jar openapi-generator-cli.jar generate -g kotlin --additional-properties=prependFormOrBodyParameters=true -o out -i yaml/pet.yaml
 #java -jar openapi-generator-cli.jar generate -g kotlin --additional-properties=prependFormOrBodyParameters=true -o out -i yaml/store.yaml
 #java -jar openapi-generator-cli.jar generate -g kotlin --additional-properties=prependFormOrBodyParameters=true -o out -i 
-java -jar openapi-generator-cli.jar generate -i yaml/user.yaml -g kotlin -o out --package-name com.example.babydiarycompose --group-id com.example --api-package com.example.babydiarycompose.api --model-package com.example.babydiarycompose.models
+java -jar openapi-generator-cli.jar generate \
+    --input-spec yaml/user.yaml \
+    --generator-name kotlin \
+    --output ./out \
+    --package-name com.example.babydiarycompose \
+    --group-id com.example \
+    --api-package com.example.babydiarycompose.api \
+    --model-package com.example.babydiarycompose.models 
 #java -jar openapi-generator-cli.jar generate -i yaml/user.yaml -g kotlin -o out --package-name com.example.babydiarycompose --group-id com.example --api-package com.example.babydiarycompose.api --model-package com.example.babydiarycompose.models
 
 #java -jar openapi-generator-cli.jar generate \
