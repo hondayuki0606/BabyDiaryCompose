@@ -9,6 +9,7 @@ java -jar openapi-generator-cli.jar generate \
     --package-name com.example.babydiarycompose \
     --group-id com.example \
     --api-package com.example.babydiarycompose.api \
+    --invoker-package com.example.babydiarycompose.invoker \
     --model-package com.example.babydiarycompose.models 
 #java -jar openapi-generator-cli.jar generate -i yaml/user.yaml -g kotlin -o out --package-name com.example.babydiarycompose --group-id com.example --api-package com.example.babydiarycompose.api --model-package com.example.babydiarycompose.models
 
@@ -24,5 +25,5 @@ java -jar openapi-generator-cli.jar generate \
 #  --model-package com.example.api.model
 cp -r out/src/main/kotlin/com/example/babydiarycompose/api ../../app/src/main/java/com/example/babydiarycompose/
 cp -r out/src/main/kotlin/com/example/babydiarycompose/models ../../app/src/main/java/com/example/babydiarycompose/
-cp -r out/src/main/kotlin/com/example/babydiarycompose/infrastructure ../../app/src/main/java/com/example/babydiarycompose/
+cp -r out/src/main/kotlin/com/example/babydiarycompose/invoker ../../app/src/main/java/com/example/babydiarycompose/
 rm -r ./out
