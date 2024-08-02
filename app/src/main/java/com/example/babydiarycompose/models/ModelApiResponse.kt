@@ -16,8 +16,9 @@
 package com.example.babydiarycompose.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
 
 /**
  * 
@@ -26,17 +27,17 @@ import com.squareup.moshi.JsonClass
  * @param type 
  * @param message 
  */
-
+@Serializable
 
 data class ModelApiResponse (
 
-    @Json(name = "code")
+    @SerialName(value = "code")
     val code: kotlin.Int? = null,
 
-    @Json(name = "type")
+    @SerialName(value = "type")
     val type: kotlin.String? = null,
 
-    @Json(name = "message")
+    @SerialName(value = "message")
     val message: kotlin.String? = null
 
 ) {
