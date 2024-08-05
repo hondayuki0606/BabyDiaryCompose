@@ -168,6 +168,13 @@ dependencies {
 
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+
+// Retrofit
+    val retrofit2_version = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2_version")
+    // Retrofit with moshi Converter
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit2_version")
+
 }
 
 //dependencies {
