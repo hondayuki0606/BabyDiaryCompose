@@ -1,4 +1,15 @@
 #!/bin/bash
+
+
+# babydiarycompose の API Client のパッケージ
+BABY_DIARY_COMPOSE_PACKAGE=com.example.babydiarycompose
+
+# プロジェクト内の API Client のディレクトリ
+API_CLIENT_DIR=$SCRIPT_DIR/apiclient/src/main/kotlin/dev/honwakalab/linkmark/apiclient
+echo --package-name $BABY_DIARY_COMPOSE_PACKAGE
+echo --api-package $BABY_DIARY_COMPOSE_PACKAGE.api
+echo --invoker-package $BABY_DIARY_COMPOSE_PACKAGE.invoker
+echo --model-package $BABY_DIARY_COMPOSE_PACKAGE.models
 java -jar openapi-generator-cli.jar generate \
     --input-spec yaml/user.yaml \
     --library jvm-retrofit2 \
@@ -6,9 +17,10 @@ java -jar openapi-generator-cli.jar generate \
     --output ./out \
     --package-name com.example.babydiarycompose \
     --group-id com.example \
-    --api-package com.example.babydiarycompose.api \
-    --invoker-package com.example.babydiarycompose.invoker \
-    --model-package com.example.babydiarycompose.models \
+    --package-name $BABY_DIARY_COMPOSE_PACKAGE \
+    --api-package $BABY_DIARY_COMPOSE_PACKAGE.api \
+    --invoker-package $BABY_DIARY_COMPOSE_PACKAGE.invoker \
+    --model-package $BABY_DIARY_COMPOSE_PACKAGE.models \
     --additional-properties collectionType=list,dateLibrary=java8,enumPropertyNaming=UPPERCASE,serializationLibrary=kotlinx_serialization,useCoroutines=true
     #useCoroutines=true はsuspend付与
     #dateLibrary=java8 は変化なし
