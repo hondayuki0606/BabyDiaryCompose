@@ -29,4 +29,5 @@ java -jar openapi-generator-cli.jar generate \
 cp -r out/src/main/kotlin/com/example/babydiarycompose/api ../../app/src/main/java/com/example/babydiarycompose/
 cp -r out/src/main/kotlin/com/example/babydiarycompose/models ../../app/src/main/java/com/example/babydiarycompose/
 cp -r out/src/main/kotlin/com/example/babydiarycompose/infrastructure ../../app/src/main/java/com/example/babydiarycompose/
+cp -r out/src/main/kotlin/com/example/babydiarycompose/auth ../../app/src/main/java/com/example/babydiarycompose/
 rm -r ./out
