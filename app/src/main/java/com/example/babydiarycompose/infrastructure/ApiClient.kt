@@ -16,8 +16,8 @@ import retrofit2.Converter
 import retrofit2.CallAdapter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.example.babydiarycompose.infrastructure.Serializer.kotlinxSerializationJson
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import okhttp3.MediaType.Companion.toMediaType
 
 class ApiClient(

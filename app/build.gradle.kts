@@ -166,15 +166,19 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
-    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
 
-// Retrofit
+    // Retrofit
     val retrofit2_version = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofit2_version")
-    // Retrofit with moshi Converter
-    implementation("com.squareup.retrofit2:converter-moshi:$retrofit2_version")
-
+    // Retrofit with Scalar Converter
+    implementation("com.squareup.retrofit2:converter-scalars:$retrofit2_version")
+//    implementation("com.squareup.retrofit2:converter-moshi:$retrofit2_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.1")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1")
 }
 
 //dependencies {
