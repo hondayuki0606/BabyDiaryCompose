@@ -10,14 +10,14 @@ import retrofit2.Converter
 import retrofit2.CallAdapter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.example.babydiarycompose.infrastructure.Serializer.kotlinxSerializationJson
 import okhttp3.MediaType.Companion.toMediaType
 
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val callFactory: Call.Factory? = null,
+    private val callFactory : Call.Factory? = null,
     private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
     ),
     private val converterFactories: List<Converter.Factory> = listOf(
@@ -92,7 +92,7 @@ class ApiClient(
 
     private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
         for (element in this) {
-            if (element is U) {
+            if (element is U)  {
                 callback.invoke(element)
                 break
             }
@@ -105,7 +105,7 @@ class ApiClient(
 
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(baseUrlKey, "http://localhost")
         }
     }
 }
