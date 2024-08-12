@@ -80,6 +80,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+        resources.excludes.addAll(
+            listOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+            )
+        )
     }
 }
 
@@ -107,7 +113,7 @@ dependencies {
     testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48")
     kspAndroidTest("com.google.dagger:hilt-android-compiler:2.48")
-    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
+//    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
 
     // constraintlayout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
@@ -154,31 +160,21 @@ dependencies {
     compileOnly("io.swagger.core.v3:swagger-models:2.2.4")
     compileOnly("jakarta.annotation:jakarta.annotation-api:2.1.1")
 
-    /**
-     * Spring Boot Starter Validation
-     */
-//    implementation("org.springframework.boot:spring-boot-starter-validation")
-
-    // define a BOM and its version
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-
     // define any required OkHttp artifacts without version
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
 
     // Retrofit
-    val retrofit2_version = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:$retrofit2_version")
+    val retrofit2Version = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
     // Retrofit with Scalar Converter
-    implementation("com.squareup.retrofit2:converter-scalars:$retrofit2_version")
-//    implementation("com.squareup.retrofit2:converter-moshi:$retrofit2_version")
+    implementation("com.squareup.retrofit2:converter-scalars:$retrofit2Version")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.1")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
-    implementation("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1")
 }
 
 //dependencies {
