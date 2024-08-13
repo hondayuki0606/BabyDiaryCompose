@@ -39,6 +39,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "DEBUG_BASE_URL_KEY", "DEBUG_BASE_URL_KEY")
+        }
+        debug {
+            buildConfigField("String", "RELEASE_BASE_URL_KEY", "localhost")
         }
     }
 //    compileOptions {
@@ -113,7 +117,6 @@ dependencies {
     testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48")
     kspAndroidTest("com.google.dagger:hilt-android-compiler:2.48")
-//    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
 
     // constraintlayout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
