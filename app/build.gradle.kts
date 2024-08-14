@@ -39,10 +39,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "DEBUG_BASE_URL_KEY", "DEBUG_BASE_URL_KEY")
+//            buildConfigField("String", "DEBUG_BASE_URL_KEY", "DEBUG_BASE_URL_KEY")
         }
         debug {
-            buildConfigField("String", "RELEASE_BASE_URL_KEY", "localhost")
+//            buildConfigField("String", "RELEASE_BASE_URL_KEY", "localhost")
         }
     }
 //    compileOptions {
