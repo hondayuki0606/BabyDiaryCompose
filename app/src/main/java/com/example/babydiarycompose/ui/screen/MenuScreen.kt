@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.data.Screen
 import com.example.babydiarycompose.listener.ScreenTransitionListener
 import com.example.babydiarycompose.ui.button.MenuButton
@@ -34,9 +35,14 @@ import com.example.babydiarycompose.ui.button.MenuIconButton
 import com.example.babydiarycompose.ui.button.TopMenuButton
 import com.example.babydiarycompose.ui.theme.Dark
 import com.example.babydiarycompose.ui.theme.White
+import com.example.babydiarycompose.viewmodel.MenuViewModel
 
 @Composable
-fun MenuScreen(screenTransitionListener: ScreenTransitionListener) {
+fun MenuScreen(
+    viewModel: MenuViewModel = hiltViewModel(),
+    screenTransitionListener: ScreenTransitionListener
+) {
+    viewModel.createUser(1L)
     Column(
         modifier = Modifier
             .fillMaxSize()

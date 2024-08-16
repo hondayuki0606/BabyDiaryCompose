@@ -49,7 +49,7 @@ class MenuViewModel @Inject constructor(
 
     fun addEventList(appContext: Context, eventList: List<EventData>) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.addEventList( eventList).let { result ->
+            eventRepository.addEventList(eventList).let { result ->
 //                if (result) {
 //                    getEventList(appContext)
 //                }
@@ -57,17 +57,17 @@ class MenuViewModel @Inject constructor(
         }
     }
 
-    fun createUser(appContext: Context, eventList: List<EventData>) {
+    fun createUser(userId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            userRepository.createUser(User(0)).let { result ->
+            userRepository.createUser(User(userId)).let { result ->
 
             }
         }
     }
 
-    fun getEventList(appContext: Context,currentData: String) {
+    fun getEventList(appContext: Context, currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            eventRepository.getEventList( currentData).let { eventList ->
+            eventRepository.getEventList(currentData).let { eventList ->
 
                 _uiState.update {
                     it.copy(

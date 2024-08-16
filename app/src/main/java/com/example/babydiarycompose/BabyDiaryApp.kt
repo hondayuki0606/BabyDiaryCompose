@@ -268,7 +268,7 @@ fun BabyDiaryApp() {
                                 navController.navigate(screenName)
                             }
                         }
-                        MenuScreen(settingsTransitionListener)
+                        MenuScreen(screenTransitionListener = settingsTransitionListener)
                         isDisplayedNavigationBar = true
                     }
                 }
