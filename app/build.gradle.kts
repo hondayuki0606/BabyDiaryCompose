@@ -39,10 +39,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            buildConfigField("String", "DEBUG_BASE_URL_KEY", "DEBUG_BASE_URL_KEY")
+            buildConfigField("String", "BASE_URL", "\"http://localhost:1337\"")
         }
         debug {
-//            buildConfigField("String", "RELEASE_BASE_URL_KEY", "localhost")
+            buildConfigField("String", "BASE_URL", "\"http://localhost:1337\"")
         }
     }
 //    compileOptions {
