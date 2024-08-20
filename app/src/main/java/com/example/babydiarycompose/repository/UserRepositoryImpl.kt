@@ -10,9 +10,19 @@ class UserRepositoryImpl @Inject constructor(
     private val userApi: UserApi
 ) : UserRepository {
 
-    override suspend fun createUser(user: User) {
+    override suspend fun createUser(user: User): Boolean {
         try {
             val ret = userApi.createUser(user)
+            return true
+        } catch (e: IllegalArgumentException) {
+            Log.e("", e.stackTraceToString())
+        }
+        return false
+    }
+
+    override suspend fun loginUser() {
+        try {
+            val ret = userApi.loginUser(username="", password = "")
         } catch (e: IllegalArgumentException) {
             Log.e("", e.stackTraceToString())
         }

@@ -3,5 +3,7 @@ package com.example.babydiarycompose.repository
 import com.example.babydiarycompose.models.User
 
 interface UserRepository {
-    suspend fun  createUser(body: User)
+    suspend fun createUser(body: User): Boolean
+
+    suspend fun loginUser()
 }
