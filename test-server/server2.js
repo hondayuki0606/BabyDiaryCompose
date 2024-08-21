@@ -9,6 +9,20 @@ const courses = [
     { id: 3, name: 'business intelligence'},
 ];
 
+app.get('/user/login', (req, res) => {
+    if (req.query.username=='') {
+        console.log('userName is empty.');
+        return res.status(404).send(false);
+    }
+    if (req.query.password=='') {
+        console.log('password is empty.');
+        return res.status(404).send(false);
+    }
+    console.log(req.query.username);
+    console.log(req.query.password);
+    res.send(true);
+});
+
 app.get('/', (req, res) => {
     res.send('Simple REST API');
 });
