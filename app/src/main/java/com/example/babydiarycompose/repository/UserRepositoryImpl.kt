@@ -22,9 +22,13 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun loginUser() {
         try {
-            val ret = userApi.loginUser(username="", password = "")
+            val ret = userApi.loginUser(username = "", password = "")
+            val body = ret.body()
+            Log.i("", "honda body=$body")
         } catch (e: IllegalArgumentException) {
             Log.e("", e.stackTraceToString())
+        } catch (e: Exception) {
+
         }
     }
 }

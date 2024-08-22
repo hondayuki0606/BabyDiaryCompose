@@ -65,6 +65,14 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    fun loginUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.loginUser().let { result ->
+                val ret = result
+            }
+        }
+    }
+
     fun getEventList(appContext: Context, currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
             eventRepository.getEventList(currentData).let { eventList ->

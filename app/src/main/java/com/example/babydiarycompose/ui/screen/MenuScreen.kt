@@ -42,7 +42,7 @@ fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
     screenTransitionListener: ScreenTransitionListener
 ) {
-    viewModel.createUser(1L)
+    viewModel.loginUser()
     Column(
         modifier = Modifier
             .fillMaxSize()
