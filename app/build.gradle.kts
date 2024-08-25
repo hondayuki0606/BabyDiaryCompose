@@ -39,10 +39,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"http://localhost:3000\"")
+            buildConfigField("String", "BASE_URL", "\"https://babycompese.shop\"")
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://localhost:3000\"")
+            buildConfigField("String", "BASE_URL", "\"https://babycompese.shop\"")
         }
     }
 //    compileOptions {
