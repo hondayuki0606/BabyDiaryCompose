@@ -65,6 +65,13 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    fun getUserByName(){
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.getUserByName().let { result ->
+                val ret = result
+            }
+        }
+    }
     fun loginUser() {
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.loginUser().let { result ->

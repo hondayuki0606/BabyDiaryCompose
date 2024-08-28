@@ -46,6 +46,7 @@ import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
 import com.example.babydiarycompose.ui.theme.WhiteGray
+import com.example.babydiarycompose.viewmodel.MenuViewModel
 
 
 @Composable
@@ -94,6 +95,7 @@ fun MenuIconButton(
     packageName: String = "",
     httpsUrl: String = "",
     screenName: String = "",
+    viewModel: MenuViewModel,
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
     Box(
@@ -123,6 +125,7 @@ fun MenuIconButton(
                     packageName,
                     httpsUrl,
                     screenName,
+                    viewModel,
                     screenTransitionListener
                 )
             }
@@ -154,7 +157,7 @@ fun MenuButton(
                 mainTitle = mainTitle,
                 subTitle = subTitle,
                 packageName = packageName,
-                httpsUrl = httpsUrl
+                httpsUrl = httpsUrl,
             )
             ArrowBackImage()
         }
@@ -309,11 +312,15 @@ fun TextButton(
     packageName: String = "",
     httpsUrl: String = "",
     screenName: String = "",
+    viewModel: MenuViewModel? = null,
     screenTransitionListener: ScreenTransitionListener? = null
 ) {
     val context = LocalContext.current
     Column(modifier = Modifier
         .clickable {
+            if (mainTitle == "めいたん") {
+                viewModel?.getUserByName()
+            }
             if (packageName.isNotEmpty()) {
                 val appUrl = "market://details?id=$packageName"
                 val intent = Intent(Intent.ACTION_VIEW)

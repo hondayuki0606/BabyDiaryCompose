@@ -20,13 +20,24 @@ class UserRepositoryImpl @Inject constructor(
         return false
     }
 
+    override suspend fun getUserByName() {
+        try {
+            val ret = userApi.getUserByName(username = "username")
+            val body = ret.body()
+            Log.i("getUserByName", "success. ret=$ret")
+            Log.i("getUserByName", "success. body=$body")
+        } catch (e: Exception) {
+            Log.e("getUserByName", "failure. ${e.stackTraceToString()}")
+        }
+    }
+
     override suspend fun loginUser() {
         try {
             val ret = userApi.loginUser(username = "1", password = "1")
             val body = ret.body()
-            Log.i("honda", "success. body=$body")
+            Log.i("loginUser", "success. body=$body")
         } catch (e: Exception) {
-            Log.e("honda", "failure. ${e.stackTraceToString()}")
+            Log.e("loginUser", "failure. ${e.stackTraceToString()}")
         }
     }
 }

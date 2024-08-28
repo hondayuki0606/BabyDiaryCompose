@@ -42,7 +42,6 @@ fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
     screenTransitionListener: ScreenTransitionListener
 ) {
-    viewModel.loginUser()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,10 +52,13 @@ fun MenuScreen(
         MenuIconButton(
             painterResourceId = Icons.Default.KeyboardArrowRight,
             mainTitle = "めいたん",
-            subTitle = "2023年10月14日"
+            subTitle = "2023年10月14日",
+            viewModel = viewModel
         )
         MenuIconButton(
-            painterResourceId = Icons.Default.Add, mainTitle = "赤ちゃんの追加・編集"
+            painterResourceId = Icons.Default.Add,
+            mainTitle = "赤ちゃんの追加・編集",
+            viewModel = viewModel
         )
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
@@ -64,12 +66,14 @@ fun MenuScreen(
             mainTitle = "アカウント",
             subTitle = "共有・引継ぎ・アカウントリンク",
             screenName = Screen.ACCOUNT.route,
+            viewModel = viewModel,
             screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Search,
             mainTitle = "記録・日記の検索",
             screenName = Screen.SEARCH_OF_RECORD_AND_DIARY.route,
+            viewModel = viewModel,
             screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
@@ -77,27 +81,31 @@ fun MenuScreen(
             mainTitle = "記録の出力",
             subTitle = "PDF・テキスト・印刷サービスについて",
             screenName = Screen.OUTPUT_OF_RECORD.route,
+            viewModel = viewModel,
             screenTransitionListener = screenTransitionListener,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Favorite,
             mainTitle = "食材リスト",
-            subTitle = "離乳初期の時期・アレルギー"
+            subTitle = "離乳初期の時期・アレルギー",
+            viewModel = viewModel,
         )
-        MenuIconButton(painterResourceId = Icons.Default.Info, mainTitle = "ヘルプ")
+        MenuIconButton(painterResourceId = Icons.Default.Info, mainTitle = "ヘルプ",  viewModel = viewModel,)
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
             painterResourceId = Icons.Default.Settings,
             mainTitle = "設定",
             subTitle = "カスタマイズや設定の変更はここから",
             screenName = Screen.SETTINGS.route,
+            viewModel = viewModel,
             screenTransitionListener = screenTransitionListener,
         )
         Spacer(modifier = Modifier.height(20.dp))
         MenuIconButton(
             painterResourceId = Icons.Default.KeyboardArrowRight,
             mainTitle = "プレミアムプランについて",
-            subTitle = "広告費表示・限定カラー追加など"
+            subTitle = "広告費表示・限定カラー追加など",
+            viewModel = viewModel,
         )
         Spacer(modifier = Modifier.height(20.dp))
         MenuButton(mainTitle = "お知らせ")
@@ -116,7 +124,8 @@ fun MenuScreen(
         MenuIconButton(
             painterResourceId = Icons.Default.Call,
             mainTitle = "公式Twitterアカウント",
-            httpsUrl = "https://twitter.com/piyolog_app"
+            httpsUrl = "https://twitter.com/piyolog_app",
+            viewModel = viewModel,
         )
         MenuButton(
             mainTitle = "半田ぴよログスポーツパーク",
@@ -129,18 +138,21 @@ fun MenuScreen(
             mainTitle = "陣痛タイマー by ぴよログ",
             subTitle = "陣痛間隔を計測、共有もできます",
             packageName = "jp.co.sakabou.paintimer",
+            viewModel = viewModel,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.DateRange,
             mainTitle = "ぴよログ予防接種",
             subTitle = "ぴよログと連携して予防接種を管理",
             packageName = "jp.co.sakabou.vaccine",
+            viewModel = viewModel,
         )
         MenuIconButton(
             painterResourceId = Icons.Default.Face,
             mainTitle = "すくすくプラス",
             subTitle = "もじ・かず・ちえを学ぶ幼児向けアプリ",
             packageName = "com.piyolog.sukusukuplus",
+            viewModel = viewModel,
         )
         Text(
             text = "V7.13.0\n" +
