@@ -20,7 +20,7 @@ interface UserApi {
      * @return [Unit]
      */
     @POST("user")
-    suspend fun createUser(@Body body: User): Response<Boolean>
+    suspend fun createUser(@Body body: User): Response<User>
 
     /**
      * Creates list of users with given input array

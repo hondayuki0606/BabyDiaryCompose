@@ -41,6 +41,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.babydiarycompose.listener.ScreenTransitionListener
+import com.example.babydiarycompose.models.User
 import com.example.babydiarycompose.ui.theme.BackButtonGray
 import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Pink
@@ -320,6 +321,9 @@ fun TextButton(
         .clickable {
             if (mainTitle == "めいたん") {
                 viewModel?.getUserByName()
+            }
+            if (mainTitle == "赤ちゃんの追加・編集") {
+                viewModel?.createUser(1)
             }
             if (packageName.isNotEmpty()) {
                 val appUrl = "market://details?id=$packageName"

@@ -39,13 +39,13 @@ data class User (
     @SerialName(value = "id")
     val id: kotlin.Long? = null,
 
-    @SerialName(value = "username")
+    @SerialName(value = "user_name")
     val username: kotlin.String? = null,
 
-    @SerialName(value = "firstName")
+    @SerialName(value = "first_name")
     val firstName: kotlin.String? = null,
 
-    @SerialName(value = "lastName")
+    @SerialName(value = "last_name")
     val lastName: kotlin.String? = null,
 
     @SerialName(value = "email")
@@ -58,7 +58,7 @@ data class User (
     val phone: kotlin.String? = null,
 
     /* User Status */
-    @SerialName(value = "userStatus")
+    @SerialName(value = "user_status")
     val userStatus: kotlin.Int? = null
 
 )

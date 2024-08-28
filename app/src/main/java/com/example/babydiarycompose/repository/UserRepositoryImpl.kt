@@ -13,6 +13,9 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun createUser(user: User): Boolean {
         try {
             val ret = userApi.createUser(user)
+            val body = ret.body()
+            Log.i("createUser", "success. ret=$ret")
+            Log.i("createUser", "success. body=$body")
             return true
         } catch (e: IllegalArgumentException) {
             Log.e("", e.stackTraceToString())
