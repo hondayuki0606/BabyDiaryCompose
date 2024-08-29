@@ -11,40 +11,16 @@ import com.example.babydiarycompose.models.User
 
 interface UserApi {
     /**
-     * Create user
-     * This can only be done by the logged in user.
+     * ユーザー作成
+     * ログインユーザーを作成する
      * Responses:
      *  - 0: successful operation
      *
-     * @param body Created user object
+     * @param user ユーザー情報
      * @return [Unit]
      */
     @POST("user")
-    suspend fun createUser(@Body body: User): Response<Boolean>
-
-    /**
-     * Creates list of users with given input array
-     * 
-     * Responses:
-     *  - 0: successful operation
-     *
-     * @param body List of user object
-     * @return [Unit]
-     */
-    @POST("user/createWithArray")
-    suspend fun createUsersWithArrayInput(@Body body: kotlin.collections.List<User>): Response<Unit>
-
-    /**
-     * Creates list of users with given input array
-     * 
-     * Responses:
-     *  - 0: successful operation
-     *
-     * @param body List of user object
-     * @return [Unit]
-     */
-    @POST("user/createWithList")
-    suspend fun createUsersWithListInput(@Body body: kotlin.collections.List<User>): Response<Unit>
+    suspend fun createUser(@Body user: User): Response<Unit>
 
     /**
      * Delete user

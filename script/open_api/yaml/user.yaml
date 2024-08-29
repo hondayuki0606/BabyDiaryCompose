@@ -35,63 +35,19 @@ paths:
     post:
       tags:
       - "user"
-      summary: "Create user"
-      description: "This can only be done by the logged in user."
+      summary: "ユーザー作成"
+      description: "ログインユーザーを作成する"
       operationId: "createUser"
       produces:
       - "application/xml"
       - "application/json"
       parameters:
       - in: "body"
-        name: "body"
-        description: "Created user object"
+        name: "user"
+        description: "ユーザー情報"
         required: true
         schema:
           $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/createWithArray:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithArrayInput"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/createWithList:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithListInput"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/User"
       responses:
         default:
           description: "successful operation"
@@ -236,22 +192,29 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-      username:
+        description: "ID"
+      user_name:
         type: "string"
-      firstName:
+        description: "ユーザー名"
+      first_name:
         type: "string"
-      lastName:
+        description: "苗字"
+      last_name:
         type: "string"
+        description: "名前"
       email:
         type: "string"
+        description: "Eメール"
       password:
         type: "string"
+        description: "パスワード"
       phone:
         type: "string"
-      userStatus:
+        description: "携帯"
+      user_status:
         type: "integer"
         format: "int32"
-        description: "User Status"
+        description: "ユーザーステータス"
     xml:
       name: "User"
   ApiResponse:
