@@ -12,11 +12,16 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun createUser(user: User): Boolean {
         try {
-            val ret = userApi.createUser(user)
-            val body = ret.body()
-            Log.i("createUser", "success. ret=$ret")
-            Log.i("createUser", "success. body=$body")
-            return true
+            userApi.createUser(user).let {
+                if (it.isSuccessful) {
+                    val body = it.body()
+                    Log.i("createUser", "success. ret=$it")
+                    Log.i("createUser", "success. body=$body")
+                    return true
+                } else {
+                    return false
+                }
+            }
         } catch (e: IllegalArgumentException) {
             Log.e("", e.stackTraceToString())
         }
@@ -25,10 +30,15 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getUserByName() {
         try {
-            val ret = userApi.getUserByName(username = "username")
-            val body = ret.body()
-            Log.i("getUserByName", "success. ret=$ret")
-            Log.i("getUserByName", "success. body=$body")
+           userApi.getUserByName(username = "username").let {
+                if (it.isSuccessful) {
+                    val body = it.body()
+                    Log.i("getUserByName", "success. ret=$it")
+                    Log.i("getUserByName", "success. body=$body")
+                } else {
+
+                }
+            }
         } catch (e: Exception) {
             Log.e("getUserByName", "failure. ${e.stackTraceToString()}")
         }
