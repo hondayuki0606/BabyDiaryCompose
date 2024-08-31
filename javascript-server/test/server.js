@@ -2,12 +2,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
-const loggerMiddleware = function(req, res, next) {
-  console.log(`[${new Date()}] ${req.method} ${req.url}`);
-  next();
-};
 
-app.use(loggerMiddleware);
 const courses = [
     { id: 1, name: 'computer science'},
     { id: 2, name: 'information technology'},
@@ -33,7 +28,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/courses', (req, res) => {
-    console.log(`req.ip ${req.ip}`);
     res.send(courses);
 });
 
@@ -75,5 +69,5 @@ app.delete('/api/courses/:id', (req, res) => {
 });
 
 
-const port = 8080;
+const port = process.env.PORT || 3000; // process.env.PORTは不要？
 app.listen(port, () => console.log(`Listening on port ${port}...`));
