@@ -83,7 +83,6 @@ class MenuViewModel @Inject constructor(
     fun getEventList(appContext: Context, currentData: String) {
         viewModelScope.launch(Dispatchers.IO) {
             eventRepository.getEventList(currentData).let { eventList ->
-
                 _uiState.update {
                     it.copy(
 

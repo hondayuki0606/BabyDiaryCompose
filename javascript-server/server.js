@@ -1,67 +1,80 @@
-//const http = require("http");
-//
-//const server = http.createServer();
-//
-//server.on("request", function (req, res) {
-//  res.writeHead(200, { "Content-Type": "text/plain" });
-//  res.write("Hello");
-//  res.end();
-//});
-//
-//server.listen(8080, "127.0.0.1");
-//console.log("server listen...");
+const express = require('express');
+const app = express();
 
-//var http = require('http');
-//var server = http.createServer();
-//
-//var fs = require('fs');
-//var xml_string;
-//
-//server.on('request', function (req, res)) {
-//    if (req.url.indexOf('TestAPI') != -1) {
-//        fs.readFile('./routeSearch/stub_200_routesearch_response_body_10.xml', 'utf-8', err, files) => {
-//            if (err) {throw err;}
-//            xml_string = files;
-//            res.writeHead(200,{'Content-Type':'application/xml'});
-//            res.end(xml_string);
-//        });
-//    }
-//});
-//
-//server.listen(3000);
+app.use(express.json());
+const loggerMiddleware = function(req, res, next) {
+  console.log(`[${new Date()}] ${req.method} ${req.url}`);
+  next();
+};
 
-// Your code here!
+app.use(loggerMiddleware);
+const courses = [
+    { id: 1, name: 'computer science'},
+    { id: 2, name: 'information technology'},
+    { id: 3, name: 'business intelligence'},
+];
 
-//var http = require('http');
-//var server = http.createServer();
-//
-//var fs = require('fs');
-//var xml_string;
-//
-//server.on('request', function (req, res) {
-//    if (req.url.indexOf('TestAPI') != -1) {
-//        fs.readFile('./routeSearch/stub_200_routesearch_response_body_10.xml', 'utf-8', (err, files) => {
-//            if (err) {throw err;}
-//            xml_string = files;
-//            res.writeHead(200,{'Content-Type':'application/xml'});
-//            res.end(xml_string);
-//        });
-//    }
-//});
-
-// パッケージを読み込む
-let http = require('http');
-
-// サーバ機能の初期化
-let server = http.createServer();
-
-// リクエストがきたときに呼び出される86
-
-server.on('request', function(req, res)
-{
-    // 本文（Body部）に文字を表示する
-    res.write('Hello, world!');
-    res.end();
+app.get('/user/login', (req, res) => {
+    if (req.query.username=='') {
+        console.log('userName is empty.');
+        return res.status(404).send(false);
+    }
+    if (req.query.password=='') {
+        console.log('password is empty.');
+        return res.status(404).send(false);
+    }
+    console.log(req.query.username);
+    console.log(req.query.password);
+    res.send(true);
 });
-// 指定したIPアドレス、ポート番号でサーバを立てる
-server.listen(1337, '127.0.0.1');
+
+app.get('/', (req, res) => {
+    res.send('Simple REST API');
+});
+
+app.get('/api/courses', (req, res) => {
+    console.log(`req.ip ${req.ip}`);
+    res.send(courses);
+});
+
+app.get('/api/courses/:id', (req, res) => {
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) return res.status(404).send('The course with the given ID was not found.');
+    res.send(course);
+});
+
+app.get('/api/posts/:year/:month', (req, res) => {
+    res.send(req.query);
+});
+
+app.post('/api/courses', (req, res) => {
+    const course = {
+        id: courses.length + 1,
+        name: req.body.name
+    };
+    courses.push(course);
+    res.send(course);
+});
+
+app.put('/api/courses/:id', (req, res) => {
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) return res.status(404).send('The course with the given ID was not found.');
+
+    course.name = req.body.name;
+    res.send(course);
+});
+
+app.delete('/api/courses/:id', (req, res) => {
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) return res.status(404).send('The course with the given ID was not found.');
+
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
+
+    res.send(course);
+});
+
+const port = 3000;
+app.listen(3000, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+});
