@@ -43,10 +43,6 @@ app.get('/api/courses/:id', (req, res) => {
     res.send(course);
 });
 
-app.get('/api/posts/:year/:month', (req, res) => {
-    res.send(req.query);
-});
-
 app.post('/api/courses', (req, res) => {
     const course = {
         id: courses.length + 1,
