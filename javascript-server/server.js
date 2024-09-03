@@ -14,6 +14,16 @@ const courses = [
     { id: 3, name: 'business intelligence'},
 ];
 
+const user = { id: 1, user_name: 'ユーザ名', first_name: 'ユーザ名', last_name: 'last_name', last_name: 'last_name', password: 'password', user_status: 0 }
+
+app.get('/', (req, res) => {
+    res.send('Simple REST API');
+});
+
+app.get('/user/username', (req, res) => {
+    res.send(user);
+});
+
 app.get('/user/login', (req, res) => {
     if (req.query.username=='') {
         console.log('userName is empty.');
@@ -26,10 +36,6 @@ app.get('/user/login', (req, res) => {
     console.log(req.query.username);
     console.log(req.query.password);
     res.send(true);
-});
-
-app.get('/', (req, res) => {
-    res.send('Simple REST API');
 });
 
 app.get('/api/courses', (req, res) => {
