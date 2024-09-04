@@ -14,13 +14,35 @@ const courses = [
     { id: 3, name: 'business intelligence'},
 ];
 
+const users = [
+    {
+      id: 1,
+      user_name: 'めいたん',
+      first_name: '名前',
+      last_name: '苗字',
+      password: 'password',
+      user_status: 0
+    }
+];
+
 const user = { id: 1, user_name: 'ユーザ名', first_name: 'ユーザ名', last_name: 'last_name', last_name: 'last_name', password: 'password', user_status: 0 }
 
-app.get('/', (req, res) => {
-    res.send('Simple REST API');
+app.post('/user', (req, res) => {
+    const user = {
+      id: users.length + 1,
+      user_name: 'めいたん',
+      first_name: '名前',
+      last_name: '苗字',
+      password: 'password',
+      user_status: 0 
+    };
+    users.push(user);
+    res.send(user);
 });
 
-app.get('/user/username', (req, res) => {
+app.get('/user', (req, res) => {
+    const user = users.find(c => c.id === parseInt(req.query.id));
+    if (!user) return res.status(404).send('The user with the given id was not found.');
     res.send(user);
 });
 
