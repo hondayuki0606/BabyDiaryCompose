@@ -27,14 +27,25 @@ const users = [
 
 const user = { id: 1, user_name: 'ユーザ名', first_name: 'ユーザ名', last_name: 'last_name', last_name: 'last_name', password: 'password', user_status: 0 }
 
-app.post('/user', (req, res) => {
+const { validationResult } = require('express-validator');
+
+// 外部ファイル化したバリデーション読み込み
+const PostUserValidator = require('./user/postBodyValidator');
+
+app.post('/user', PostUserValidator, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    console.log(req.body);
+    if(req.body.user_name=='') return res.status(404).send('The user_name is  with the given id was not found.');
     const user = {
       id: users.length + 1,
-      user_name: 'めいたん',
-      first_name: '名前',
-      last_name: '苗字',
-      password: 'password',
-      user_status: 0 
+      user_name: req.body.user_name,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      password: req.body.password,
+      user_status: req.body.user_status
     };
     users.push(user);
     res.send(user);
