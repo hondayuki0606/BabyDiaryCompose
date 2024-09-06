@@ -1,6 +1,15 @@
 const express = require('express');
 const app = express();
 
+//// HTTPSサーバー起動
+//var fs = require('fs');
+//var https = require('https');
+//var options = {
+//  key:  fs.readFileSync('./server.key'),
+//  cert: fs.readFileSync('./server.crt')
+//};
+//var server = https.createServer(options,app);
+
 app.use(express.json());
 const loggerMiddleware = function(req, res, next) {
   console.log(`[${new Date()}] ${req.method} ${req.url}`);
@@ -35,10 +44,9 @@ const PostUserValidator = require('./user/postBodyValidator');
 app.post('/user', PostUserValidator, (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+//      return res.status(403).json({ errors: errors.array() });
+       return res.status(403).send('Invalid parameters.');
     }
-    console.log(req.body);
-    if(req.body.user_name=='') return res.status(404).send('The user_name is  with the given id was not found.');
     const user = {
       id: users.length + 1,
       user_name: req.body.user_name,
@@ -47,6 +55,7 @@ app.post('/user', PostUserValidator, (req, res) => {
       password: req.body.password,
       user_status: req.body.user_status
     };
+    console.log(user);
     users.push(user);
     res.send(user);
 });
@@ -109,7 +118,9 @@ app.delete('/api/courses/:id', (req, res) => {
     res.send(course);
 });
 
+//var server = https.createServer(options,app);
 const port = 3000;
+//server.listen(3000, () => {
 app.listen(3000, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

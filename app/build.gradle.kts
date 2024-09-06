@@ -40,10 +40,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://d2bf-240d-18-3c-9900-2982-2ae0-19bf-71dc.ngrok-free.app\"")
+            buildConfigField("String", "BASE_URL", "\"https://localhost:3000/\"")
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://d2bf-240d-18-3c-9900-2982-2ae0-19bf-71dc.ngrok-free.app\"")
+            buildConfigField("String", "BASE_URL", "\"https://localhost:3000/\"")
         }
     }
 //    compileOptions {
