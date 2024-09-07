@@ -6,3 +6,7 @@ node server.js
 ```
 ngrok http http://localhost:3000
 ```
+
+### 3.なんちゃってサーバー証明書の作り方
+https://devcenter.heroku.com/ja/articles/ssl-certificate-self
+※作成してみたが、安全性が確保できないSSL証明書のため、Kotlinからローカルサーバーに対して、RestApiで送信してもはじかれる
