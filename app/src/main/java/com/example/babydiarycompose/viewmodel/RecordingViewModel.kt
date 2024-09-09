@@ -43,7 +43,7 @@ class RecordingViewModel @Inject constructor(
         }
     }
 
-   suspend fun initDao(context: Context) {
+    suspend fun initDao(context: Context) {
         eventRepository.init(context)
     }
 
@@ -62,6 +62,14 @@ class RecordingViewModel @Inject constructor(
                     eventList = eventList
                 )
             }
+        }
+    }
+
+    fun clearEventList() {
+        _recordingEventUiState.update {
+            it.copy(
+                eventList = emptyList()
+            )
         }
     }
 

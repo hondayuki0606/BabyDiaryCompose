@@ -1,5 +1,7 @@
 package com.example.babydiarycompose.ui.screen
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -55,6 +57,7 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
@@ -109,6 +112,7 @@ fun RecordingScreen(
 
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { page ->
+                viewModel.clearEventList()
                 when (page) {
                     0 -> {
                         leftArrowValue(false)
@@ -144,6 +148,7 @@ fun RecordingScreen(
 
             LazyColumn {
                 items(eventUiState.eventList) { event ->
+                    Log.d("", "honda LazyColumn event=$event")
                     EventCard(
                         event = event,
                         selectedDate = selectedDate,
@@ -161,7 +166,8 @@ fun RecordingScreen(
                 width = Dimension.fillToConstraints
             }
             .background(Color(0xFF272727)),
-            thickness = 5.dp, color = Color(0xFFEC7786))
+            thickness = 5.dp, color = Color(0xFFEC7786)
+        )
         LazyRow(
             modifier = Modifier
                 .constrainAs(event) {
