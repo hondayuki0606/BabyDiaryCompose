@@ -7,9 +7,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -18,8 +20,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +42,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -62,8 +70,6 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun RecordingScreen(
     viewModel: RecordingViewModel = hiltViewModel(),
-    rightArrowValue: (Boolean) -> Unit,
-    leftArrowValue: (Boolean) -> Unit,
     currentDateValue: (Int) -> Unit,
 ) {
     val context = LocalContext.current
@@ -72,6 +78,8 @@ fun RecordingScreen(
     val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
     val eventUiState by viewModel.recordingEventUiState.collectAsState()
     val footerUiState by viewModel.recordingFooterState.collectAsState()
+    var isDisplayedRightArrow by rememberSaveable { mutableStateOf(true) }
+    var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
     viewModel.initController()
     runBlocking {
         viewModel.initDao(context)
@@ -81,11 +89,55 @@ fun RecordingScreen(
             .background(Color(0xFF9C4A4A))
             .fillMaxSize()
     ) {
-        val (timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
+        val (topBar, timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
+        Row(modifier = Modifier
+            .constrainAs(topBar) {
+                top.linkTo(parent.top)
+                bottom.linkTo(timeSchedule.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+            .fillMaxWidth()
+            .background(Color(0xFF272727))
+        ) {
+            if (isDisplayedLeftArrow) {
+                IconButton(onClick = {}) {
+                    Icon(
+                        painter = rememberVectorPainter(image = Icons.Default.ArrowBack),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+            }
+            Text(
+                color = Color.White,
+                text = "めいたん👶0歳2か月13日",
+                textAlign = TextAlign.Center,
+                maxLines = 1, fontSize = 12.sp
+            )
+            if (isDisplayedRightArrow) {
+                IconButton(
+                    onClick = {
+
+                    }
+                ) {
+                    Icon(
+                        painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+            } else {
+                Text(
+                    color = Color.White,
+                    text = "生まれてから\n181日目"
+                )
+            }
+        }
         LazyColumn(
             modifier = Modifier
                 .constrainAs(timeSchedule) {
-                    top.linkTo(parent.top)
+                    top.linkTo(topBar.bottom)
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(verticalScroll.start)
@@ -115,14 +167,16 @@ fun RecordingScreen(
                 viewModel.clearEventList()
                 when (page) {
                     0 -> {
-                        leftArrowValue(false)
+                        isDisplayedLeftArrow = false
                     }
+
                     oneYear - 1 -> {
-                        rightArrowValue(false)
+                        isDisplayedRightArrow = false
                     }
+
                     else -> {
-                        leftArrowValue(true)
-                        rightArrowValue(true)
+                        isDisplayedLeftArrow = true
+                        isDisplayedRightArrow = true
                     }
                 }
                 val currentDay = oneYear - page - 1
@@ -137,7 +191,7 @@ fun RecordingScreen(
             verticalAlignment = Alignment.Top,
             modifier = Modifier
                 .constrainAs(verticalScroll) {
-                    top.linkTo(parent.top)
+                    top.linkTo(topBar.bottom)
                     bottom.linkTo(event.top)
                     start.linkTo(timeSchedule.end)
                     end.linkTo(parent.end)
@@ -303,10 +357,6 @@ fun HorizontalDivider(
 fun PreviewRecordingScreen() {
     BabyDiaryComposeTheme {
         RecordingScreen(
-            leftArrowValue = {
-            },
-            rightArrowValue = {
-            },
             currentDateValue = {
             }
         )

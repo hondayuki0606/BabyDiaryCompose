@@ -62,69 +62,71 @@ fun BabyDiaryApp() {
         val navController = rememberNavController()
         var isDisplayedNavigationBar by rememberSaveable { mutableStateOf(true) }
         val isDisplayedTopBarTitle by rememberSaveable { mutableStateOf(true) }
-        var isDisplayedRightArrow by rememberSaveable { mutableStateOf(false) }
-        var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
         val bottomItems = arrayListOf("記録", "まとめ", "成長曲線", "メニュー")
         var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
         var currentData by rememberSaveable { mutableStateOf("") }
         val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd(E)")
         currentData = myFormatObj.format(LocalDateTime.now())
         Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color(0xFF1c1c1c),
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    title = {
-                        Column {
-                            Text(
-                                color = Color.White,
-                                text = "めいたん👶0歳2か月13日",
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center,
-                                maxLines = 1, fontSize = 12.sp
-                            )
-                            if (isDisplayedTopBarTitle) {
-                                Text(
-                                    color = Color(0xFFEC7786),
-                                    text = currentData,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center,
-                                    maxLines = 1,
-                                )
-                            }
-                        }
-                    },
-                    navigationIcon = {
-                        if (isDisplayedLeftArrow) {
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    painter = rememberVectorPainter(image = Icons.Default.ArrowBack),
-                                    contentDescription = null,
-                                    tint = Color.White
-                                )
-                            }
-                        }
-                    },
-                    actions = {
-                        if (isDisplayedRightArrow) {
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
-                                    contentDescription = null,
-                                    tint = Color.White
-                                )
-                            }
-                        } else {
-                            Text(
-                                color = Color.White,
-                                text = "生まれてから\n181日目"
-                            )
-                        }
-                    }
-                )
-            },
+//            topBar = {
+//                CenterAlignedTopAppBar(
+//                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+//                        containerColor = Color(0xFF1c1c1c),
+//                        titleContentColor = MaterialTheme.colorScheme.primary,
+//                    ),
+//                    title = {
+//                        Column {
+//                            Text(
+//                                color = Color.White,
+//                                text = "めいたん👶0歳2か月13日",
+//                                modifier = Modifier.fillMaxWidth(),
+//                                textAlign = TextAlign.Center,
+//                                maxLines = 1, fontSize = 12.sp
+//                            )
+//                            if (isDisplayedTopBarTitle) {
+//                                Text(
+//                                    color = Color(0xFFEC7786),
+//                                    text = currentData,
+//                                    modifier = Modifier.fillMaxWidth(),
+//                                    textAlign = TextAlign.Center,
+//                                    maxLines = 1,
+//                                )
+//                            }
+//                        }
+//                    },
+//                    navigationIcon = {
+//                        if (isDisplayedLeftArrow) {
+//                            IconButton(onClick = {}) {
+//                                Icon(
+//                                    painter = rememberVectorPainter(image = Icons.Default.ArrowBack),
+//                                    contentDescription = null,
+//                                    tint = Color.White
+//                                )
+//                            }
+//                        }
+//                    },
+//                    actions = {
+//                        if (isDisplayedRightArrow) {
+//                            IconButton(
+//                                onClick = {
+//
+//                                }
+//                            ) {
+//                                Icon(
+//                                    painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
+//                                    contentDescription = null,
+//                                    tint = Color.White
+//                                )
+//                            }
+//                        } else {
+//                            Text(
+//                                color = Color.White,
+//                                text = "生まれてから\n181日目"
+//                            )
+//                        }
+//                    }
+//                )
+//            },
             bottomBar = {
                 if (isDisplayedNavigationBar) {
                     NavigationBar(containerColor = Color(0xFF1c1c1c)) {
@@ -225,13 +227,6 @@ fun BabyDiaryApp() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         RecordingScreen(
-                            leftArrowValue = {
-                                isDisplayedLeftArrow = it
-                            },
-                            rightArrowValue = {
-                                isDisplayedRightArrow = it
-
-                            },
                             currentDateValue = {
                                 currentData =
                                     myFormatObj.format(LocalDateTime.now().minusDays(it.toLong()))
