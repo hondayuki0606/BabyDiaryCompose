@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -84,6 +83,9 @@ fun RecordingScreen(
     runBlocking {
         viewModel.initDao(context)
     }
+    var currentData by rememberSaveable { mutableStateOf("") }
+    val topFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd(E)")
+    currentData = topFormatObj.format(LocalDateTime.now())
     ConstraintLayout(
         modifier = Modifier
             .background(Color(0xFF9C4A4A))
@@ -98,7 +100,8 @@ fun RecordingScreen(
                 end.linkTo(parent.end)
             }
             .fillMaxWidth()
-            .background(Color(0xFF272727))
+            .background(Color(0xFF272727)),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             if (isDisplayedLeftArrow) {
                 IconButton(onClick = {}) {
@@ -109,12 +112,21 @@ fun RecordingScreen(
                     )
                 }
             }
-            Text(
-                color = Color.White,
-                text = "めいたん👶0歳2か月13日",
-                textAlign = TextAlign.Center,
-                maxLines = 1, fontSize = 12.sp
-            )
+            Column {
+                Text(
+                    color = Color.White,
+                    text = "めいたん👶0歳2か月13日",
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    fontSize = 12.sp,
+                )
+                Text(
+                    color = Color(0xFFEC7786),
+                    text = currentData,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                )
+            }
             if (isDisplayedRightArrow) {
                 IconButton(
                     onClick = {
@@ -128,10 +140,24 @@ fun RecordingScreen(
                     )
                 }
             } else {
-                Text(
-                    color = Color.White,
-                    text = "生まれてから\n181日目"
-                )
+                Column {
+                    Text(
+                        color = Color.White,
+                        text = "生まれてから",
+                        fontSize = 8.sp,
+                    )
+                    Row {
+                        Text(
+                            color = Color.White,
+                            text = "333"
+                        )
+                        Text(
+                            color = Color.White,
+                            text = "日目",
+                            fontSize = 8.sp,
+                        )
+                    }
+                }
             }
         }
         LazyColumn(
