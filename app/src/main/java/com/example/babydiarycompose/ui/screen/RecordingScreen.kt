@@ -68,8 +68,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecordingScreen(
-    viewModel: RecordingViewModel = hiltViewModel(),
-    currentDateValue: (Int) -> Unit,
+    viewModel: RecordingViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val times = (0..23).toList()
@@ -206,7 +205,7 @@ fun RecordingScreen(
                     }
                 }
                 val currentDay = oneYear - page - 1
-                currentDateValue(currentDay)
+                currentData =  topFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 selectedDate =
                     myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 viewModel.getEventList(selectedDate)
@@ -382,10 +381,7 @@ fun HorizontalDivider(
 @Composable
 fun PreviewRecordingScreen() {
     BabyDiaryComposeTheme {
-        RecordingScreen(
-            currentDateValue = {
-            }
-        )
+        RecordingScreen()
     }
 }
 
