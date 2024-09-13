@@ -91,6 +91,13 @@ fun RecordingScreen(
             .fillMaxSize()
     ) {
         val (topBar, timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
+        val oneYear = 10
+        val pagerState = rememberPagerState(
+            pageCount = {
+                oneYear
+            },
+            initialPage = oneYear
+        )
         Row(modifier = Modifier
             .constrainAs(topBar) {
                 top.linkTo(parent.top)
@@ -102,14 +109,21 @@ fun RecordingScreen(
             .background(Color(0xFF272727)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            val coroutineScope = rememberCoroutineScope()
             if (isDisplayedLeftArrow) {
-                IconButton(onClick = {}) {
+                IconButton(onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
+                }) {
                     Icon(
                         painter = rememberVectorPainter(image = Icons.Default.ArrowBack),
                         contentDescription = null,
                         tint = Color.White
                     )
                 }
+            } else {
+                Text(text = "")
             }
             Column {
                 Text(
@@ -129,7 +143,9 @@ fun RecordingScreen(
             if (isDisplayedRightArrow) {
                 IconButton(
                     onClick = {
-
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
                     }
                 ) {
                     Icon(
@@ -179,13 +195,6 @@ fun RecordingScreen(
                 )
             }
         }
-        val oneYear = 10
-        val pagerState = rememberPagerState(
-            pageCount = {
-                oneYear
-            },
-            initialPage = oneYear
-        )
 
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { page ->
@@ -205,7 +214,8 @@ fun RecordingScreen(
                     }
                 }
                 val currentDay = oneYear - page - 1
-                currentData =  topFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
+                currentData =
+                    topFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 selectedDate =
                     myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 viewModel.getEventList(selectedDate)
