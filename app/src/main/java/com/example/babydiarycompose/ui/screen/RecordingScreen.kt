@@ -113,7 +113,7 @@ fun RecordingScreen(
             if (isDisplayedLeftArrow) {
                 IconButton(onClick = {
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                        pagerState.scrollToPage(pagerState.currentPage - 1)
                     }
                 }) {
                     Icon(
@@ -144,7 +144,7 @@ fun RecordingScreen(
                 IconButton(
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            pagerState.scrollToPage(pagerState.currentPage + 1)
                         }
                     }
                 ) {
@@ -197,9 +197,9 @@ fun RecordingScreen(
         }
 
         LaunchedEffect(pagerState) {
-            snapshotFlow { pagerState.currentPage }.collect { page ->
+            snapshotFlow { pagerState.currentPage }.collect { pageIndex ->
                 viewModel.clearEventList()
-                when (page) {
+                when (pageIndex) {
                     0 -> {
                         isDisplayedLeftArrow = false
                     }
@@ -213,7 +213,7 @@ fun RecordingScreen(
                         isDisplayedRightArrow = true
                     }
                 }
-                val currentDay = oneYear - page - 1
+                val currentDay = oneYear - pageIndex - 1
                 currentData =
                     topFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 selectedDate =
