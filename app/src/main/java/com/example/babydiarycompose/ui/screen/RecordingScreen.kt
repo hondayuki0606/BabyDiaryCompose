@@ -57,7 +57,9 @@ import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.dialog.EventEditDialog
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
+import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Pink
+import com.example.babydiarycompose.ui.theme.WineRed
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -87,7 +89,7 @@ fun RecordingScreen(
     currentData = topFormatObj.format(LocalDateTime.now())
     ConstraintLayout(
         modifier = Modifier
-            .background(Color(0xFF9C4A4A))
+            .background(WineRed)
             .fillMaxSize()
     ) {
         val (topBar, timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
@@ -106,7 +108,7 @@ fun RecordingScreen(
                 end.linkTo(parent.end)
             }
             .fillMaxWidth()
-            .background(Color(0xFF272727)),
+            .background(DarkBrown),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             val coroutineScope = rememberCoroutineScope()
@@ -134,7 +136,7 @@ fun RecordingScreen(
                     fontSize = 12.sp,
                 )
                 Text(
-                    color = Color(0xFFEC7786),
+                    color = Pink,
                     text = currentData,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
@@ -233,7 +235,7 @@ fun RecordingScreen(
                     height = Dimension.fillToConstraints
                     width = Dimension.fillToConstraints
                 }
-                .background(Color(0xFF272727))) { _ ->
+                .background(DarkBrown)) { _ ->
 
             LazyColumn {
                 items(eventUiState.eventList) { event ->
@@ -254,8 +256,8 @@ fun RecordingScreen(
                 bottom.linkTo(event.top)
                 width = Dimension.fillToConstraints
             }
-            .background(Color(0xFF272727)),
-            thickness = 5.dp, color = Color(0xFFEC7786)
+            .background(DarkBrown),
+            thickness = 5.dp, color = Pink
         )
         LazyRow(
             modifier = Modifier
@@ -266,7 +268,7 @@ fun RecordingScreen(
                     bottom.linkTo(parent.bottom)
                     width = Dimension.fillToConstraints
                 }
-                .background(Color(0xFF272727))
+                .background(DarkBrown)
         ) {
             items(footerUiState.iconList) {
                 val eventTimeSettingDialog = remember { mutableStateOf(false) }
