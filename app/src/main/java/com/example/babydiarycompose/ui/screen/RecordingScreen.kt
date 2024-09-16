@@ -63,6 +63,8 @@ import com.example.babydiarycompose.ui.theme.WineRed
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -93,7 +95,7 @@ fun RecordingScreen(
             .fillMaxSize()
     ) {
         val (topBar, timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
-        val oneYear = 10
+        val oneYear = 30
         val pagerState = rememberPagerState(
             pageCount = {
                 oneYear
@@ -164,9 +166,12 @@ fun RecordingScreen(
                         fontSize = 8.sp,
                     )
                     Row {
+                        val oldDay = LocalDate.parse("2023-10-14")
+                        val now = LocalDate.now()
+                        val diffDay = Duration.between(oldDay.atStartOfDay(), now.atStartOfDay()).toDays()
                         Text(
                             color = Color.White,
-                            text = "333"
+                            text = diffDay.toString()
                         )
                         Text(
                             color = Color.White,
