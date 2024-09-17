@@ -130,9 +130,23 @@ fun RecordingScreen(
                 Text(text = "")
             }
             Column {
+                val oldDate = LocalDate.parse("2023-10-14")
+                val nowDate = LocalDate.now()
+                var month = nowDate.monthValue - oldDate.monthValue
+                var year = nowDate.year - oldDate.year
+                if (month < 0) {
+                    year -= 1
+                }
+                month += ((nowDate.year - oldDate.year) * 12)
+                val nowDay = nowDate.toString().split("-")[2].toInt()
+                val oldDay = oldDate.toString().split("-")[2].toInt()
+                var day = nowDay - oldDay
+                if (day < 0) {
+                    day = 17 - nowDay
+                }
                 Text(
                     color = Color.White,
-                    text = "めいたん👶0歳2か月13日",
+                    text = "めいたん👶${year}歳${month}か月${day}日",
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     fontSize = 12.sp,
@@ -168,7 +182,8 @@ fun RecordingScreen(
                     Row {
                         val oldDay = LocalDate.parse("2023-10-14")
                         val now = LocalDate.now()
-                        val diffDay = Duration.between(oldDay.atStartOfDay(), now.atStartOfDay()).toDays()
+                        val diffDay =
+                            Duration.between(oldDay.atStartOfDay(), now.atStartOfDay()).toDays()
                         Text(
                             color = Color.White,
                             text = diffDay.toString()
