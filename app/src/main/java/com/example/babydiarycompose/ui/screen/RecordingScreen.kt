@@ -58,8 +58,8 @@ import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.dialog.EventEditDialog
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DarkBrown
+import com.example.babydiarycompose.ui.theme.Gray
 import com.example.babydiarycompose.ui.theme.Pink
-import com.example.babydiarycompose.ui.theme.WineRed
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -91,7 +91,7 @@ fun RecordingScreen(
     currentData = topFormatObj.format(LocalDateTime.now())
     ConstraintLayout(
         modifier = Modifier
-            .background(WineRed)
+            .background(Gray)
             .fillMaxSize()
     ) {
         val (topBar, timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
