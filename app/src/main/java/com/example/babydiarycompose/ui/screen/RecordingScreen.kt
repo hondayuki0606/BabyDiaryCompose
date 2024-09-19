@@ -60,6 +60,7 @@ import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DarkBrown
 import com.example.babydiarycompose.ui.theme.Gray
 import com.example.babydiarycompose.ui.theme.Pink
+import com.example.babydiarycompose.ui.theme.White
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -215,6 +216,9 @@ fun RecordingScreen(
                     color = Color.White,
                     fontSize = 12.sp
                 )
+                if (it != 23) {
+                    HorizontalDivider(color = White)
+                }
             }
         }
 
