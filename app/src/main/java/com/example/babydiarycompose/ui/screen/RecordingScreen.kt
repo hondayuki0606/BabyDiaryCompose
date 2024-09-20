@@ -2,6 +2,8 @@ package com.example.babydiarycompose.ui.screen
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.estimateAnimationDurationMillis
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -95,7 +97,7 @@ fun RecordingScreen(
             .background(Gray)
             .fillMaxSize()
     ) {
-        val (topBar, timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
+        val (topBar, eventSummery, timeSchedule, verticalScroll, horizontalDivider, event) = createRefs()
         val oneYear = 30
         val pagerState = rememberPagerState(
             pageCount = {
@@ -198,6 +200,30 @@ fun RecordingScreen(
                 }
             }
         }
+        Column(modifier = Modifier
+            .constrainAs(eventSummery) {
+                top.linkTo(topBar.bottom)
+                bottom.linkTo(timeSchedule.top)
+                start.linkTo(timeSchedule.end)
+                end.linkTo(parent.end)
+            }
+            .fillMaxWidth()
+            .background(DarkBrown),
+            verticalArrangement = Arrangement.SpaceBetween) {
+            val list = eventUiState.eventList
+            val milkResult = list.filter {
+                it.eventName == "ミルク"
+            }
+            val breakResult = list.filter {
+                it.eventName == "母乳"
+            }
+            if (milkResult.isNotEmpty()) {
+                Text(text = "${milkResult}回")
+            }
+            if (breakResult.isNotEmpty()) {
+                Text(text = "${breakResult}回")
+            }
+        }
         LazyColumn(
             modifier = Modifier
                 .constrainAs(timeSchedule) {
@@ -252,7 +278,7 @@ fun RecordingScreen(
             verticalAlignment = Alignment.Top,
             modifier = Modifier
                 .constrainAs(verticalScroll) {
-                    top.linkTo(topBar.bottom)
+                    top.linkTo(eventSummery.bottom)
                     bottom.linkTo(event.top)
                     start.linkTo(timeSchedule.end)
                     end.linkTo(parent.end)
