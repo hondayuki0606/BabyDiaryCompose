@@ -2,8 +2,6 @@ package com.example.babydiarycompose.ui.screen
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.estimateAnimationDurationMillis
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -55,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.dialog.EventEditDialog
@@ -200,30 +199,6 @@ fun RecordingScreen(
                 }
             }
         }
-        Column(modifier = Modifier
-            .constrainAs(eventSummery) {
-                top.linkTo(topBar.bottom)
-                bottom.linkTo(timeSchedule.top)
-                start.linkTo(timeSchedule.end)
-                end.linkTo(parent.end)
-            }
-            .fillMaxWidth()
-            .background(DarkBrown),
-            verticalArrangement = Arrangement.SpaceBetween) {
-            val list = eventUiState.eventList
-            val milkResult = list.filter {
-                it.eventName == "ミルク"
-            }
-            val breakResult = list.filter {
-                it.eventName == "母乳"
-            }
-            if (milkResult.isNotEmpty()) {
-                Text(text = "${milkResult}回")
-            }
-            if (breakResult.isNotEmpty()) {
-                Text(text = "${breakResult}回")
-            }
-        }
         LazyColumn(
             modifier = Modifier
                 .constrainAs(timeSchedule) {
@@ -248,6 +223,20 @@ fun RecordingScreen(
             }
         }
 
+        Row(
+            modifier = Modifier
+                .constrainAs(eventSummery) {
+                    top.linkTo(topBar.bottom)
+                    bottom.linkTo(verticalScroll.top)
+                    start.linkTo(timeSchedule.end)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                }
+                .fillMaxWidth()
+                .background(DarkBrown),
+        ) {
+            EventSummary(eventUiState.eventList)
+        }
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { pageIndex ->
                 viewModel.clearEventList()
@@ -366,6 +355,17 @@ fun RecordingScreen(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun EventSummary(list: List<EventData>) {
+    Event.values().forEach {
+        val list = list.filter { event -> event.eventName == it.event }
+        if (list.isNotEmpty()) {
+            Text(text = "${it.event}", color = White)
+            Text(text = "${list.size}回", color = White)
         }
     }
 }
