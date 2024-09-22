@@ -2,9 +2,9 @@ package com.example.babydiarycompose.data
 
 import com.example.babydiarycompose.R
 
-enum class Event(val event: String) {
-    MILK("ミルク"),
-    BREAST_MILK("母乳"),
+enum class Event(val event: String, val id: Int = 0) {
+    MILK("ミルク", R.drawable.milk_icon),
+    BREAST_MILK("母乳", R.drawable.breast_milk),
     SLEEP("寝る"),
     WAKE_UP("起きる"),
     PEE("おしっこ"),
@@ -20,7 +20,8 @@ enum class Event(val event: String) {
     MISHUDGEMENT("ごはん"),
     DRINK("のみもの"),
     COUGH("せき"),
-//    Icon("吐く", R.drawable.breatheout),
+
+    //    Icon("吐く", R.drawable.breatheout),
 //    Icon("発疹", R.drawable.rash),
 //    Icon("けが", R.drawable.hurt),
 //    Icon("お風呂", R.drawable.bath),
@@ -31,15 +32,15 @@ enum class Event(val event: String) {
 //    Icon("搾乳", R.drawable.milking),
 //    Icon("できた", R.drawable.itsdone),
 //    Icon("その他", R.drawable.other),
-//    // カスタム
-//    Icon("カスタム1", R.drawable.custom1),
-//    Icon("カスタム2", R.drawable.custom2),
-//    Icon("カスタム3", R.drawable.custom3),
-//    Icon("カスタム4", R.drawable.custom4),
-//    Icon("カスタム5", R.drawable.custom5),
-//    Icon("カスタム6", R.drawable.custom6),
-//    Icon("カスタム7", R.drawable.custom7),
-//    Icon("カスタム8", R.drawable.custom8),
-//    Icon("カスタム9", R.drawable.custom9),
-//    Icon("カスタム10", R.drawable.custom10),
+// カスタム
+    CUSTOM1("カスタム1", R.drawable.custom1),
+    CUSTOM2("カスタム2", R.drawable.custom2),
+    CUSTOM3("カスタム3", R.drawable.custom3),
+    CUSTOM4("カスタム4", R.drawable.custom4),
+    CUSTOM5("カスタム5", R.drawable.custom5),
+    CUSTOM6("カスタム6", R.drawable.custom6),
+    CUSTOM7("カスタム7", R.drawable.custom7),
+    CUSTOM8("カスタム8", R.drawable.custom8),
+    CUSTOM9("カスタム9", R.drawable.custom9),
+    CUSTOM10("カスタム10", R.drawable.custom10),
 }

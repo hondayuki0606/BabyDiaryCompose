@@ -362,10 +362,15 @@ fun RecordingScreen(
 @Composable
 fun EventSummary(list: List<EventData>) {
     Event.values().forEach {
-        val list = list.filter { event -> event.eventName == it.event }
-        if (list.isNotEmpty()) {
-            Text(text = "${it.event}", color = White)
-            Text(text = "${list.size}回", color = White)
+        val eventSum = list.filter { event -> event.eventName == it.event }
+        if (eventSum.isNotEmpty()) {
+            Row {
+                Image(painter = painterResource(it.id), contentDescription = null)
+                Column {
+                    Text(text = it.event, color = White)
+                    Text(text = "${eventSum.size}回", color = White)
+                }
+            }
         }
     }
 }
