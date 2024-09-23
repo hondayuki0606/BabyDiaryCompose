@@ -84,7 +84,6 @@ fun RecordingScreen(
     val footerUiState by viewModel.recordingFooterState.collectAsState()
     var isDisplayedRightArrow by rememberSaveable { mutableStateOf(true) }
     var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
-    viewModel.initController()
     runBlocking {
         viewModel.initDao(context)
     }
@@ -328,8 +327,8 @@ fun RecordingScreen(
                 Column(
                     modifier = Modifier.clickable {
                         eventTimeSettingDialog.value = true
-                        eventName.value = it.title
-                        icon.intValue = it.icon
+                        eventName.value = it.event
+                        icon.intValue = it.iconId
                     },
                 ) {
                     Image(
@@ -341,7 +340,7 @@ fun RecordingScreen(
                             .width(50.dp)
                             .height(50.dp),
                         contentScale = ContentScale.Fit,
-                        painter = painterResource(it.icon),
+                        painter = painterResource(it.iconId),
                         contentDescription = "image"
                     )
                     Text(
@@ -351,7 +350,7 @@ fun RecordingScreen(
                             .align(Alignment.CenterHorizontally)
                             .padding(10.dp),
                         color = Color.White,
-                        text = it.title
+                        text = it.event
                     )
                 }
             }
@@ -365,7 +364,7 @@ fun EventSummary(list: List<EventData>) {
         val eventSum = list.filter { event -> event.eventName == it.event }
         if (eventSum.isNotEmpty()) {
             Row {
-                Image(painter = painterResource(it.id), contentDescription = null)
+                Image(painter = painterResource(it.iconId), contentDescription = null)
                 Column {
                     Text(text = it.event, color = White)
                     Text(text = "${eventSum.size}回", color = White)

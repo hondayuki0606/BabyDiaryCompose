@@ -4,5 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class RecordingFooterUiState(
-    val iconList: List<Icon>
+    val iconList: Array<Event>
 )
