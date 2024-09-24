@@ -364,10 +364,26 @@ fun EventSummary(list: List<EventData>) {
         val eventSum = list.filter { event -> event.eventName == it.event }
         if (eventSum.isNotEmpty()) {
             Row {
-                Image(painter = painterResource(it.iconId), contentDescription = null)
-                Column {
-                    Text(text = it.event, color = White)
-                    Text(text = "${eventSum.size}回", color = White)
+                Image(
+                    modifier = Modifier
+                        .padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                        )
+                        .width(20.dp)
+                        .height(20.dp),
+                    painter = painterResource(it.iconId),
+                    contentDescription = null
+                )
+                Column(verticalArrangement = Arrangement.Center) {
+                    Text(text = "${eventSum.size}回", color = White, fontSize = 9.sp)
+                    if (eventSum.firstOrNull()?.eventName == Event.MILK.event) {
+                        var sumValue = 0
+                        eventSum.forEach {
+                            sumValue += it.eventDetail.filter { eventDetail -> eventDetail.isDigit() }.toInt()
+                        }
+                        Text(text = "${sumValue}ml", color = White, fontSize = 9.sp)
+                    }
                 }
             }
         }
