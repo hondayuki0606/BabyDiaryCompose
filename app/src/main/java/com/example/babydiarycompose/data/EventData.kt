@@ -8,5 +8,7 @@ data class EventData(
     val imageUrl: Int,
     val eventName: String,
     val eventDetail: String,
+    val leftTime: Int = 0,
+    val rightTime: Int = 0,
     val listItem: Boolean = false,
 )
