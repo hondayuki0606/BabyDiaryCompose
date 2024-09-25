@@ -380,9 +380,22 @@ fun EventSummary(list: List<EventData>) {
                     if (eventSum.firstOrNull()?.eventName == Event.MILK.event) {
                         var sumValue = 0
                         eventSum.forEach {
-                            sumValue += it.eventDetail.filter { eventDetail -> eventDetail.isDigit() }.toInt()
+                            sumValue += it.eventDetail.filter { eventDetail -> eventDetail.isDigit() }
+                                .toInt()
                         }
                         Text(text = "${sumValue}ml", color = White, fontSize = 9.sp)
+                    } else if (eventSum.firstOrNull()?.eventName == Event.BREAST_MILK.event) {
+                        var sumRightValue = 0
+                        var sumLeftValue = 0
+                        eventSum.forEach {
+                            sumRightValue += it.rightTime
+                            sumLeftValue += it.leftTime
+                        }
+                        Text(
+                            text = "右${sumRightValue}分/左${sumLeftValue}分",
+                            color = White,
+                            fontSize = 9.sp
+                        )
                     }
                 }
             }
