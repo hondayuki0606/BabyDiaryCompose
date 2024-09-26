@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.BreastMilkSelection
@@ -328,7 +329,11 @@ fun BreastMilkDialog(
                                             time = "${hour}:${String.format("%02d", minutes)}",
                                             imageUrl = resIcon,
                                             eventName = eventName,
-                                            eventDetail = eventDetail
+                                            eventDetail = eventDetail,
+                                            rightTime = rightCheckedState?.filter { it.isDigit() }
+                                                ?.toInt() ?: 0,
+                                            leftTime = leftCheckedState?.filter { it.isDigit() }
+                                                ?.toInt() ?: 0
                                         )
                                     )
                                 } else {
@@ -340,7 +345,11 @@ fun BreastMilkDialog(
                                             time = "${hour}:${String.format("%02d", minutes)}",
                                             imageUrl = resIcon,
                                             eventName = eventName,
-                                            eventDetail = eventDetail
+                                            eventDetail = eventDetail,
+                                            rightTime = rightCheckedState?.filter { it.isDigit() }
+                                                ?.toInt() ?: 0,
+                                            leftTime = leftCheckedState?.filter { it.isDigit() }
+                                                ?.toInt() ?: 0
                                         )
                                     )
                                 }

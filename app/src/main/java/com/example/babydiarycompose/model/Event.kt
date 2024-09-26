@@ -13,4 +13,6 @@ data class Event(
     @ColumnInfo(name = "icon") val icon: Int?,
     @ColumnInfo(name = "event_name") val eventName: String?,
     @ColumnInfo(name = "event_detail") val eventDetail: String?,
+    @ColumnInfo(name = "right_time") val rightTime: Int?,
+    @ColumnInfo(name = "left_time") val leftTime: Int?,
 )

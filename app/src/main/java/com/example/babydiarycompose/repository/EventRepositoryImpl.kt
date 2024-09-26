@@ -31,7 +31,9 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                         icon = it.imageUrl,
                         eventName = it.eventName,
                         eventDetail = it.eventDetail,
-                    ),
+                        rightTime = it.rightTime,
+                        leftTime = it.leftTime,
+                    )
                 )
             }
             result = true
@@ -94,7 +96,9 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
                         time = it.time ?: "",
                         imageUrl = it.icon ?: 0,
                         eventName = it.eventName ?: "",
-                        eventDetail = it.eventDetail ?: ""
+                        eventDetail = it.eventDetail ?: "",
+                        rightTime = it.rightTime ?: 0,
+                        leftTime = it.leftTime ?: 0
                     )
                 )
             }

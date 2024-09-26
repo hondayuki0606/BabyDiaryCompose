@@ -392,7 +392,7 @@ fun EventSummary(list: List<EventData>) {
                             sumLeftValue += it.leftTime
                         }
                         Text(
-                            text = "右${sumRightValue}分/左${sumLeftValue}分",
+                            text = "${sumLeftValue}分/${sumRightValue}分",
                             color = White,
                             fontSize = 9.sp
                         )
