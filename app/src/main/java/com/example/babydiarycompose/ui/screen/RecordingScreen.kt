@@ -359,31 +359,42 @@ fun RecordingScreen(
 }
 
 @Composable
-fun EventSummary(list: List<EventData>) {
+fun EventSummary(eventList: List<EventData>) {
     Event.values().forEach {
-        val eventSum = list.filter { event -> event.eventName == it.event }
+        val eventSum = eventList.filter { event -> event.eventName == it.event }
         if (eventSum.isNotEmpty()) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     modifier = Modifier
                         .padding(
-                            start = 10.dp,
-                            end = 10.dp,
+                            start = 2.dp,
+                            end = 2.dp,
                         )
                         .width(20.dp)
                         .height(20.dp),
                     painter = painterResource(it.iconId),
                     contentDescription = null
                 )
-                Column(verticalArrangement = Arrangement.Center) {
-                    Text(text = "${eventSum.size}回", color = White, fontSize = 9.sp)
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "${eventSum.size}回",
+                        color = White,
+                        fontSize = 9.sp
+                    )
                     if (eventSum.firstOrNull()?.eventName == Event.MILK.event) {
                         var sumValue = 0
                         eventSum.forEach {
                             sumValue += it.eventDetail.filter { eventDetail -> eventDetail.isDigit() }
                                 .toInt()
                         }
-                        Text(text = "${sumValue}ml", color = White, fontSize = 9.sp)
+                        Text(
+                            text = "${sumValue}ml",
+                            color = White,
+                            fontSize = 9.sp
+                        )
                     } else if (eventSum.firstOrNull()?.eventName == Event.BREAST_MILK.event) {
                         var sumRightValue = 0
                         var sumLeftValue = 0
