@@ -53,12 +53,14 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.dialog.EventEditDialog
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DarkBrown
+import com.example.babydiarycompose.ui.theme.Flower
 import com.example.babydiarycompose.ui.theme.Gray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
@@ -283,6 +285,35 @@ fun RecordingScreen(
                         selectedDate = selectedDate,
                         viewModel = viewModel
                     )
+                    if (eventUiState.eventList.last() == event) {
+                        Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                            Image(
+                                modifier = Modifier
+                                    .padding(
+                                        start = 10.dp,
+                                        end = 10.dp,
+                                    )
+                                    .width(20.dp)
+                                    .height(20.dp),
+                                contentScale = ContentScale.Fit,
+                                painter = painterResource(R.drawable.check_mark),
+                                contentDescription = "image"
+                            )
+                            Text(text = "育児日記", color = Color.White)
+                            Image(
+                                modifier = Modifier
+                                    .padding(
+                                        start = 10.dp,
+                                        end = 10.dp,
+                                    )
+                                    .width(20.dp)
+                                    .height(20.dp),
+                                contentScale = ContentScale.Fit,
+                                painter = painterResource(R.drawable.ic_launcher_background),
+                                contentDescription = "image"
+                            )
+                        }
+                    }
                 }
             }
         }

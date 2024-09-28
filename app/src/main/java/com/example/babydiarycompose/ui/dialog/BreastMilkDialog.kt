@@ -434,12 +434,12 @@ fun generateEventDetail(
     val rightValue = if (rightCheckedState == "なし") {
         ""
     } else {
-        "右${rightCheckedState}"
+        "右 $rightCheckedState"
     }
     val leftValue = if (leftCheckedState == "なし") {
         ""
     } else {
-        "左${leftCheckedState}"
+        "左 $leftCheckedState"
     }
 
     // 左右の片方しか値がない場合
