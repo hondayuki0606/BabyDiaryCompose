@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.ui.screen
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -52,6 +53,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
@@ -307,7 +310,14 @@ fun RecordingScreen(
                                         end = 10.dp,
                                     )
                                     .width(20.dp)
-                                    .height(20.dp),
+                                    .height(20.dp)
+                                    .clickable {
+                                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                                        intent.addCategory(Intent.CATEGORY_OPENABLE)
+                                        intent.type = "image/*"
+                                        context.startActivity(intent)
+//                                        context.startActivityForResult(intent, RESULT_PICK_IMAGEFILE)
+                                    },
                                 contentScale = ContentScale.Fit,
                                 painter = painterResource(R.drawable.ic_launcher_background),
                                 contentDescription = "image"
