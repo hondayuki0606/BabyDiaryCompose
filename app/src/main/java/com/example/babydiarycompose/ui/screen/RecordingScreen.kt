@@ -1,8 +1,12 @@
 package com.example.babydiarycompose.ui.screen
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -53,8 +57,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
@@ -63,7 +65,6 @@ import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.ui.dialog.EventEditDialog
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DarkBrown
-import com.example.babydiarycompose.ui.theme.Flower
 import com.example.babydiarycompose.ui.theme.Gray
 import com.example.babydiarycompose.ui.theme.Pink
 import com.example.babydiarycompose.ui.theme.White
@@ -303,6 +304,13 @@ fun RecordingScreen(
                                 contentDescription = "image"
                             )
                             Text(text = "育児日記", color = Color.White)
+                            val startForResult =
+                                rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                                    if (result.resultCode == Activity.RESULT_OK) {
+                                        val intent = result.data
+                                        //do something here
+                                    }
+                                }
                             Image(
                                 modifier = Modifier
                                     .padding(
@@ -315,7 +323,10 @@ fun RecordingScreen(
                                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                                         intent.addCategory(Intent.CATEGORY_OPENABLE)
                                         intent.type = "image/*"
-                                        context.startActivity(intent)
+                                        startForResult.launch(intent)
+//                                        launcher.launch(intent)
+//                                        context.start
+//                                        context.startActivityForResult(intent)
 //                                        context.startActivityForResult(intent, RESULT_PICK_IMAGEFILE)
                                     },
                                 contentScale = ContentScale.Fit,
