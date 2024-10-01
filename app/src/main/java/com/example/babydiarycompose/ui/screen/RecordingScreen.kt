@@ -3,6 +3,9 @@ package com.example.babydiarycompose.ui.screen
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -46,6 +49,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -71,6 +75,8 @@ import com.example.babydiarycompose.ui.theme.White
 import com.example.babydiarycompose.viewmodel.RecordingViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -90,6 +96,8 @@ fun RecordingScreen(
     val footerUiState by viewModel.recordingFooterState.collectAsState()
     var isDisplayedRightArrow by rememberSaveable { mutableStateOf(true) }
     var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
+    var isPicture by rememberSaveable { mutableStateOf(true) }
+
     runBlocking {
         viewModel.initDao(context)
     }
@@ -304,35 +312,60 @@ fun RecordingScreen(
                                 contentDescription = "image"
                             )
                             Text(text = "育児日記", color = Color.White)
+//                            var bitmap: Bitmap? = null
+                            val bitmap = remember { mutableStateOf<Bitmap?>(null) }
                             val startForResult =
                                 rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                                     if (result.resultCode == Activity.RESULT_OK) {
-                                        val intent = result.data
-                                        //do something here
+                                        try {
+                                            result.data?.data?.also { uri: Uri ->
+                                                val inputStream =
+                                                    context.contentResolver?.openInputStream(uri)
+                                                bitmap.value = BitmapFactory.decodeStream(inputStream)
+                                            }
+                                        } catch (e: FileNotFoundException) {
+                                            e.printStackTrace()
+                                        } catch (e: IOException) {
+                                            e.printStackTrace()
+                                        } finally {
+                                            isPicture = false
+                                        }
                                     }
                                 }
-                            Image(
-                                modifier = Modifier
-                                    .padding(
-                                        start = 10.dp,
-                                        end = 10.dp,
-                                    )
-                                    .width(20.dp)
-                                    .height(20.dp)
-                                    .clickable {
-                                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                                        intent.addCategory(Intent.CATEGORY_OPENABLE)
-                                        intent.type = "image/*"
-                                        startForResult.launch(intent)
-//                                        launcher.launch(intent)
-//                                        context.start
-//                                        context.startActivityForResult(intent)
-//                                        context.startActivityForResult(intent, RESULT_PICK_IMAGEFILE)
-                                    },
-                                contentScale = ContentScale.Fit,
-                                painter = painterResource(R.drawable.ic_launcher_background),
-                                contentDescription = "image"
-                            )
+                            if (isPicture.not() && bitmap.value != null) {
+                                Image(
+                                    modifier = Modifier
+                                        .padding(
+                                            start = 10.dp,
+                                            end = 10.dp,
+                                        )
+                                        .width(50.dp)
+                                        .height(50.dp)
+                                        .clickable {},
+                                    contentScale = ContentScale.Fit,
+                                    bitmap = bitmap.value!!.asImageBitmap(),
+                                    contentDescription = "image"
+                                )
+                            } else {
+                                Image(
+                                    modifier = Modifier
+                                        .padding(
+                                            start = 10.dp,
+                                            end = 10.dp,
+                                        )
+                                        .width(20.dp)
+                                        .height(20.dp)
+                                        .clickable {
+                                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                                            intent.addCategory(Intent.CATEGORY_OPENABLE)
+                                            intent.type = "image/*"
+                                            startForResult.launch(intent)
+                                        },
+                                    contentScale = ContentScale.Fit,
+                                    painter = painterResource(R.drawable.ic_launcher_background),
+                                    contentDescription = "image"
+                                )
+                            }
                         }
                     }
                 }
