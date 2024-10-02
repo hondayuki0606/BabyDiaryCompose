@@ -308,11 +308,10 @@ fun RecordingScreen(
                                     .width(20.dp)
                                     .height(20.dp),
                                 contentScale = ContentScale.Fit,
-                                painter = painterResource(R.drawable.check_mark),
+                                painter = painterResource(R.drawable.book),
                                 contentDescription = "image"
                             )
                             Text(text = "育児日記", color = Color.White)
-//                            var bitmap: Bitmap? = null
                             val bitmap = remember { mutableStateOf<Bitmap?>(null) }
                             val startForResult =
                                 rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -321,7 +320,8 @@ fun RecordingScreen(
                                             result.data?.data?.also { uri: Uri ->
                                                 val inputStream =
                                                     context.contentResolver?.openInputStream(uri)
-                                                bitmap.value = BitmapFactory.decodeStream(inputStream)
+                                                bitmap.value =
+                                                    BitmapFactory.decodeStream(inputStream)
                                             }
                                         } catch (e: FileNotFoundException) {
                                             e.printStackTrace()
@@ -362,7 +362,25 @@ fun RecordingScreen(
                                             startForResult.launch(intent)
                                         },
                                     contentScale = ContentScale.Fit,
-                                    painter = painterResource(R.drawable.ic_launcher_background),
+                                    painter = painterResource(R.drawable.pencil),
+                                    contentDescription = "image"
+                                )
+                                Image(
+                                    modifier = Modifier
+                                        .padding(
+                                            start = 10.dp,
+                                            end = 10.dp,
+                                        )
+                                        .width(20.dp)
+                                        .height(20.dp)
+                                        .clickable {
+                                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                                            intent.addCategory(Intent.CATEGORY_OPENABLE)
+                                            intent.type = "image/*"
+                                            startForResult.launch(intent)
+                                        },
+                                    contentScale = ContentScale.Fit,
+                                    painter = painterResource(R.drawable.camera),
                                     contentDescription = "image"
                                 )
                             }
