@@ -298,40 +298,85 @@ fun RecordingScreen(
                         viewModel = viewModel
                     )
                     if (eventUiState.eventList.last() == event) {
-                        Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                            Image(
-                                modifier = Modifier
-                                    .padding(
-                                        start = 10.dp,
-                                        end = 10.dp,
-                                    )
-                                    .width(20.dp)
-                                    .height(20.dp),
-                                contentScale = ContentScale.Fit,
-                                painter = painterResource(R.drawable.book),
-                                contentDescription = "image"
-                            )
-                            Text(text = "育児日記", color = Color.White)
+                        Column {
                             val bitmap = remember { mutableStateOf<Bitmap?>(null) }
-                            val startForResult =
-                                rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                                    if (result.resultCode == Activity.RESULT_OK) {
-                                        try {
-                                            result.data?.data?.also { uri: Uri ->
-                                                val inputStream =
-                                                    context.contentResolver?.openInputStream(uri)
-                                                bitmap.value =
-                                                    BitmapFactory.decodeStream(inputStream)
+                            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                                Row {
+                                    Image(
+                                        modifier = Modifier
+                                            .padding(
+                                                start = 10.dp,
+                                                end = 10.dp,
+                                            )
+                                            .width(20.dp)
+                                            .height(20.dp),
+                                        contentScale = ContentScale.Fit,
+                                        painter = painterResource(R.drawable.book),
+                                        contentDescription = "image"
+                                    )
+                                    Text(text = "育児日記", color = Color.White)
+                                }
+                                val startForResult =
+                                    rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                                        if (result.resultCode == Activity.RESULT_OK) {
+                                            try {
+                                                result.data?.data?.also { uri: Uri ->
+                                                    val inputStream =
+                                                        context.contentResolver?.openInputStream(uri)
+                                                    bitmap.value =
+                                                        BitmapFactory.decodeStream(inputStream)
+                                                }
+                                            } catch (e: FileNotFoundException) {
+                                                e.printStackTrace()
+                                            } catch (e: IOException) {
+                                                e.printStackTrace()
+                                            } finally {
+                                                isPicture = false
                                             }
-                                        } catch (e: FileNotFoundException) {
-                                            e.printStackTrace()
-                                        } catch (e: IOException) {
-                                            e.printStackTrace()
-                                        } finally {
-                                            isPicture = false
                                         }
                                     }
+                                Row {
+                                    Image(
+                                        modifier = Modifier
+                                            .padding(
+                                                start = 10.dp,
+                                                end = 10.dp,
+                                            )
+                                            .width(20.dp)
+                                            .height(20.dp)
+                                            .clickable {
+                                                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                                                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                                                intent.type = "image/*"
+                                                startForResult.launch(intent)
+                                            },
+                                        contentScale = ContentScale.Fit,
+                                        painter = painterResource(R.drawable.pencil),
+                                        contentDescription = "image"
+                                    )
+                                    if (isPicture) {
+                                        Image(
+                                            modifier = Modifier
+                                                .padding(
+                                                    start = 10.dp,
+                                                    end = 10.dp,
+                                                )
+                                                .width(20.dp)
+                                                .height(20.dp)
+                                                .clickable {
+                                                    val intent =
+                                                        Intent(Intent.ACTION_OPEN_DOCUMENT)
+                                                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                                                    intent.type = "image/*"
+                                                    startForResult.launch(intent)
+                                                },
+                                            contentScale = ContentScale.Fit,
+                                            painter = painterResource(R.drawable.camera),
+                                            contentDescription = "image"
+                                        )
+                                    }
                                 }
+                            }
                             if (isPicture.not() && bitmap.value != null) {
                                 Image(
                                     modifier = Modifier
@@ -339,48 +384,11 @@ fun RecordingScreen(
                                             start = 10.dp,
                                             end = 10.dp,
                                         )
-                                        .width(50.dp)
-                                        .height(50.dp)
+                                        .fillMaxWidth()
+                                        .height(300.dp)
                                         .clickable {},
                                     contentScale = ContentScale.Fit,
                                     bitmap = bitmap.value!!.asImageBitmap(),
-                                    contentDescription = "image"
-                                )
-                            } else {
-                                Image(
-                                    modifier = Modifier
-                                        .padding(
-                                            start = 10.dp,
-                                            end = 10.dp,
-                                        )
-                                        .width(20.dp)
-                                        .height(20.dp)
-                                        .clickable {
-                                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                                            intent.addCategory(Intent.CATEGORY_OPENABLE)
-                                            intent.type = "image/*"
-                                            startForResult.launch(intent)
-                                        },
-                                    contentScale = ContentScale.Fit,
-                                    painter = painterResource(R.drawable.pencil),
-                                    contentDescription = "image"
-                                )
-                                Image(
-                                    modifier = Modifier
-                                        .padding(
-                                            start = 10.dp,
-                                            end = 10.dp,
-                                        )
-                                        .width(20.dp)
-                                        .height(20.dp)
-                                        .clickable {
-                                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                                            intent.addCategory(Intent.CATEGORY_OPENABLE)
-                                            intent.type = "image/*"
-                                            startForResult.launch(intent)
-                                        },
-                                    contentScale = ContentScale.Fit,
-                                    painter = painterResource(R.drawable.camera),
                                     contentDescription = "image"
                                 )
                             }
