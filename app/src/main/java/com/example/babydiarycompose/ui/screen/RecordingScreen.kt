@@ -66,6 +66,7 @@ import com.example.babydiarycompose.R
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.ui.dialog.EventTimeSettingDialog
 import com.example.babydiarycompose.data.EventData
+import com.example.babydiarycompose.ui.dialog.DailyDialog
 import com.example.babydiarycompose.ui.dialog.EventEditDialog
 import com.example.babydiarycompose.ui.theme.BabyDiaryComposeTheme
 import com.example.babydiarycompose.ui.theme.DarkBrown
@@ -97,7 +98,6 @@ fun RecordingScreen(
     var isDisplayedRightArrow by rememberSaveable { mutableStateOf(true) }
     var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
     var isPicture by rememberSaveable { mutableStateOf(true) }
-
     runBlocking {
         viewModel.initDao(context)
     }
@@ -298,6 +298,7 @@ fun RecordingScreen(
                         viewModel = viewModel
                     )
                     if (eventUiState.eventList.last() == event) {
+                        val isDisplayedDailyDialog = remember { mutableStateOf(false) }
                         Column {
                             val bitmap = remember { mutableStateOf<Bitmap?>(null) }
                             Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -345,10 +346,7 @@ fun RecordingScreen(
                                             .width(20.dp)
                                             .height(20.dp)
                                             .clickable {
-                                                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                                                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                                                intent.type = "image/*"
-                                                startForResult.launch(intent)
+                                                isDisplayedDailyDialog.value = true
                                             },
                                         contentScale = ContentScale.Fit,
                                         painter = painterResource(R.drawable.pencil),
@@ -392,6 +390,11 @@ fun RecordingScreen(
                                     contentDescription = "image"
                                 )
                             }
+                            if (isDisplayedDailyDialog.value)
+                                DailyDialog(setShowDialog = {
+
+                                }
+                                )
                         }
                     }
                 }
