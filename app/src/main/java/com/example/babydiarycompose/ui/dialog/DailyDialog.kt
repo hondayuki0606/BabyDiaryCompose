@@ -1,5 +1,6 @@
 package com.example.babydiarycompose.ui.dialog
 
+import android.widget.EditText
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,10 +13,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,56 +52,13 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DailyDialog(
-    eventName: String = "",
-    resIcon: Int = 0,
-    selectedDate: String = "",
     setShowDialog: (Boolean) -> Unit
 ) {
-    val viewModel: RecordingViewModel = hiltViewModel()
     val currentDateTime = LocalDateTime.now()
     ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
-    val hour = currentDateTime.hour
-    val minutes = currentDateTime.minute
-    var hourState by remember { mutableStateOf(hour.toString()) }
-    var minutesState by remember { mutableStateOf(minutes.toString()) }
-
-    val showBreastMilkDialog = remember { mutableStateOf(false) }
-    if (showBreastMilkDialog.value)
-        BreastMilkDialog(
-            eventName = eventName,
-            resIcon = resIcon,
-            selectedDate = selectedDate,
-            hour = hourState.toInt(),
-            minutes = minutesState.toInt(),
-            setShowDialog = {
-                showBreastMilkDialog.value = it
-            },
-            resultValue = {
-                if (it) {
-                    setShowDialog(false)
-                }
-            },
-        )
-    val showMilkDialog = remember { mutableStateOf(false) }
-    if (showMilkDialog.value)
-        MilkDialog(
-            eventName = eventName,
-            selectedDate = selectedDate,
-            resIcon = resIcon,
-            hour = hourState.toInt(),
-            minutes = minutesState.toInt(),
-            setShowDialog = {
-                showMilkDialog.value = it
-            },
-            resultValue = {
-                if (it) {
-                    setShowDialog(false)
-                }
-            },
-        )
-
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -108,88 +69,24 @@ fun DailyDialog(
                     .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
-                val (eventTitle, picker, buttonArea) = createRefs()
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp)
-                        .background(DialogBackGray)
-                        .constrainAs(eventTitle) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(picker.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        },
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .padding(
-                                start = 10.dp,
-                                end = 10.dp,
-                            ),
-                        contentScale = ContentScale.Fit,
-                        painter = painterResource(resIcon),
-                        contentDescription = "image"
-                    )
-                    Text(
-                        text = eventName,
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = Color.White
-                    )
-                    Image(
-                        modifier = Modifier
-                            .padding(
-                                start = 10.dp,
-                                end = 10.dp,
-                            ),
-                        contentScale = ContentScale.Fit,
-                        painter = painterResource(resIcon),
-                        contentDescription = "image"
-                    )
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp)
-                        .background(DialogBackGray)
-                        .constrainAs(picker) {
-                            top.linkTo(eventTitle.bottom)
-                            bottom.linkTo(buttonArea.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            width = Dimension.fillToConstraints
-                        },
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val hourArrayListOf = arrayListOf<String>()
-                    for (hourElement in 0..23) {
-                        hourArrayListOf.add(hourElement.toString())
-                    }
-                    val minuteArrayListOf = arrayListOf<String>()
-                    for (minuteElement in 0..59) {
-                        minuteArrayListOf.add(minuteElement.toString())
-                    }
-                    ListItemPicker(
-                        value = hourState,
-                        onValueChange = { hourState = it },
-                        list = hourArrayListOf,
-                        dividersColor = Color.Gray
-                    )
-                    Spacer(modifier = Modifier.width(20.dp))
-                    ListItemPicker(
-                        value = minutesState,
-                        onValueChange = { minutesState = it },
-                        list = minuteArrayListOf,
-                        dividersColor = Color.Gray
-                    )
-                }
-                val scope = rememberCoroutineScope()
+                val (dailyTitle, picker, buttonArea) = createRefs()
+                Text( modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp)
+                    .background(DialogBackGray)
+                    .constrainAs(dailyTitle) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                    text = "育児日記（2024年10月5日）")
+                TextField(
+                    value = "text.value",
+                    onValueChange = {"text.value=it"},
+                    //以下注目
+                    placeholder = { Text(text = "入力内容に関するテキスト")}
+                )
+
                 Column(modifier = Modifier
                     .constrainAs(buttonArea) {
                         top.linkTo(picker.bottom)
@@ -199,49 +96,6 @@ fun DailyDialog(
                     }) {
                     Button(
                         onClick = {
-                            scope.launch {
-                                when (eventName) {
-                                    Event.BREAST_MILK.event -> {
-                                        showBreastMilkDialog.value = true
-                                    }
-
-                                    Event.MILK.event -> {
-                                        showMilkDialog.value = true
-                                    }
-
-                                    else -> {
-                                        val formatter =
-                                            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")
-                                        val hourValue = String.format("%02d", hour)
-                                        val minutesValue = String.format("%02d", minutes)
-                                        val date = "$selectedDate $hourValue:$minutesValue"
-                                        val localDateTime = LocalDateTime.parse(date, formatter)
-                                        val unixTime =
-                                            localDateTime.atZone(ZoneId.systemDefault())
-                                                .toEpochSecond()
-
-                                        val eventList = arrayListOf(
-                                            EventData(
-                                                yearAndMonthAndDay = selectedDate,
-                                                timeStamp = unixTime,
-                                                time = "${hourState.toInt()}:${
-                                                    String.format(
-                                                        "%02d",
-                                                        minutesState.toInt()
-                                                    )
-                                                }",
-                                                imageUrl = resIcon,
-                                                eventName = eventName,
-                                                eventDetail = ""
-                                            )
-                                        )
-                                        viewModel.addEventList(
-                                            eventList
-                                        )
-                                        setShowDialog(false)
-                                    }
-                                }
-                            }
 
                         },
                         shape = RoundedCornerShape(50.dp),
@@ -253,7 +107,7 @@ fun DailyDialog(
                             contentColor = DialogBackGray
                         )
                     ) {
-                        Text(text = "OK", color = Pink)
+                        Text(text = "キャンセル", color = Pink)
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(
@@ -268,7 +122,7 @@ fun DailyDialog(
                             contentColor = DialogBackGray
                         )
                     ) {
-                        Text(text = "キャンセル", color = Pink)
+                        Text(text = "完了", color = Pink)
                     }
                 }
             }
