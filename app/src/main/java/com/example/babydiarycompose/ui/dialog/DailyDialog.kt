@@ -57,8 +57,6 @@ import java.time.format.DateTimeFormatter
 fun DailyDialog(
     setShowDialog: (Boolean) -> Unit
 ) {
-    val currentDateTime = LocalDateTime.now()
-    ZonedDateTime.of(currentDateTime, ZoneId.of("Asia/Tokyo"))
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -69,34 +67,46 @@ fun DailyDialog(
                     .background(Color(0x00000000))
                     .fillMaxSize()
             ) {
-                val (dailyTitle, picker, buttonArea) = createRefs()
-                Text( modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 12.dp)
-                    .background(DialogBackGray)
-                    .constrainAs(dailyTitle) {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    },
-                    text = "育児日記（2024年10月5日）")
+                val (dailyTitle, textField, buttonArea) = createRefs()
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp)
+                        .background(DialogBackGray)
+                        .constrainAs(dailyTitle) {
+                            top.linkTo(parent.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        },
+                    text = "育児日記（2024年10月5日）"
+                )
+                val text = remember { mutableStateOf("") }
                 TextField(
-                    value = "text.value",
-                    onValueChange = {"text.value=it"},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp)
+                        .background(DialogBackGray)
+                        .constrainAs(textField) {
+                            top.linkTo(dailyTitle.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        },
+                    value = text.value,
+                    onValueChange = { text.value = it },
                     //以下注目
-                    placeholder = { Text(text = "入力内容に関するテキスト")}
+                    placeholder = { Text(text = "入力内容に関するテキスト") }
                 )
 
                 Column(modifier = Modifier
                     .constrainAs(buttonArea) {
-                        top.linkTo(picker.bottom)
+                        top.linkTo(textField.bottom)
                         bottom.linkTo(parent.bottom)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }) {
                     Button(
                         onClick = {
-
+                            setShowDialog(false)
                         },
                         shape = RoundedCornerShape(50.dp),
                         modifier = Modifier

@@ -390,11 +390,11 @@ fun RecordingScreen(
                                     contentDescription = "image"
                                 )
                             }
-                            if (isDisplayedDailyDialog.value)
+                            if (isDisplayedDailyDialog.value) {
                                 DailyDialog(setShowDialog = {
-
-                                }
-                                )
+                                    isDisplayedDailyDialog.value = it
+                                } )
+                            }
                         }
                     }
                 }
