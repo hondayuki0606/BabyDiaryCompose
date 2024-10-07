@@ -15,6 +15,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
@@ -288,114 +291,125 @@ fun RecordingScreen(
                     width = Dimension.fillToConstraints
                 }
                 .background(DarkBrown)) { _ ->
-
-            LazyColumn {
-                items(eventUiState.eventList) { event ->
-                    Log.d("", "honda LazyColumn event=$event")
-                    EventCard(
-                        event = event,
-                        selectedDate = selectedDate,
-                        viewModel = viewModel
-                    )
-                    if (eventUiState.eventList.last() == event) {
-                        val isDisplayedDailyDialog = remember { mutableStateOf(false) }
-                        Column {
-                            val bitmap = remember { mutableStateOf<Bitmap?>(null) }
-                            Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                Row {
-                                    Image(
-                                        modifier = Modifier
-                                            .padding(
-                                                start = 10.dp,
-                                                end = 10.dp,
-                                            )
-                                            .width(20.dp)
-                                            .height(20.dp),
-                                        contentScale = ContentScale.Fit,
-                                        painter = painterResource(R.drawable.book),
-                                        contentDescription = "image"
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(state = rememberScrollState())
+            ) {
+                Column {
+                    eventUiState.eventList.forEach { event ->
+                        Log.d("", "honda LazyColumn event=$event")
+                        EventCard(
+                            event = event,
+                            selectedDate = selectedDate,
+                            viewModel = viewModel
+                        )
+                    }
+                }
+                val isDisplayedDailyDialog = remember { mutableStateOf(false) }
+                Column {
+                    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
+                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                        Row {
+                            Image(
+                                modifier = Modifier
+                                    .padding(
+                                        start = 10.dp,
+                                        end = 10.dp,
                                     )
-                                    Text(text = "育児日記", color = Color.White)
-                                }
-                                val startForResult =
-                                    rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                                        if (result.resultCode == Activity.RESULT_OK) {
-                                            try {
-                                                result.data?.data?.also { uri: Uri ->
-                                                    val inputStream =
-                                                        context.contentResolver?.openInputStream(uri)
-                                                    bitmap.value =
-                                                        BitmapFactory.decodeStream(inputStream)
-                                                }
-                                            } catch (e: FileNotFoundException) {
-                                                e.printStackTrace()
-                                            } catch (e: IOException) {
-                                                e.printStackTrace()
-                                            } finally {
-                                                isPicture = false
-                                            }
+                                    .width(20.dp)
+                                    .height(20.dp),
+                                contentScale = ContentScale.Fit,
+                                painter = painterResource(R.drawable.book),
+                                contentDescription = "image"
+                            )
+                            Text(text = "育児日記", color = Color.White)
+                        }
+                        val startForResult =
+                            rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                                if (result.resultCode == Activity.RESULT_OK) {
+                                    try {
+                                        result.data?.data?.also { uri: Uri ->
+                                            val inputStream =
+                                                context.contentResolver?.openInputStream(uri)
+                                            bitmap.value =
+                                                BitmapFactory.decodeStream(inputStream)
                                         }
-                                    }
-                                Row {
-                                    Image(
-                                        modifier = Modifier
-                                            .padding(
-                                                start = 10.dp,
-                                                end = 10.dp,
-                                            )
-                                            .width(20.dp)
-                                            .height(20.dp)
-                                            .clickable {
-                                                isDisplayedDailyDialog.value = true
-                                            },
-                                        contentScale = ContentScale.Fit,
-                                        painter = painterResource(R.drawable.pencil),
-                                        contentDescription = "image"
-                                    )
-                                    if (isPicture) {
-                                        Image(
-                                            modifier = Modifier
-                                                .padding(
-                                                    start = 10.dp,
-                                                    end = 10.dp,
-                                                )
-                                                .width(20.dp)
-                                                .height(20.dp)
-                                                .clickable {
-                                                    val intent =
-                                                        Intent(Intent.ACTION_OPEN_DOCUMENT)
-                                                    intent.addCategory(Intent.CATEGORY_OPENABLE)
-                                                    intent.type = "image/*"
-                                                    startForResult.launch(intent)
-                                                },
-                                            contentScale = ContentScale.Fit,
-                                            painter = painterResource(R.drawable.camera),
-                                            contentDescription = "image"
-                                        )
+                                    } catch (e: FileNotFoundException) {
+                                        e.printStackTrace()
+                                    } catch (e: IOException) {
+                                        e.printStackTrace()
+                                    } finally {
+                                        isPicture = false
                                     }
                                 }
                             }
-                            if (isPicture.not() && bitmap.value != null) {
+                        Row {
+                            Image(
+                                modifier = Modifier
+                                    .padding(
+                                        start = 10.dp,
+                                        end = 10.dp,
+                                    )
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                    .clickable {
+                                        isDisplayedDailyDialog.value = true
+                                    },
+                                contentScale = ContentScale.Fit,
+                                painter = painterResource(R.drawable.pencil),
+                                contentDescription = "image"
+                            )
+                            if (isPicture) {
                                 Image(
                                     modifier = Modifier
                                         .padding(
                                             start = 10.dp,
                                             end = 10.dp,
                                         )
-                                        .fillMaxWidth()
-                                        .height(300.dp)
-                                        .clickable {},
+                                        .width(20.dp)
+                                        .height(20.dp)
+                                        .clickable {
+                                            val intent =
+                                                Intent(Intent.ACTION_OPEN_DOCUMENT)
+                                            intent.addCategory(Intent.CATEGORY_OPENABLE)
+                                            intent.type = "image/*"
+                                            startForResult.launch(intent)
+                                        },
                                     contentScale = ContentScale.Fit,
-                                    bitmap = bitmap.value!!.asImageBitmap(),
+                                    painter = painterResource(R.drawable.camera),
                                     contentDescription = "image"
                                 )
                             }
-                            if (isDisplayedDailyDialog.value) {
-                                DailyDialog(setShowDialog = {
-                                    isDisplayedDailyDialog.value = it
-                                } )
-                            }
                         }
+                    }
+                    val text = remember { mutableStateOf("") }
+                    if (text.value.isNotEmpty()) {
+                        Text(text = text.value, color = White)
+                    }
+                    if (isPicture.not() && bitmap.value != null) {
+                        Image(
+                            modifier = Modifier
+                                .padding(
+                                    start = 10.dp,
+                                    end = 10.dp,
+                                )
+                                .fillMaxWidth()
+                                .height(300.dp)
+                                .clickable {},
+                            contentScale = ContentScale.Fit,
+                            bitmap = bitmap.value!!.asImageBitmap(),
+                            contentDescription = "image"
+                        )
+                    }
+                    if (isDisplayedDailyDialog.value) {
+                        DailyDialog(message = {
+                            isDisplayedDailyDialog.value = false
+                            text.value = it
+                        })
+                    }
+                    Box(modifier = Modifier.height(100.dp)) {
+
                     }
                 }
             }
