@@ -2,6 +2,7 @@ package com.example.babydiarycompose.repository
 
 import android.content.Context
 import com.example.babydiarycompose.dao.EventDao
+import com.example.babydiarycompose.data.DailyDiaryData
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.database.AppDatabase
 import com.example.babydiarycompose.model.Event
@@ -106,6 +107,11 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         return result
     }
 
+    override suspend fun getDailyDiary(currentData: String): DailyDiaryData {
+        val result = DailyDiaryData("",0,"",0)
+        CoroutineScope(Dispatchers.IO).launch {}.join()
+        return result
+    }
     override suspend fun deleteEvent(uid: Int): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {

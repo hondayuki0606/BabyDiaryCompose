@@ -54,6 +54,16 @@ class RecordingViewModel @Inject constructor(
         }
     }
 
+    suspend fun getDailyDiary(currentData: String) {
+        eventRepository.getEventList(currentData).let { eventList ->
+            _recordingEventUiState.update {
+                it.copy(
+                    eventList = eventList
+                )
+            }
+        }
+    }
+
     fun clearEventList() {
         _recordingEventUiState.update {
             it.copy(
