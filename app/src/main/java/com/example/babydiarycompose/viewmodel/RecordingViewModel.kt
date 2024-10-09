@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
-import com.example.babydiarycompose.data.RecordingUiState
-import com.example.babydiarycompose.data.RecordingFooterUiState
+import com.example.babydiarycompose.data.uistate.DailyDiaryUiState
+import com.example.babydiarycompose.data.uistate.RecordingUiState
+import com.example.babydiarycompose.data.uistate.RecordingFooterUiState
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class RecordingViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
+    // イベントUI
     private var _recordingEventUiState = MutableStateFlow(
         RecordingUiState(
             eventList = arrayListOf()
@@ -24,12 +26,21 @@ class RecordingViewModel @Inject constructor(
     )
     var recordingEventUiState = _recordingEventUiState.asStateFlow()
 
+    // 日記UI
+    private var _recordingDailyDiaryUiState = MutableStateFlow(
+        DailyDiaryUiState(
+            comment = "",
+            picture = 0
+        )
+    )
+    var recordingDailyDiaryUiState = _recordingDailyDiaryUiState.asStateFlow()
+
+    // フッターUI
     private var _recordingFooterState = MutableStateFlow(
         RecordingFooterUiState(
             iconList = Event.values()
         )
     )
-
     var recordingFooterState = _recordingFooterState.asStateFlow()
 
     suspend fun initDao(context: Context) {
@@ -55,10 +66,11 @@ class RecordingViewModel @Inject constructor(
     }
 
     suspend fun getDailyDiary(currentData: String) {
-        eventRepository.getEventList(currentData).let { eventList ->
-            _recordingEventUiState.update {
+        eventRepository.getDailyDiary(currentData).let {
+            _recordingDailyDiaryUiState.update {
                 it.copy(
-                    eventList = eventList
+                    comment = it.comment,
+                    picture = it.picture,
                 )
             }
         }

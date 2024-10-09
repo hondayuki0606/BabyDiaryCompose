@@ -1,4 +1,7 @@
-package com.example.babydiarycompose.data
+package com.example.babydiarycompose.data.uistate
+
+import com.example.babydiarycompose.data.GrowthHeightData
+import com.example.babydiarycompose.data.GrowthWeightData
 
 data class GrowthCurveUiState(
     val ageList: List<String>,

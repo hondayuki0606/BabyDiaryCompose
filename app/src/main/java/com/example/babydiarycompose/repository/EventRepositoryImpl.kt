@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.repository
 
 import android.content.Context
+import com.example.babydiarycompose.dao.DailyDiaryDao
 import com.example.babydiarycompose.dao.EventDao
 import com.example.babydiarycompose.data.DailyDiaryData
 import com.example.babydiarycompose.data.EventData
@@ -14,9 +15,10 @@ import javax.inject.Inject
 class EventRepositoryImpl @Inject constructor() : EventRepository {
 
     private var eventDao: EventDao? = null
-
+    private var dailyDiaryDao: DailyDiaryDao? = null
     override suspend fun init(context: Context) {
         eventDao = AppDatabase.getDatabase(context).eventDao()
+        dailyDiaryDao = AppDatabase.getDatabase(context).dailyDiaryDao()
     }
 
     override suspend fun addEventList(eventList: List<EventData>): Boolean {
@@ -88,18 +90,18 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {
             val eventList = eventDao?.getEvent(currentData)
-            eventList?.forEach {
+            eventList?.forEach { event ->
                 result.add(
                     EventData(
-                        uid = it.uid,
-                        yearAndMonthAndDay = it.yearAndMonthAndDay ?: "",
-                        timeStamp = it.timeStamp,
-                        time = it.time ?: "",
-                        imageUrl = it.icon ?: 0,
-                        eventName = it.eventName ?: "",
-                        eventDetail = it.eventDetail ?: "",
-                        rightTime = it.rightTime ?: 0,
-                        leftTime = it.leftTime ?: 0
+                        uid = event.uid,
+                        yearAndMonthAndDay = event.yearAndMonthAndDay ?: "",
+                        timeStamp = event.timeStamp,
+                        time = event.time ?: "",
+                        imageUrl = event.icon ?: 0,
+                        eventName = event.eventName ?: "",
+                        eventDetail = event.eventDetail ?: "",
+                        rightTime = event.rightTime ?: 0,
+                        leftTime = event.leftTime ?: 0
                     )
                 )
             }
@@ -108,10 +110,17 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     }
 
     override suspend fun getDailyDiary(currentData: String): DailyDiaryData {
-        val result = DailyDiaryData("",0,"",0)
-        CoroutineScope(Dispatchers.IO).launch {}.join()
+        var result = DailyDiaryData("", 0)
+        CoroutineScope(Dispatchers.IO).launch {
+            val dailyDiary = dailyDiaryDao?.getDailyDiary(currentData)
+            result = DailyDiaryData(
+                comment = dailyDiary?.comment ?: "",
+                picture = dailyDiary?.picture ?: 0
+            )
+        }.join()
         return result
     }
+
     override suspend fun deleteEvent(uid: Int): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {

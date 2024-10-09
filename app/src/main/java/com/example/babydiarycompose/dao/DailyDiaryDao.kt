@@ -1,10 +1,12 @@
 package com.example.babydiarycompose.dao
 
+import androidx.room.Dao
 import androidx.room.Query
-import com.example.babydiarycompose.model.Event
+import com.example.babydiarycompose.model.DailyDiary
 
+@Dao
 interface DailyDiaryDao {
 
-    @Query("SELECT * FROM event where event.year_and_month_and_day = :currentData ORDER BY event.time_stamp ASC")
-    fun getDailyDiary(currentData: String): List<Event>
+    @Query("SELECT comment,picture FROM dailydiary where dailydiary.year_and_month_and_day = :currentData")
+    fun getDailyDiary(currentData: String): DailyDiary
 }

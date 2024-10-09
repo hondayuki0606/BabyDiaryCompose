@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 data class DailyDiary(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
     @ColumnInfo(name = "year_and_month_and_day") val yearAndMonthAndDay: String?,
-    @ColumnInfo(name = "time_stamp") val timeStamp: Long?,
-    @ColumnInfo(name = "comment") val rightTime: String?,
-    @ColumnInfo(name = "left_time") val leftTime: Int?,
+    @ColumnInfo(name = "comment") val comment: String?,
+    @ColumnInfo(name = "picture") val picture: Int?,
 )

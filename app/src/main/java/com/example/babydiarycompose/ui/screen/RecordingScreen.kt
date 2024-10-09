@@ -97,6 +97,7 @@ fun RecordingScreen(
     var selectedDate by rememberSaveable { mutableStateOf("") }
     val myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd")
     val eventUiState by viewModel.recordingEventUiState.collectAsState()
+    val dailyDiaryUiState by viewModel.recordingDailyDiaryUiState.collectAsState()
     val footerUiState by viewModel.recordingFooterState.collectAsState()
     var isDisplayedRightArrow by rememberSaveable { mutableStateOf(true) }
     var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
@@ -383,11 +384,10 @@ fun RecordingScreen(
                             }
                         }
                     }
-                    val text = remember { mutableStateOf("") }
-                    if (text.value.isNotEmpty()) {
-                        Text(text = text.value, color = White)
+                    if (dailyDiaryUiState.comment.isNotEmpty()) {
+                        Text(text = dailyDiaryUiState.comment, color = White)
                     }
-                    if (isPicture.not() && bitmap.value != null) {
+                    if (dailyDiaryUiState.picture != 0 && bitmap.value != null) {
                         Image(
                             modifier = Modifier
                                 .padding(
@@ -405,7 +405,7 @@ fun RecordingScreen(
                     if (isDisplayedDailyDialog.value) {
                         DailyDialog(message = {
                             isDisplayedDailyDialog.value = false
-                            text.value = it
+                            dailyDiaryUiState.comment = it
                         })
                     }
                     Box(modifier = Modifier.height(100.dp)) {

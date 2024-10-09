@@ -3,7 +3,7 @@ package com.example.babydiarycompose.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.data.EventData
-import com.example.babydiarycompose.data.GrowthCurveUiState
+import com.example.babydiarycompose.data.uistate.GrowthCurveUiState
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

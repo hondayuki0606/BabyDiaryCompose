@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.data.Datum
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.data.Item
-import com.example.babydiarycompose.data.SummaryUiState
+import com.example.babydiarycompose.data.uistate.SummaryUiState
 import com.example.babydiarycompose.repository.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.babydiarycompose.data.EventData
-import com.example.babydiarycompose.data.GrowthCurveUiState
+import com.example.babydiarycompose.data.uistate.GrowthCurveUiState
 import com.example.babydiarycompose.models.User
 import com.example.babydiarycompose.repository.EventRepository
 import com.example.babydiarycompose.repository.UserRepository
