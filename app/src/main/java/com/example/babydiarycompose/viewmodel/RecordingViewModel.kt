@@ -1,6 +1,7 @@
 package com.example.babydiarycompose.viewmodel
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import com.example.babydiarycompose.data.Event
 import com.example.babydiarycompose.data.EventData
@@ -30,7 +31,7 @@ class RecordingViewModel @Inject constructor(
     private var _recordingDailyDiaryUiState = MutableStateFlow(
         DailyDiaryUiState(
             comment = "",
-            picture = 0
+            picture = null
         )
     )
     var recordingDailyDiaryUiState = _recordingDailyDiaryUiState.asStateFlow()
@@ -70,6 +71,27 @@ class RecordingViewModel @Inject constructor(
             _recordingDailyDiaryUiState.update {
                 it.copy(
                     comment = it.comment,
+                    picture = it.picture,
+                )
+            }
+        }
+    }
+
+    suspend fun setPicture(currentData: String, image: Bitmap?) {
+        if (image == null) return
+        eventRepository.setPicture(currentData, image).let {
+            _recordingDailyDiaryUiState.update {
+                it.copy(
+                    picture = it.picture,
+                )
+            }
+        }
+    }
+
+    suspend fun setComment(currentData: String, comment: String) {
+        eventRepository.setComment(currentData, comment).let {
+            _recordingDailyDiaryUiState.update {
+                it.copy(
                     picture = it.picture,
                 )
             }

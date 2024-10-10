@@ -387,7 +387,7 @@ fun RecordingScreen(
                     if (dailyDiaryUiState.comment.isNotEmpty()) {
                         Text(text = dailyDiaryUiState.comment, color = White)
                     }
-                    if (dailyDiaryUiState.picture != 0 && bitmap.value != null) {
+                    if (dailyDiaryUiState.picture != null && bitmap.value != null) {
                         Image(
                             modifier = Modifier
                                 .padding(
@@ -408,9 +408,7 @@ fun RecordingScreen(
                             dailyDiaryUiState.comment = it
                         })
                     }
-                    Box(modifier = Modifier.height(100.dp)) {
-
-                    }
+                    Box(modifier = Modifier.height(100.dp))
                 }
             }
         }

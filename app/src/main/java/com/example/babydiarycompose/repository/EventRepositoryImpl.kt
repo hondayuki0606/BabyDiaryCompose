@@ -1,11 +1,13 @@
 package com.example.babydiarycompose.repository
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.example.babydiarycompose.dao.DailyDiaryDao
 import com.example.babydiarycompose.dao.EventDao
 import com.example.babydiarycompose.data.DailyDiaryData
 import com.example.babydiarycompose.data.EventData
 import com.example.babydiarycompose.database.AppDatabase
+import com.example.babydiarycompose.model.DailyDiary
 import com.example.babydiarycompose.model.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -110,13 +112,33 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     }
 
     override suspend fun getDailyDiary(currentData: String): DailyDiaryData {
-        var result = DailyDiaryData("", 0)
+        var result = DailyDiaryData("", null)
         CoroutineScope(Dispatchers.IO).launch {
             val dailyDiary = dailyDiaryDao?.getDailyDiary(currentData)
             result = DailyDiaryData(
                 comment = dailyDiary?.comment ?: "",
-                picture = dailyDiary?.picture ?: 0
+                picture = dailyDiary?.picture
             )
+        }.join()
+        return result
+    }
+
+    override suspend fun setPicture(currentData: String, image: Bitmap): Boolean {
+        var result = false
+        val dailyDiary = DailyDiary(yearAndMonthAndDay = "", picture = image, comment = "")
+        CoroutineScope(Dispatchers.IO).launch {
+            dailyDiaryDao?.insertDailyDiary(dailyDiary)
+            result = true
+        }.join()
+        return result
+    }
+
+    override suspend fun setComment(currentData: String, comment: String): Boolean {
+        var result = false
+        val dailyDiary = DailyDiary(yearAndMonthAndDay = "", picture = null, comment = comment)
+        CoroutineScope(Dispatchers.IO).launch {
+            dailyDiaryDao?.insertDailyDiary(dailyDiary)
+            result = true
         }.join()
         return result
     }
