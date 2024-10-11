@@ -44,10 +44,6 @@ class RecordingViewModel @Inject constructor(
     )
     var recordingFooterState = _recordingFooterState.asStateFlow()
 
-    suspend fun initDao(context: Context) {
-        eventRepository.init(context)
-    }
-
     suspend fun addEventList(eventList: List<EventData>) {
         eventRepository.addEventList(eventList)
     }
@@ -82,7 +78,7 @@ class RecordingViewModel @Inject constructor(
         eventRepository.setPicture(currentData, image).let {
             _recordingDailyDiaryUiState.update {
                 it.copy(
-                    picture = it.picture,
+                    picture = it.picture
                 )
             }
         }
@@ -92,7 +88,7 @@ class RecordingViewModel @Inject constructor(
         eventRepository.setComment(currentData, comment).let {
             _recordingDailyDiaryUiState.update {
                 it.copy(
-                    picture = it.picture,
+                    comment = it.comment
                 )
             }
         }

@@ -14,5 +14,4 @@ interface EventRepository {
     suspend fun addEventList(eventList: List<EventData>): Boolean
     suspend fun updateEventList(eventList: List<EventData>): Boolean
     suspend fun deleteEvent(uid: Int): Boolean
-    suspend fun init(context: Context)
 }

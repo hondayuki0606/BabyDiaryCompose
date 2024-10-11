@@ -102,9 +102,6 @@ fun RecordingScreen(
     var isDisplayedRightArrow by rememberSaveable { mutableStateOf(true) }
     var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
     var isPicture by rememberSaveable { mutableStateOf(true) }
-    runBlocking {
-        viewModel.initDao(context)
-    }
     var currentData by rememberSaveable { mutableStateOf("") }
     val topFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd(E)")
     currentData = topFormatObj.format(LocalDateTime.now())

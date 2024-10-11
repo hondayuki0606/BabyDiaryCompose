@@ -13,11 +13,17 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object ApiModule {
     @Provides
-    fun provideApiClient() = ApiClient(baseUrl = BuildConfig.BASE_URL)
+    fun provideApiClient(): ApiClient {
+        return ApiClient(baseUrl = BuildConfig.BASE_URL)
+    }
 
     @Provides
-    fun provideUserApi(client: ApiClient): UserApi = client.createService(UserApi::class.java)
+    fun provideUserApi(client: ApiClient): UserApi {
+        return client.createService(UserApi::class.java)
+    }
 
     @Provides
-    fun providePostsApi(client: ApiClient): PostsApi = client.createService(PostsApi::class.java)
+    fun providePostsApi(client: ApiClient): PostsApi {
+        return client.createService(PostsApi::class.java)
+    }
 }

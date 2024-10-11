@@ -1,12 +1,10 @@
 package com.example.babydiarycompose.repository
 
-import android.content.Context
 import android.graphics.Bitmap
 import com.example.babydiarycompose.dao.DailyDiaryDao
 import com.example.babydiarycompose.dao.EventDao
 import com.example.babydiarycompose.data.DailyDiaryData
 import com.example.babydiarycompose.data.EventData
-import com.example.babydiarycompose.database.AppDatabase
 import com.example.babydiarycompose.model.DailyDiary
 import com.example.babydiarycompose.model.Event
 import kotlinx.coroutines.CoroutineScope
@@ -14,30 +12,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class EventRepositoryImpl @Inject constructor() : EventRepository {
-
-    private var eventDao: EventDao? = null
-    private var dailyDiaryDao: DailyDiaryDao? = null
-    override suspend fun init(context: Context) {
-        eventDao = AppDatabase.getDatabase(context).eventDao()
-        dailyDiaryDao = AppDatabase.getDatabase(context).dailyDiaryDao()
-    }
+class EventRepositoryImpl @Inject constructor(
+    private val eventDao: EventDao,
+    private val dailyDiaryDao: DailyDiaryDao
+) : EventRepository {
 
     override suspend fun addEventList(eventList: List<EventData>): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
-            eventList.forEach {
-                eventDao?.insertAll(
+            eventList.forEach { event ->
+                eventDao.insertAll(
                     Event(
-                        yearAndMonthAndDay = it.yearAndMonthAndDay,
-                        timeStamp = it.timeStamp,
-                        time = it.time,
-                        icon = it.imageUrl,
-                        eventName = it.eventName,
-                        eventDetail = it.eventDetail,
-                        rightTime = it.rightTime,
-                        leftTime = it.leftTime,
+                        yearAndMonthAndDay = event.yearAndMonthAndDay,
+                        timeStamp = event.timeStamp,
+                        time = event.time,
+                        icon = event.imageUrl,
+                        eventName = event.eventName,
+                        eventDetail = event.eventDetail,
+                        rightTime = event.rightTime,
+                        leftTime = event.leftTime,
                     )
                 )
             }
@@ -52,7 +46,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
         CoroutineScope(Dispatchers.IO).launch {
             // データ生成
             eventList.forEach {
-                eventDao?.updateEvent(
+                eventDao.updateEvent(
                     yearAndMonthAndDay = it.yearAndMonthAndDay,
                     timeStamp = it.timeStamp ?: 0,
                     time = it.time,
@@ -91,8 +85,8 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     override suspend fun getEventList(currentData: String): List<EventData> {
         val result = arrayListOf<EventData>()
         CoroutineScope(Dispatchers.IO).launch {
-            val eventList = eventDao?.getEvent(currentData)
-            eventList?.forEach { event ->
+            val eventList = eventDao.getEvent(currentData)
+            eventList.forEach { event ->
                 result.add(
                     EventData(
                         uid = event.uid,
@@ -114,10 +108,10 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     override suspend fun getDailyDiary(currentData: String): DailyDiaryData {
         var result = DailyDiaryData("", null)
         CoroutineScope(Dispatchers.IO).launch {
-            val dailyDiary = dailyDiaryDao?.getDailyDiary(currentData)
+            val dailyDiary = dailyDiaryDao.getDailyDiary(currentData)
             result = DailyDiaryData(
-                comment = dailyDiary?.comment ?: "",
-                picture = dailyDiary?.picture
+                comment = dailyDiary.comment ?: "",
+                picture = dailyDiary.picture
             )
         }.join()
         return result
@@ -125,9 +119,9 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
 
     override suspend fun setPicture(currentData: String, image: Bitmap): Boolean {
         var result = false
-        val dailyDiary = DailyDiary(yearAndMonthAndDay = "", picture = image, comment = "")
+        val dailyDiary = DailyDiary(yearAndMonthAndDay = currentData, picture = image, comment = "")
         CoroutineScope(Dispatchers.IO).launch {
-            dailyDiaryDao?.insertDailyDiary(dailyDiary)
+            dailyDiaryDao.insertDailyDiary(dailyDiary)
             result = true
         }.join()
         return result
@@ -135,9 +129,10 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
 
     override suspend fun setComment(currentData: String, comment: String): Boolean {
         var result = false
-        val dailyDiary = DailyDiary(yearAndMonthAndDay = "", picture = null, comment = comment)
+        val dailyDiary =
+            DailyDiary(yearAndMonthAndDay = currentData, picture = null, comment = comment)
         CoroutineScope(Dispatchers.IO).launch {
-            dailyDiaryDao?.insertDailyDiary(dailyDiary)
+            dailyDiaryDao.insertDailyDiary(dailyDiary)
             result = true
         }.join()
         return result
@@ -146,7 +141,7 @@ class EventRepositoryImpl @Inject constructor() : EventRepository {
     override suspend fun deleteEvent(uid: Int): Boolean {
         var result = false
         CoroutineScope(Dispatchers.IO).launch {
-            eventDao?.delete(uid)
+            eventDao.delete(uid)
             result = true
         }.join()
         return result

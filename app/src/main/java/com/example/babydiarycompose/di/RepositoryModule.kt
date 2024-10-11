@@ -2,6 +2,8 @@ package com.example.babydiarycompose.di
 
 import com.example.babydiarycompose.api.PostsApi
 import com.example.babydiarycompose.api.UserApi
+import com.example.babydiarycompose.dao.DailyDiaryDao
+import com.example.babydiarycompose.dao.EventDao
 import com.example.babydiarycompose.repository.EventRepository
 import com.example.babydiarycompose.repository.EventRepositoryImpl
 import com.example.babydiarycompose.repository.PostsRepository
@@ -17,7 +19,9 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
     @Provides
-    fun provideEventRepository(): EventRepository = EventRepositoryImpl()
+    fun provideEventRepository(eventDao: EventDao, dailyDiaryDao: DailyDiaryDao): EventRepository {
+        return EventRepositoryImpl(eventDao, dailyDiaryDao)
+    }
 
     @Provides
     fun provideUserRepository(userApi: UserApi): UserRepository {
