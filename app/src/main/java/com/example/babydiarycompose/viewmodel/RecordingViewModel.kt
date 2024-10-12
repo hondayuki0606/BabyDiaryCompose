@@ -73,8 +73,7 @@ class RecordingViewModel @Inject constructor(
         }
     }
 
-    suspend fun setPicture(currentData: String, image: Bitmap?) {
-        if (image == null) return
+    suspend fun setPicture(currentData: String, image: Bitmap) {
         eventRepository.setPicture(currentData, image).let {
             _recordingDailyDiaryUiState.update {
                 it.copy(

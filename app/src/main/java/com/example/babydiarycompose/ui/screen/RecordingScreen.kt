@@ -323,6 +323,7 @@ fun RecordingScreen(
                             )
                             Text(text = "育児日記", color = Color.White)
                         }
+                        val scope = rememberCoroutineScope()
                         val startForResult =
                             rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                                 if (result.resultCode == Activity.RESULT_OK) {
@@ -332,6 +333,12 @@ fun RecordingScreen(
                                                 context.contentResolver?.openInputStream(uri)
                                             bitmap.value =
                                                 BitmapFactory.decodeStream(inputStream)
+                                            scope.launch {
+                                                viewModel.setPicture(
+                                                    currentData = currentData,
+                                                    image = bitmap.value as Bitmap
+                                                )
+                                            }
                                         }
                                     } catch (e: FileNotFoundException) {
                                         e.printStackTrace()
