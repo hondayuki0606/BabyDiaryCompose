@@ -77,7 +77,7 @@ class RecordingViewModel @Inject constructor(
         eventRepository.setPicture(currentData, image).let {
             _recordingDailyDiaryUiState.update {
                 it.copy(
-                    picture = it.picture
+                    picture = image
                 )
             }
         }
@@ -87,7 +87,7 @@ class RecordingViewModel @Inject constructor(
         eventRepository.setComment(currentData, comment).let {
             _recordingDailyDiaryUiState.update {
                 it.copy(
-                    comment = it.comment
+                    comment = comment
                 )
             }
         }

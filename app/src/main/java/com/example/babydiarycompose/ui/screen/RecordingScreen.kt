@@ -406,10 +406,17 @@ fun RecordingScreen(
                             contentDescription = "image"
                         )
                     }
+                    val scope = rememberCoroutineScope()
                     if (isDisplayedDailyDialog.value) {
-                        DailyDialog(message = {
+                        DailyDialog(message = { message ->
                             isDisplayedDailyDialog.value = false
-                            dailyDiaryUiState.comment = it
+                            scope.launch {
+                                viewModel.setComment(
+                                    currentData = currentData,
+                                    comment = message
+                                )
+                            }
+                            dailyDiaryUiState.comment = message
                         })
                     }
                     Box(modifier = Modifier.height(100.dp))
