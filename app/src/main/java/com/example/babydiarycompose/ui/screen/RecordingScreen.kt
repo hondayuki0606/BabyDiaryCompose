@@ -338,6 +338,7 @@ fun RecordingScreen(
                                                     currentData = currentData,
                                                     image = bitmap.value as Bitmap
                                                 )
+                                                viewModel.getDailyDiary(currentData)
                                             }
                                         }
                                     } catch (e: FileNotFoundException) {
@@ -391,7 +392,7 @@ fun RecordingScreen(
                     if (dailyDiaryUiState.comment.isNotEmpty()) {
                         Text(text = dailyDiaryUiState.comment, color = White)
                     }
-                    if (dailyDiaryUiState.picture != null && bitmap.value != null) {
+                    if (dailyDiaryUiState.picture != null) {
                         Image(
                             modifier = Modifier
                                 .padding(
@@ -415,6 +416,7 @@ fun RecordingScreen(
                                     currentData = currentData,
                                     comment = message
                                 )
+                                viewModel.getDailyDiary(currentData)
                             }
                             dailyDiaryUiState.comment = message
                         })
