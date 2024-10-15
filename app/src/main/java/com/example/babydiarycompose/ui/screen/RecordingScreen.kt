@@ -101,7 +101,6 @@ fun RecordingScreen(
     val footerUiState by viewModel.recordingFooterState.collectAsState()
     var isDisplayedRightArrow by rememberSaveable { mutableStateOf(true) }
     var isDisplayedLeftArrow by rememberSaveable { mutableStateOf(true) }
-    var isPicture by rememberSaveable { mutableStateOf(true) }
     var currentData by rememberSaveable { mutableStateOf("") }
     val topFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd(E)")
     currentData = topFormatObj.format(LocalDateTime.now())
@@ -274,6 +273,7 @@ fun RecordingScreen(
                 selectedDate =
                     myFormatObj.format(LocalDateTime.now().minusDays(currentDay.toLong()))
                 viewModel.getEventList(selectedDate)
+                viewModel.getDailyDiary(selectedDate)
             }
         }
         HorizontalPager(
@@ -345,8 +345,6 @@ fun RecordingScreen(
                                         e.printStackTrace()
                                     } catch (e: IOException) {
                                         e.printStackTrace()
-                                    } finally {
-                                        isPicture = false
                                     }
                                 }
                             }
@@ -366,7 +364,7 @@ fun RecordingScreen(
                                 painter = painterResource(R.drawable.pencil),
                                 contentDescription = "image"
                             )
-                            if (isPicture) {
+                            if (dailyDiaryUiState.picture == null) {
                                 Image(
                                     modifier = Modifier
                                         .padding(
