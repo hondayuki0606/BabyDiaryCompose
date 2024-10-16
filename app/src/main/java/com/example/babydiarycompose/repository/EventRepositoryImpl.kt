@@ -121,7 +121,7 @@ class EventRepositoryImpl @Inject constructor(
         var result = false
         val dailyDiary = DailyDiary(yearAndMonthAndDay = currentData, picture = image, comment = "")
         CoroutineScope(Dispatchers.IO).launch {
-            dailyDiaryDao.insertDailyDiary(dailyDiary)
+            dailyDiaryDao.insertOrUpdate(currentData, dailyDiary)
             result = true
         }.join()
         return result
@@ -132,7 +132,7 @@ class EventRepositoryImpl @Inject constructor(
         val dailyDiary =
             DailyDiary(yearAndMonthAndDay = currentData, picture = null, comment = comment)
         CoroutineScope(Dispatchers.IO).launch {
-            dailyDiaryDao.insertDailyDiary(dailyDiary)
+            dailyDiaryDao.insertOrUpdate(currentData, dailyDiary)
             result = true
         }.join()
         return result
