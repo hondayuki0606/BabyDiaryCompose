@@ -335,10 +335,10 @@ fun RecordingScreen(
                                                 BitmapFactory.decodeStream(inputStream)
                                             scope.launch {
                                                 viewModel.setPicture(
-                                                    currentData = currentData,
+                                                    currentData = selectedDate,
                                                     image = bitmap.value as Bitmap
                                                 )
-                                                viewModel.getDailyDiary(currentData)
+                                                viewModel.getDailyDiary(selectedDate)
                                             }
                                         }
                                     } catch (e: FileNotFoundException) {
@@ -411,10 +411,10 @@ fun RecordingScreen(
                             isDisplayedDailyDialog.value = false
                             scope.launch {
                                 viewModel.setComment(
-                                    currentData = currentData,
+                                    currentData = selectedDate,
                                     comment = message
                                 )
-                                viewModel.getDailyDiary(currentData)
+                                viewModel.getDailyDiary(selectedDate)
                             }
                             dailyDiaryUiState.comment = message
                         })

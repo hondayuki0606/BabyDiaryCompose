@@ -12,7 +12,7 @@ import com.example.babydiarycompose.model.DailyDiary
 interface DailyDiaryDao {
 
     @Query("SELECT * FROM dailydiary where dailydiary.year_and_month_and_day = :currentData")
-    fun getDailyDiary(currentData: String): DailyDiary
+    fun getDailyDiary(currentData: String): DailyDiary?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDailyDiary(vararg dailyDiary: DailyDiary?)

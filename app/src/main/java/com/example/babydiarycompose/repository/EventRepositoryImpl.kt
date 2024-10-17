@@ -108,11 +108,12 @@ class EventRepositoryImpl @Inject constructor(
     override suspend fun getDailyDiary(currentData: String): DailyDiaryData {
         var result = DailyDiaryData("", null)
         CoroutineScope(Dispatchers.IO).launch {
-            val dailyDiary = dailyDiaryDao.getDailyDiary(currentData) ?: return@launch
-            result = DailyDiaryData(
-                comment = dailyDiary.comment,
-                picture = dailyDiary.picture
-            )
+            dailyDiaryDao.getDailyDiary(currentData)?.let { dailyDiary ->
+                result = DailyDiaryData(
+                    comment = dailyDiary.comment,
+                    picture = dailyDiary.picture
+                )
+            }
         }.join()
         return result
     }
