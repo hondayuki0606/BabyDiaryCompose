@@ -319,7 +319,8 @@ fun BreastMilkDialog(
                                 val localDateTime = LocalDateTime.parse(date, formatter)
                                 val unixTime =
                                     localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
-
+                                val rightTime = rightCheckedState?.filter { it.isDigit() }
+                                val leftTime = leftCheckedState?.filter { it.isDigit() }
                                 val eventList = if (editMode) {
                                     arrayListOf(
                                         EventData(
@@ -330,10 +331,8 @@ fun BreastMilkDialog(
                                             imageUrl = resIcon,
                                             eventName = eventName,
                                             eventDetail = eventDetail,
-                                            rightTime = rightCheckedState?.filter { it.isDigit() }
-                                                ?.toInt() ?: 0,
-                                            leftTime = leftCheckedState?.filter { it.isDigit() }
-                                                ?.toInt() ?: 0
+                                            rightTime = if (rightTime?.isNotEmpty() == true) rightTime.toInt() else 0,
+                                            leftTime = if (leftTime?.isNotEmpty() == true) leftTime.toInt() else 0,
                                         )
                                     )
                                 } else {
@@ -346,10 +345,8 @@ fun BreastMilkDialog(
                                             imageUrl = resIcon,
                                             eventName = eventName,
                                             eventDetail = eventDetail,
-                                            rightTime = rightCheckedState?.filter { it.isDigit() }
-                                                ?.toInt() ?: 0,
-                                            leftTime = leftCheckedState?.filter { it.isDigit() }
-                                                ?.toInt() ?: 0
+                                            rightTime = if (rightTime?.isNotEmpty() == true) rightTime.toInt() else 0,
+                                            leftTime = if (leftTime?.isNotEmpty() == true) leftTime.toInt() else 0,
                                         )
                                     )
                                 }
