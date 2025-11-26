@@ -12,7 +12,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.example.babydiarycompose.infrastructure.Serializer.kotlinxSerializationJson
+import com.example.babydiarycompose.interceptor.HeaderAddInterceptor
 import okhttp3.MediaType.Companion.toMediaType
+import java.util.concurrent.TimeUnit
 
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
@@ -50,6 +52,9 @@ class ApiClient(
     private val defaultClientBuilder: OkHttpClient.Builder by lazy {
         OkHttpClient()
             .newBuilder()
+            .connectTimeout(15L, TimeUnit.SECONDS) // 接続タイムアウト
+            .readTimeout(15L, TimeUnit.SECONDS) // 読み込みタイムアウト
+            .addInterceptor(HeaderAddInterceptor()) // 共通ヘッダ設定
             .addInterceptor(HttpLoggingInterceptor { message -> logger?.invoke(message) }
                 .apply { level = HttpLoggingInterceptor.Level.BODY }
             )
